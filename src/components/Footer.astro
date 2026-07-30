@@ -1,0 +1,80 @@
+﻿---
+const cols = [
+  {
+    head: 'Science',
+    links: [
+      { href: '/geometry',             label: 'Geometry' },
+      { href: '/drop-testing',         label: 'Drop Testing' },
+      { href: '/aeroponics',           label: 'Aeroponics' },
+      { href: '/secondary-substrates', label: 'Secondary Substrates' },
+    ],
+  },
+  {
+    head: 'Technology',
+    links: [
+      { href: '/ai-control',        label: 'AI & Control' },
+      { href: '/user-interface',    label: 'User Interface' },
+      { href: '/modular-enclosure', label: 'Modular Enclosure' },
+    ],
+  },
+  {
+    head: 'Documentation',
+    links: [
+      { href: '/cad-drawings',        label: 'CAD Drawings + Photos' },
+      { href: '/full-project-photos', label: 'Full Project Photos' },
+      { href: '/bom',                 label: 'BOM' },
+      { href: '/prototyping',         label: 'Prototyping Iteration' },
+      { href: '/sources',             label: 'Misc. Sources' },
+    ],
+  },
+];
+---
+
+<footer style="margin-top:5rem;border-top:1px solid rgba(212,160,23,0.12);background:#040b1a;">
+  <div style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem;display:grid;
+              grid-template-columns:1fr;gap:2.5rem;">
+
+    <!-- Brand -->
+    <div>
+      <a href="/" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;margin-bottom:0.75rem;">
+        <svg width="26" height="26" viewBox="0 0 100 100">
+          <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
+                   fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="5"/>
+          <text x="50" y="66" text-anchor="middle" fill="#d4a017"
+                font-size="46" font-family="Inter,sans-serif" font-weight="700">H</text>
+        </svg>
+        <span class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;">HexaFlow</span>
+      </a>
+      <p style="color:#64748b;font-size:0.875rem;line-height:1.65;max-width:28rem;margin:0;">
+        A modular capillary action nanolab using AI vision and biomimicry to deliver water to plants —
+        inspired by the thorny devil lizard. Built by students at Tri-County RVTHS, Franklin, Massachusetts.
+      </p>
+    </div>
+
+    <!-- Link columns -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;">
+      {cols.map(col => (
+        <div>
+          <div class="section-label" style="margin-bottom:0.75rem;">{col.head}</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.4rem;">
+            {col.links.map(l => (
+              <li>
+                <a href={l.href}
+                   style="color:#64748b;font-size:0.85rem;text-decoration:none;transition:color 0.15s;"
+                   onmouseover="this.style.color='#d4a017'"
+                   onmouseout="this.style.color='#64748b'">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div style="border-top:1px solid rgba(255,255,255,0.05);padding:1rem 1.5rem;
+              text-align:center;font-size:0.8rem;color:#475569;">
+    © {new Date().getFullYear()} HexaFlow — Tri-County RVTHS · Franklin, MA
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+﻿---
+interface Props {
+  title: string;
+  subtitle: string;
+  badge?: string;
+}
+const { title, subtitle, badge } = Astro.props;
+---
+
+<!-- Page hero -->
+<div style="background:linear-gradient(180deg,rgba(212,160,23,0.05) 0%,transparent 100%);
+            border-bottom:1px solid rgba(212,160,23,0.1);padding:3.5rem 0 3rem;">
+  <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
+    {badge && (
+      <span style="display:inline-block;font-size:0.7rem;font-weight:600;
+                   text-transform:uppercase;letter-spacing:0.12em;color:#d4a017;
+                   background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);
+                   border-radius:999px;padding:0.25rem 0.75rem;margin-bottom:1rem;">
+        {badge}
+      </span>
+    )}
+    <h1 class="font-display" style="font-size:clamp(2rem,5vw,3.25rem);font-weight:700;
+               color:#fff;margin:0 0 0.75rem;line-height:1.1;">{title}</h1>
+    <p style="color:#94a3b8;font-size:1.05rem;max-width:52rem;line-height:1.6;margin:0;">{subtitle}</p>
+  </div>
+</div>
+
+<!-- Page content -->
+<div style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem 5rem;">
+  <slot />
+</div>

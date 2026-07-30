@@ -1,0 +1,194 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+
+const decisionMatrix = [
+  { substrate:'Pine Bark',   compat:4, fim:4, mod:3, total:11 },
+  { substrate:'Illite (Clay)',compat:3, fim:5, mod:4, total:12 },
+  { substrate:'Rockwool',    compat:5, fim:3, mod:5, total:13 },
+  { substrate:'Clay Pebbles',compat:4, fim:4, mod:4, total:12 },
+];
+---
+<Layout title="Secondary Substrates">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Secondary Substrates"
+    subtitle="Investigation of growing media for the HexaFlow Nanolab, including preliminary testing, decision matrix analysis, and microgravity simulation results."
+    badge="Materials"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- October preliminary test -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          October Preliminary Test
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          The team tested eight substrate materials. Only pine bark produced substantial plant growth;
+          mold developed rapidly across all substrates. These results prompted exploration of
+          <strong style="color:#e2e8f0;">aeroponics and hydroponics</strong> instead of traditional soil substrates.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
+          {[
+            { name:'Soil',              result:'fail' },
+            { name:'Bonsai Rock',       result:'fail' },
+            { name:'Spanish Moss',      result:'fail' },
+            { name:'Sponge',            result:'fail' },
+            { name:'Ramen Noodles',     result:'fail' },
+            { name:'Crushed Pine Bark', result:'partial' },
+            { name:'Layered Pine Bark', result:'pass' },
+            { name:'Auger',             result:'fail' },
+          ].map(s => {
+            const col = s.result === 'pass' ? '#4ade80' : s.result === 'partial' ? '#facc15' : '#f87171';
+            return (
+              <div style={`background:#0d1e35;border:1px solid ${col}25;border-radius:0.5rem;
+                           padding:0.75rem;text-align:center;`}>
+                <div style={`width:8px;height:8px;border-radius:50%;background:${col};
+                              margin:0 auto 0.5rem;`}></div>
+                <div style="font-size:0.8rem;color:#e2e8f0;font-weight:500;">{s.name}</div>
+                <div style={`font-size:0.72rem;color:${col};margin-top:0.2rem;`}>
+                  {s.result === 'pass' ? 'Growth' : s.result === 'partial' ? 'Partial' : 'Failed / Mold'}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style="padding:1rem 1.25rem;background:rgba(250,204,21,0.05);border:1px solid rgba(250,204,21,0.2);
+                    border-radius:0.5rem;font-size:0.875rem;color:#94a3b8;line-height:1.6;">
+          <strong style="color:#facc15;">Conclusion:</strong> Results prompted the team to pivot to aeroponics as the primary growing method,
+          using substrate only as a supplementary anchor where needed.
+        </div>
+      </div>
+
+      <!-- Decision matrix -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          Substrate Decision Matrix
+        </h2>
+        <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 1.25rem;">
+          Four substrates were evaluated using three criteria on a 1–5 scale:
+          <strong style="color:#e2e8f0;">System Compatibility</strong>,
+          <strong style="color:#e2e8f0;">Feasibility in Microgravity (FIM)</strong>, and
+          <strong style="color:#e2e8f0;">Modularity</strong>.
+        </p>
+        <div style="overflow-x:auto;border-radius:0.75rem;border:1px solid rgba(212,160,23,0.15);">
+          <table style="width:100%;border-collapse:collapse;font-size:0.875rem;background:#0d1e35;">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(212,160,23,0.15);">
+                {['Substrate','System Compat.','Feasibility in μg','Modularity','Total'].map(h => (
+                  <th style="text-align:left;padding:0.85rem 1rem;font-size:0.75rem;font-weight:600;
+                              text-transform:uppercase;letter-spacing:0.08em;color:#d4a017;">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {decisionMatrix.sort((a,b) => b.total - a.total).map((row, i) => (
+                <tr style={`border-bottom:1px solid rgba(212,160,23,0.06);
+                             ${i === 0 ? 'background:rgba(212,160,23,0.04);' : ''}`}>
+                  <td style="padding:0.85rem 1rem;color:#e2e8f0;font-weight:500;">
+                    {i === 0 && <span style="color:#d4a017;font-size:0.7rem;margin-right:0.4rem;">★</span>}
+                    {row.substrate}
+                  </td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.compat}/5</td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.fim}/5</td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.mod}/5</td>
+                  <td style={`padding:0.85rem 1rem;font-weight:700;
+                               color:${row.total >= 13 ? '#d4a017' : '#e2e8f0'};`}>
+                    {row.total}/15
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.8rem;color:#475569;margin-top:0.75rem;">
+          ★ Highest scoring substrate. All four were selected for further testing.
+        </p>
+      </div>
+
+      <!-- Microgravity test -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Microgravity Simulation Test
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          Planted substrates were inverted with their covers for one minute to simulate weightlessness.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          <div class="card">
+            <div class="section-label" style="margin-bottom:0.5rem;">Procedure</div>
+            <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li>Plants inserted into substrate</li>
+              <li>Substrate covers secured</li>
+              <li>Assembly inverted for 1 minute</li>
+              <li>Observations recorded</li>
+            </ul>
+          </div>
+          <div class="card" style="border-color:rgba(74,222,128,0.25);">
+            <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Result</div>
+            <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;margin:0;">
+              Plants, covers, and substrates all remained secure — suggesting they will function
+              effectively in actual microgravity conditions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Substrate photos -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Substrate Test Photos
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+          {[
+            { src:'/images/substrate-1.jpg', caption:'Substrate test — sample 1' },
+            { src:'/images/substrate-2.jpg', caption:'Substrate test — sample 2' },
+            { src:'/images/substrate-3.jpg', caption:'Substrate test — sample 3' },
+            { src:'/images/substrate-4.jpg', caption:'Substrate test — sample 4' },
+            { src:'/images/substrate-5.jpg', caption:'Substrate test — sample 5' },
+            { src:'/images/substrate-6.jpg', caption:'Substrate test — sample 6' },
+            { src:'/images/substrate-7.jpg', caption:'Substrate test — sample 7' },
+            { src:'/images/substrate-8.jpg', caption:'Substrate test — sample 8' },
+          ].map(p => (
+            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+              <img src={p.src} alt={p.caption}
+                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
+              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Works cited note -->
+      <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(212,160,23,0.04);
+                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#64748b;">
+        <strong style="color:#94a3b8;">Works Cited:</strong> 28 academic and technical references covering
+        plant nutrition, hydroponic systems, substrate properties, and space agriculture research from
+        NASA and peer-reviewed journals.
+        <a href="/sources" style="color:#d4a017;text-decoration:none;margin-left:0.25rem;">View sources →</a>
+      </div>
+
+      <!-- Link to substrate covers -->
+      <a href="/substrate-covers"
+         style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;
+                border-radius:0.75rem;border:1px solid rgba(212,160,23,0.2);background:#0d1e35;
+                text-decoration:none;transition:border-color 0.15s;"
+         onmouseover="this.style.borderColor='rgba(212,160,23,0.5)'"
+         onmouseout="this.style.borderColor='rgba(212,160,23,0.2)'">
+        <div>
+          <div class="font-display" style="font-weight:700;color:#fff;">Substrate Covers</div>
+          <div style="font-size:0.85rem;color:#64748b;margin-top:0.2rem;">Covers and containment solutions for each substrate type</div>
+        </div>
+        <span style="color:#d4a017;font-size:1.25rem;">→</span>
+      </a>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

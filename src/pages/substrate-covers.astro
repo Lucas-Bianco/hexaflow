@@ -1,0 +1,123 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="Substrate Covers">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Substrate Covers"
+    subtitle="Custom covers for each substrate type — designed to contain substrates during microgravity while allowing moisture sensors and root access."
+    badge="Materials"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Overview -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Purpose
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          In microgravity, loose substrate materials would float free without containment. Each substrate
+          requires a purpose-designed cover that prevents migration, holds the plant in position,
+          and allows the hexagonal water channels to interface with the root system.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          During the 1-minute inversion test, all covers and substrates remained secure — confirming
+          they will function in actual microgravity conditions.
+        </p>
+      </div>
+
+      <!-- Cover types -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Cover Designs by Substrate
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              substrate: 'Rockwool',
+              cover: 'Sensor-Port Cover',
+              desc: 'Custom cover with precision openings sized for moisture sensor probes. Holds rockwool cube firmly while allowing sensor insertion without disturbing roots.',
+              color: '#d4a017',
+            },
+            {
+              substrate: 'Clay Pebbles',
+              cover: 'Mesh Grate Cover',
+              desc: 'Mesh grate holds clay pebbles in place during microgravity — preventing pebble migration while allowing water and root penetration through the matrix.',
+              color: '#93c5fd',
+            },
+            {
+              substrate: 'Pine Bark',
+              cover: 'Sealed Bark Cover',
+              desc: 'Cover designed to contain bark chips. Keeps larger particles from floating while allowing the moisture and root system to interact with the channel delivery.',
+              color: '#a78bfa',
+            },
+            {
+              substrate: 'Illite (Clay)',
+              cover: 'Compact Clay Cover',
+              desc: 'Dense cover suited for the finer illite clay particles. Scored highest on Feasibility in Microgravity (FIM) in the decision matrix — naturally packs well.',
+              color: '#f59e0b',
+            },
+          ].map(c => (
+            <div class="card" style={`border-color:${c.color}25;`}>
+              <div style={`font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
+                           color:${c.color};margin-bottom:0.35rem;`}>{c.substrate}</div>
+              <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{c.cover}</h3>
+              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Microgravity test -->
+      <div class="card" style="border-color:rgba(74,222,128,0.25);">
+        <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">
+          ✓ Microgravity Simulation Test — Passed
+        </div>
+        <p style="font-size:0.875rem;color:#94a3b8;margin:0;line-height:1.65;">
+          Planted substrates with covers were inverted for one minute. Plants, covers, and substrates
+          all remained secure — confirming the containment designs will work in zero-gravity conditions.
+        </p>
+      </div>
+
+      <!-- Cover photos -->
+      <div>
+        <h2 class="font-display" style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Cover Photos
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+          {[
+            { src:'/images/cover-1.jpg', caption:'Rockwool cover (sensor port)' },
+            { src:'/images/cover-2.jpg', caption:'Clay pebble mesh grate' },
+            { src:'/images/cover-3.jpg', caption:'Pine bark cover' },
+            { src:'/images/cover-4.jpg', caption:'Illite clay cover' },
+            { src:'/images/cover-5.jpg', caption:'Inversion test — all covers' },
+            { src:'/images/cover-6.jpg', caption:'Cover detail — front view' },
+            { src:'/images/cover-7.jpg', caption:'Cover assembly' },
+            { src:'/images/cover-8.jpg', caption:'Installed covers' },
+          ].map(p => (
+            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+              <img src={p.src} alt={p.caption}
+                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
+              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Back link -->
+      <a href="/secondary-substrates"
+         style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.875rem;
+                color:#d4a017;text-decoration:none;"
+         onmouseover="this.style.opacity='0.75'"
+         onmouseout="this.style.opacity='1'">
+        ← Back to Secondary Substrates
+      </a>
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

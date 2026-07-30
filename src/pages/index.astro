@@ -1,0 +1,192 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const team = [
+  { name: 'Aidan',   role: 'Project Manager & Hardware Lead'      },
+  { name: 'Nate',    role: 'Correspondent & Water Movement Lead'   },
+  { name: 'Sabrina', role: 'Note Taker & Substrate Lead'           },
+  { name: 'Maddie',  role: 'Scheduler & Modularity Lead'           },
+  { name: 'Lucas',   role: 'Web Development Lead'                  },
+];
+---
+
+<Layout title="Home" description="HexaFlow – A modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants.">
+  <Nav slot="nav" />
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section style="position:relative;min-height:90vh;display:flex;align-items:center;
+                  justify-content:center;overflow:hidden;">
+
+    <!-- Hex grid pattern -->
+    <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.15;
+         background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 54,76 54,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 2,76 2,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3C/svg%3E\");
+         background-size:56px 97px;">
+    </div>
+
+    <!-- Subtle glow -->
+    <div aria-hidden="true" style="position:absolute;top:30%;left:50%;transform:translateX(-50%);
+         width:600px;height:400px;border-radius:50%;
+         background:radial-gradient(ellipse,rgba(212,160,23,0.07),transparent 70%);pointer-events:none;">
+    </div>
+
+    <div style="position:relative;text-align:center;padding:2rem 1.5rem;max-width:52rem;margin:0 auto;">
+      <!-- Logo mark -->
+      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+        <svg width="72" height="72" viewBox="0 0 100 100">
+          <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
+                   fill="rgba(212,160,23,0.1)" stroke="#d4a017" stroke-width="4"/>
+          <polygon points="50,20 80,36 80,64 50,80 20,64 20,36"
+                   fill="none" stroke="rgba(212,160,23,0.3)" stroke-width="2"/>
+          <text x="50" y="66" text-anchor="middle" fill="#d4a017"
+                font-size="40" font-family="Inter,sans-serif" font-weight="700">H</text>
+        </svg>
+      </div>
+
+      <h1 class="font-display" style="font-size:clamp(3rem,8vw,5.5rem);font-weight:700;
+                 color:#fff;letter-spacing:-0.02em;line-height:1;margin:0 0 1.25rem;">
+        HexaFlow
+      </h1>
+
+      <p class="font-display" style="font-size:1.25rem;color:#d4a017;font-weight:600;
+                margin:0 0 1rem;letter-spacing:0.01em;">
+        Modular Capillary Action Nanolab
+      </p>
+
+      <p style="color:#94a3b8;font-size:1.05rem;line-height:1.7;max-width:38rem;
+                margin:0 auto 2.5rem;">
+        A modular capillary action nanolab that uses AI vision and biomimicry to deliver
+        water to plants — inspired by the thorny devil lizard.
+      </p>
+
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/geometry"
+           style="padding:0.75rem 1.75rem;border-radius:0.5rem;font-weight:600;
+                  font-size:0.95rem;text-decoration:none;color:#060e1c;
+                  background:#d4a017;transition:opacity 0.15s;"
+           onmouseover="this.style.opacity='0.88'"
+           onmouseout="this.style.opacity='1'">
+          Explore the Project
+        </a>
+        <a href="#team"
+           style="padding:0.75rem 1.75rem;border-radius:0.5rem;font-weight:600;
+                  font-size:0.95rem;text-decoration:none;color:#d4a017;
+                  border:1px solid rgba(212,160,23,0.35);transition:background 0.15s;"
+           onmouseover="this.style.background='rgba(212,160,23,0.08)'"
+           onmouseout="this.style.background='transparent'">
+          Meet the Team
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats ─────────────────────────────────────────────────────────── -->
+  <div style="border-top:1px solid rgba(212,160,23,0.12);border-bottom:1px solid rgba(212,160,23,0.12);
+              background:#091829;padding:2rem 1.5rem;">
+    <div style="max-width:56rem;margin:0 auto;display:grid;
+                grid-template-columns:repeat(2,1fr);gap:1.5rem 2rem;">
+      {[
+        { v:'5',      u:'Team Members'     },
+        { v:'5.18s',  u:'Test Window'      },
+        { v:'10.12mL',u:'Channel Capacity' },
+        { v:'0.76mm', u:'Hex Spacing'      },
+      ].map(s => (
+        <div style="text-align:center;">
+          <div class="font-display" style="font-size:1.85rem;font-weight:700;color:#d4a017;">{s.v}</div>
+          <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.1em;margin-top:0.2rem;">{s.u}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ── About ─────────────────────────────────────────────────────────── -->
+  <section style="max-width:72rem;margin:0 auto;padding:5rem 1.5rem;">
+    <div style="display:grid;grid-template-columns:1fr;gap:3rem;">
+      <div>
+        <div class="section-label">About the Project</div>
+        <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">What is HexaFlow?</h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver
+          water to plants. The five-member team from Tri-County RVTHS developed this system to address
+          root rot prevention while enabling interchangeable experiments and rapid data collection within
+          a <strong style="color:#e2e8f0;">5.18-second test window</strong>.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          The system uses hexagonal channels inspired by the <strong style="color:#e2e8f0;">thorny devil lizard</strong>
+          (<em>Moloch horridus</em>), which uses capillary action to transport water through grooved
+          patterns on its skin. The vision model senses root moisture from the camera and pumps water
+          to the plant, creating a continuous feedback loop that prevents overwatering and root rot.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          Manufacturing uses SLA 3D printing with resin material. Resin's polar properties create
+          stronger adhesion bonds with water than water molecules share with each other, enabling
+          efficient capillary transport — and the system can retain water even when inverted.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ─────────────────────────────────────────────────────── -->
+  <section style="background:#091829;border-top:1px solid rgba(212,160,23,0.1);
+                  border-bottom:1px solid rgba(212,160,23,0.1);padding:5rem 1.5rem;">
+    <div style="max-width:72rem;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="section-label">Core Systems</div>
+        <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0;">How It Works</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
+        {[
+          { title:'Hexagonal Geometry', href:'/geometry',
+            desc:'Channels inspired by the thorny devil lizard use capillary action — 10.12mL capacity, 0.76mm spacing, SLA printed resin.' },
+          { title:'AI Vision Control',  href:'/ai-control',
+            desc:'Vision model monitors root moisture and activates the pump only when needed, creating a continuous feedback loop.' },
+          { title:'Aeroponics',         href:'/aeroponics',
+            desc:'Plants are suspended in air. Roots absorb water directly from the channels — 98% less water than traditional farming.' },
+          { title:'Modular Design',     href:'/modular-enclosure',
+            desc:'Sliding shelf system with two configurations: drop test (larger pump) and long-term (precise pump + sensors).' },
+        ].map(f => (
+          <a href={f.href} class="card" style="text-decoration:none;display:block;transition:border-color 0.15s;">
+            <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{f.title}</h3>
+            <p style="font-size:0.875rem;color:#64748b;line-height:1.65;margin:0 0 1rem;">{f.desc}</p>
+            <span style="font-size:0.8rem;color:#d4a017;">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ──────────────────────────────────────────────────────────── -->
+  <section id="team" style="max-width:72rem;margin:0 auto;padding:5rem 1.5rem;">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <div class="section-label">The People</div>
+      <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">Our Team</h2>
+      <p style="color:#64748b;margin:0;">Tri-County RVTHS · Franklin, Massachusetts</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+      {team.map(m => (
+        <div class="card" style="text-align:center;">
+          <div style="width:52px;height:52px;border-radius:50%;background:rgba(212,160,23,0.15);
+                      border:2px solid rgba(212,160,23,0.35);display:flex;align-items:center;
+                      justify-content:center;margin:0 auto 0.85rem;
+                      font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;color:#d4a017;">
+            {m.name[0]}
+          </div>
+          <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.35rem;">{m.name}</div>
+          <div style="font-size:0.8rem;color:#64748b;line-height:1.5;">{m.role}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  @media (min-width: 640px) {
+    /* stats: 4 columns on sm+ */
+    div[style*="grid-template-columns:repeat(2,1fr)"] {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
+  }
+</style>

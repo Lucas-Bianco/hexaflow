@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+import AssemblyViewer from '../components/AssemblyViewer.astro';
+---
+
+<Layout title="Assembly Viewer" description="Interactive labeled assembly viewer for the HexaFlow nanolab — explore every part, its role, drawings, and downloadable native CAD files.">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Assembly Viewer"
+    subtitle="Every part of the HexaFlow nanolab in one place. Click a callout or a part to read what it does, see its drawing, and download the native SolidWorks or KiCad source. A 3D model view unlocks automatically when exports are dropped in."
+    badge="Interactive"
+  >
+    <AssemblyViewer />
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

@@ -1,0 +1,153 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="Drop Testing">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Drop Testing"
+    subtitle="To get a sense of how our design would perform in microgravity, we performed drop testing — dropping the module from 14 feet to experience weightlessness conditions."
+    badge="Testing"
+  >
+
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Overview -->
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+        <div>
+          <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+            Test Methodology
+          </h2>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            The team dropped the TDC module from <strong style="color:#e2e8f0;">14 feet</strong> to simulate
+            microgravity. In the resulting free-fall, the module experiences weightlessness for approximately
+            <strong style="color:#e2e8f0;">5.18 seconds</strong> — long enough to collect meaningful data on
+            water behavior in the channels.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            Before each drop, approximately <strong style="color:#e2e8f0;">5mL of dyed water</strong> was added
+            to the TDC center with the injector hole sealed. Calipers were used to measure water dispersal
+            patterns before and after each drop.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            Between tests, compressed air was used to clear the channels, ensuring accurate data collection
+            for each independent run. In weightless conditions, water is expected to disperse upward into
+            the channels through capillary action to reach and hydrate plants.
+          </p>
+        </div>
+
+        <!-- Test parameters -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          {[
+            { label:'Drop Height',    value:'14 ft',        desc:'Creates ~5.18s of simulated microgravity' },
+            { label:'Test Window',    value:'5.18 s',       desc:'Data collection time per drop' },
+            { label:'Water Volume',   value:'≈ 5 mL',       desc:'Dyed water added to TDC center per test' },
+            { label:'Measurement',    value:'Calipers',     desc:'Water dispersal measured before and after each drop' },
+            { label:'Channel Reset',  value:'Compressed air', desc:'Clears channels between tests for accurate data' },
+            { label:'Expected Result', value:'No free droplets', desc:'Water rises into channels via capillary action' },
+          ].map(s => (
+            <div class="card">
+              <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">{s.label}</div>
+              <div class="font-display" style="font-size:1.1rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
+              {s.desc && <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Drop test diagram -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Test Setup Diagram
+        </h2>
+        <div class="card" style="display:flex;justify-content:center;padding:2.5rem;">
+          <svg width="100%" viewBox="0 0 300 320" style="max-width:320px;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Drop height indicator -->
+            <line x1="30" y1="20" x2="30" y2="280" stroke="rgba(212,160,23,0.3)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <text x="10" y="150" fill="#64748b" font-size="9" font-family="Inter,sans-serif"
+                  transform="rotate(-90,10,150)">14 feet</text>
+            <line x1="20" y1="20"  x2="40" y2="20"  stroke="#d4a017" stroke-width="1.5"/>
+            <line x1="20" y1="280" x2="40" y2="280" stroke="#d4a017" stroke-width="1.5"/>
+
+            <!-- Arrow down -->
+            <line x1="150" y1="30" x2="150" y2="120" stroke="#d4a017" stroke-width="2"/>
+            <polygon points="150,140 143,120 157,120" fill="#d4a017"/>
+            <text x="162" y="88" fill="#d4a017" font-size="10" font-family="Inter,sans-serif">Drop</text>
+
+            <!-- Module box (top = start) -->
+            <rect x="80" y="40" width="140" height="70" rx="6"
+                  fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="2"/>
+            <text x="150" y="72" text-anchor="middle" fill="#fff" font-size="11"
+                  font-family="Space Grotesk,sans-serif" font-weight="600">TDC Module</text>
+            <text x="150" y="88" text-anchor="middle" fill="#64748b" font-size="9"
+                  font-family="Inter,sans-serif">5mL dyed water</text>
+
+            <!-- Module (bottom = landing) -->
+            <rect x="80" y="210" width="140" height="70" rx="6"
+                  fill="rgba(212,160,23,0.04)" stroke="rgba(212,160,23,0.4)" stroke-width="1.5"/>
+            <text x="150" y="242" text-anchor="middle" fill="#94a3b8" font-size="11"
+                  font-family="Space Grotesk,sans-serif" font-weight="600">Post Drop</text>
+            <text x="150" y="258" text-anchor="middle" fill="#64748b" font-size="9"
+                  font-family="Inter,sans-serif">Calipers measure dispersal</text>
+
+            <!-- 5.18s label -->
+            <rect x="195" y="115" width="80" height="22" rx="4"
+                  fill="rgba(212,160,23,0.1)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
+            <text x="235" y="130" text-anchor="middle" fill="#d4a017" font-size="10"
+                  font-family="Space Grotesk,sans-serif" font-weight="600">5.18 s window</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Photo gallery -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Drop Test Photos
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <img src="/images/drop-test-1.jpg" alt="Drop test photo 1 — filtered water dispersal"
+                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+              Drop test — filtered view
+            </div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <img src="/images/drop-test-2.jpg" alt="Drop test photo 2 — channel water behavior"
+                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+              Drop test — channel fill
+            </div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <img src="/images/drop-test-3.jpg" alt="Drop test photo 3 — post-drop caliper measurement"
+                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+              Post-drop caliper measurement
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data link -->
+      <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
+                  border:1px solid rgba(212,160,23,0.15);">
+        <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.4rem;">
+          📊 Capillary Physical Tests Data
+        </div>
+        <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 0.75rem;">
+          Full test data and analysis is tracked in the linked Google Sheets document.
+        </p>
+        <span style="font-size:0.85rem;color:#64748b;">
+          Link: <em>Capillary Physical Tests</em> — add your Google Sheets URL here.
+        </span>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

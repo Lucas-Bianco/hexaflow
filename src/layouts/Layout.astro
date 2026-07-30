@@ -1,0 +1,62 @@
+﻿---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | HexaFlow</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-[#060e1c] text-[#e2e8f0] min-h-screen font-sans antialiased">
+    <slot name="nav" />
+    <main class="pt-16">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  ::selection { background-color: rgba(212,160,23,0.25); }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #060e1c; }
+  ::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.3); border-radius: 3px; }
+
+  .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+  /* Shared card style */
+  .card {
+    background: #0d1e35;
+    border: 1px solid rgba(212,160,23,0.15);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+  .card:hover { border-color: rgba(212,160,23,0.35); }
+
+  /* Section label */
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #d4a017;
+    margin-bottom: 0.5rem;
+  }
+</style>

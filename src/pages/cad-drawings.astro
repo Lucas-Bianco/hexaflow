@@ -1,0 +1,134 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+
+const components = [
+  {
+    name: 'Nanolab Enclosure',
+    desc: 'Outer shell with a sliding shelf system for electronic plates, lights, and the experiment module. Hollow side walls enable cable management while protecting electronics from water.',
+  },
+  {
+    name: 'TDC (Thorny Devil Capillary System)',
+    desc: 'The core experiment module — a hexagonal pattern that leverages capillary action to evenly distribute water throughout the interior. Hexagons are spaced 0.76mm apart to optimize distribution.',
+  },
+  {
+    name: 'TDC V2',
+    desc: 'Improved iteration combining resin construction with 3D-printed framing. Reduces weight and manufacturing cost while allowing camera placement for monitoring the pump and reservoir.',
+  },
+  {
+    name: 'Camera/LED Mounting Module',
+    desc: 'Mounts the camera and LED lighting above the root zone, with an anti-glare strip to prevent lens flare during imaging.',
+  },
+  {
+    name: 'Plant Clips',
+    desc: 'Friction-fit holders that insert between hexagon gaps and clamp around the plant stem. Tested successfully under 1-minute inversion with kale.',
+  },
+  {
+    name: 'Water Injector',
+    desc: 'Located at the system base for hemisphere entry. Allows precise water introduction into the channel network. Injector hole can be sealed during drop tests.',
+  },
+  {
+    name: 'Pump Adapter',
+    desc: 'Interface piece compatible with both the drop test high-capacity pump and the long-term precision pump — allows the same enclosure to support both configurations.',
+  },
+  {
+    name: 'Front & Side Door Panels',
+    desc: 'Access panels for internal components and the experiment module slot. Allows rapid swap of experiment modules without full disassembly.',
+  },
+  {
+    name: 'Substrate Covers (Rockwool)',
+    desc: 'Custom covers for the rockwool substrate tray with openings sized for moisture sensor probes. Keeps substrate contained during inversion tests.',
+  },
+  {
+    name: 'Clay Pebble Grates',
+    desc: 'Mesh grates hold clay pebbles in place during microgravity — preventing substrate migration while allowing water and root penetration.',
+  },
+  {
+    name: 'USB Camera Clip (Reservoir)',
+    desc: 'Clip that mounts a USB camera to observe the pump and reservoir, separate from the primary root-zone camera.',
+  },
+];
+---
+<Layout title="CAD Drawings + Photos">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="CAD Drawings + Photos"
+    subtitle="Technical component designs combining resin construction, SLA printing, and 3D-printed framing — each part designed for the nanolab's modular architecture."
+    badge="Documentation"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Component descriptions -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          System Components
+        </h2>
+        <div style="display:grid;gap:0.85rem;">
+          {components.map((c, i) => (
+            <div class="card" style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:start;">
+              <div style="width:32px;height:32px;border-radius:0.375rem;background:rgba(212,160,23,0.1);
+                           border:1px solid rgba(212,160,23,0.25);display:flex;align-items:center;
+                           justify-content:center;font-size:0.8rem;font-weight:700;color:#d4a017;
+                           font-family:'Space Grotesk',sans-serif;flex-shrink:0;">
+                {String(i+1).padStart(2,'0')}
+              </div>
+              <div>
+                <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.3rem;">{c.name}</div>
+                <div style="font-size:0.875rem;color:#64748b;line-height:1.65;">{c.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- CAD photo gallery -->
+      <div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+          CAD Drawings &amp; Photos
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+          {[
+            { src:'/images/cad-1.jpg',  caption:'Nanolab enclosure' },
+            { src:'/images/cad-2.jpg',  caption:'TDC top view' },
+            { src:'/images/cad-3.jpg',  caption:'TDC V2' },
+            { src:'/images/cad-4.jpg',  caption:'Plant clip detail' },
+            { src:'/images/cad-5.jpg',  caption:'Pump adapter' },
+            { src:'/images/cad-6.jpg',  caption:'Substrate cover' },
+            { src:'/images/cad-7.jpg',  caption:'Full assembly' },
+            { src:'/images/cad-8.jpg',  caption:'Camera/LED mount' },
+            { src:'/images/cad-9.jpg',  caption:'Water injector' },
+            { src:'/images/cad-10.jpg', caption:'Front door panel' },
+            { src:'/images/cad-11.jpg', caption:'Side door panel' },
+            { src:'/images/cad-12.jpg', caption:'Clay pebble grate' },
+            { src:'/images/cad-13.jpg', caption:'USB camera clip' },
+            { src:'/images/cad-14.jpg', caption:'Reservoir fittings' },
+            { src:'/images/cad-15.jpg', caption:'CAD drawing 15' },
+            { src:'/images/cad-16.jpg', caption:'CAD drawing 16' },
+            { src:'/images/cad-17.jpg', caption:'CAD drawing 17' },
+            { src:'/images/cad-18.jpg', caption:'CAD drawing 18' },
+            { src:'/images/cad-19.jpg', caption:'CAD drawing 19' },
+            { src:'/images/cad-20.jpg', caption:'CAD drawing 20' },
+            { src:'/images/cad-21.jpg', caption:'CAD drawing 21' },
+            { src:'/images/cad-22.jpg', caption:'CAD drawing 22' },
+            { src:'/images/cad-23.jpg', caption:'CAD drawing 23' },
+            { src:'/images/cad-24.jpg', caption:'CAD drawing 24' },
+            { src:'/images/cad-25.jpg', caption:'CAD drawing 25' },
+            { src:'/images/cad-26.jpg', caption:'CAD drawing 26' },
+          ].map(p => (
+            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+              <img src={p.src} alt={p.caption}
+                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
+              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
