@@ -1,0 +1,139 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="User Interface">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="User Interface"
+    subtitle="A locally-networked dashboard delivering real-time monitoring, graphing, photo galleries, and full system control — built to run on any device aspect ratio."
+    badge="Software"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Overview -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Development &amp; Version Control
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          Version control was a day-one decision, not an afterthought. With major revisions expected
+          across the build, the team standardized on GitHub from the start — incremental commits paired
+          with explanatory messages kept UI development organized and every change traceable.
+        </p>
+        <a href="https://github.com/AidanForrester/TC-HUNCH-Nanolab"
+           target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.6rem 1.25rem;
+                  border-radius:0.5rem;font-size:0.875rem;font-weight:600;text-decoration:none;
+                  color:#fff;background:#0d1e35;border:1px solid rgba(212,160,23,0.25);
+                  transition:border-color 0.15s;"
+           onmouseover="this.style.borderColor='rgba(212,160,23,0.6)'"
+           onmouseout="this.style.borderColor='rgba(212,160,23,0.25)'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#94a3b8">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          AidanForrester/TC-HUNCH-Nanolab
+        </a>
+      </div>
+
+      <!-- Features -->
+      <div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Core UI Capabilities
+        </h2>
+        <p style="color:#94a3b8;font-size:0.9rem;margin:0 0 1.25rem;">
+          Every capability below ships over the local network — operators get full control without
+          direct physical access to the hardware.
+        </p>
+        <div class="feat-grid" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              title:'Live Camera Feed',
+              desc:'Real-time monitoring with sensor and AI readouts alongside the camera view, plus support for swappable camera sources.',
+            },
+            {
+              title:'Real-Time Graphing',
+              desc:'Live-updating graphs with comparison views. Export data as JSON or PNG.',
+            },
+            {
+              title:'Photo Galleries',
+              desc:'Automatic capture every 6 hours during plant growth, with rapid burst captures during drop tests.',
+            },
+            {
+              title:'Quick-Access Buttons',
+              desc:'One-click controls for lighting modes, on-demand photo capture, and test initiation.',
+            },
+            {
+              title:'Configurable Settings',
+              desc:'Substrate type, photo frequency, light brightness, and sensor parameters — all adjustable from the interface.',
+            },
+            {
+              title:'All Aspect Ratios',
+              desc:"Astronaut hardware specs were unknown at build time, so the interface was built to work on any screen size.",
+            },
+          ].map(f => (
+            <div class="card">
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">{f.title}</h3>
+              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- UI screenshot -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Interface at a Glance
+        </h2>
+        <figure class="depth-fig" data-reveal>
+          <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+          <img class="df-img" data-layer="mid" src="/images/ui-1.jpg" alt="HexaFlow user interface dashboard screenshot" loading="lazy" />
+          <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+          <figcaption style="padding:0.6rem 1rem;background:var(--hex-card);font-size:0.78rem;color:var(--hex-muted-2);">
+            HexaFlow UI dashboard — live camera feed, graphing, and controls
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Video placeholder -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Interface Demo Video
+        </h2>
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;
+                                  justify-content:center;min-height:220px;gap:1rem;text-align:center;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10,8 16,12 10,16" fill="#d4a017" stroke="none"/>
+          </svg>
+          <div>
+            <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.35rem;">V2UI.mp4</div>
+            <div style="font-size:0.85rem;color:#64748b;line-height:1.5;">
+              Drop <code style="color:#d4a017;">V2UI.mp4</code> into <code style="color:#d4a017;">public/images/</code> to enable inline video playback.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  /* Opacity-only stagger so we never fight the .card hover-lift transform. */
+  .feat-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .feat-grid.is-in > .card { opacity: 1; }
+  .feat-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
+  .feat-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }
+  .feat-grid.is-in > .card:nth-child(4) { transition-delay: .24s; }
+  .feat-grid.is-in > .card:nth-child(5) { transition-delay: .32s; }
+  .feat-grid.is-in > .card:nth-child(6) { transition-delay: .40s; }
+  @media (prefers-reduced-motion: reduce) {
+    .feat-grid > .card { opacity: 1 !important; }
+  }
+</style>

@@ -1,0 +1,113 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+
+const groups = [
+  {
+    cat: 'Geometry & Biomimicry',
+    refs: [
+      { title: 'Skin morphology study of Moloch horridus', note: 'ResearchGate — primary source for thorny devil capillary channel geometry' },
+      { title: 'Capillary action in micro-scale channels', note: 'Fluid transport without gravity; polar adhesion properties of resin materials' },
+      { title: 'Hexagonal geometry in biological systems', note: 'Honeycomb efficiency, channel optimization principles' },
+    ],
+  },
+  {
+    cat: 'Aeroponics',
+    refs: [
+      { title: 'LettUs Grow',                 note: 'Aeroponic growing systems and efficiency data (98% water savings)' },
+      { title: 'Atlas Scientific',             note: 'Sensor integration for pH and TDS in aeroponic systems' },
+      { title: 'Food Gardening Network',       note: 'Suitable and unsuitable crops for aeroponic growing' },
+      { title: 'NASA Science',                 note: 'Plant growth research in space environments' },
+      { title: 'Agrotonomy',                   note: 'Commercial aeroponics and root zone oxygen studies' },
+      { title: 'NoSoilSolutions',              note: 'Hydroponic and aeroponic media comparisons' },
+      { title: 'Greenhouse Canada',            note: 'Controlled environment agriculture and substrate research' },
+      { title: 'NASA XROOTS Program Documentation', note: 'Sierra Space eXposed Root On-Orbit Test System' },
+    ],
+  },
+  {
+    cat: 'Secondary Substrates',
+    refs: [
+      { title: 'Plant nutrition in hydroponic systems',      note: 'Nutrient uptake in soil-free growing environments' },
+      { title: 'Rockwool as a growing medium',               note: 'Water retention, sterility, and root penetrability' },
+      { title: 'Clay pebbles in hydroponics',                note: 'Drainage, microgravity containment, and root support' },
+      { title: 'Illite clay mineral properties',             note: 'Microgravity feasibility and system compatibility' },
+      { title: 'Pine bark as a substrate',                   note: 'Preliminary test results — only material showing growth' },
+      { title: 'NASA space agriculture research (28 refs)',  note: 'Full citation list maintained in Google Sheets / project docs' },
+    ],
+  },
+  {
+    cat: 'Space Agriculture & Microgravity',
+    refs: [
+      { title: 'China Lunar Farming Program',     note: 'Integration of aeroponics into lunar surface agriculture' },
+      { title: 'Sierra Space Astro Garden',       note: 'XROOTS — aeroponic plant cultivation for long-duration spaceflight' },
+      { title: 'ISS VEGGIE Experiment',           note: 'NASA plant growth hardware aboard the International Space Station' },
+      { title: 'Advanced Plant Habitat (APH)',    note: 'Controlled environment chamber for plant research on ISS' },
+    ],
+  },
+  {
+    cat: 'Electronics & Software',
+    refs: [
+      { title: 'Raspberry Pi documentation',  note: 'GPIO, USB, and carrier board integration references' },
+      { title: 'OpenCV / computer vision',    note: 'Plant root moisture detection via image analysis' },
+      { title: 'GitHub — AidanForrester/TC-HUNCH-Nanolab', note: 'Project version control and UI development log' },
+    ],
+  },
+];
+---
+<Layout title="Misc. Sources">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Misc. Sources"
+    subtitle="Research references, programs, and documentation cited across every HexaFlow project section."
+    badge="References"
+  >
+    <div style="display:grid;gap:2.5rem;">
+      {groups.map((g, gi) => (
+        <div>
+          <h2 class="font-display" style="font-size:1.25rem;font-weight:700;color:#fff;margin:0 0 1rem;
+                      display:flex;align-items:center;gap:0.75rem;">
+            <span style="display:inline-block;width:4px;height:1.25rem;background:#d4a017;border-radius:2px;flex-shrink:0;"></span>
+            {gi === 0 ? <span class="kinetic" data-kinetic="word" data-reveal>{g.cat}</span> : g.cat}
+          </h2>
+          <div class="refs-grid" data-reveal style="display:grid;gap:0.6rem;">
+            {g.refs.map(r => (
+              <div class="card" style="padding:1rem 1.25rem;">
+                <div style="font-weight:600;color:#e2e8f0;font-size:0.9rem;margin-bottom:0.25rem;">{r.title}</div>
+                <div style="font-size:0.825rem;color:#64748b;">{r.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div data-reveal style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
+                  border:1px solid rgba(212,160,23,0.12);">
+        <p style="font-size:0.875rem;color:#64748b;margin:0;line-height:1.65;">
+          Full citations (authors, year, DOI/URL) will be added to each entry. The secondary substrates
+          section draws on <strong style="color:#94a3b8;">28 academic sources</strong> — the complete list is in the project Google Docs.
+        </p>
+      </div>
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  /* Opacity-only stagger so we never fight the .card hover-lift transform. */
+  .refs-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .refs-grid.is-in > .card { opacity: 1; }
+  .refs-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
+  .refs-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }
+  .refs-grid.is-in > .card:nth-child(4) { transition-delay: .24s; }
+  .refs-grid.is-in > .card:nth-child(5) { transition-delay: .32s; }
+  .refs-grid.is-in > .card:nth-child(6) { transition-delay: .40s; }
+  .refs-grid.is-in > .card:nth-child(7) { transition-delay: .48s; }
+  .refs-grid.is-in > .card:nth-child(8) { transition-delay: .56s; }
+  @media (prefers-reduced-motion: reduce) {
+    .refs-grid > .card { opacity: 1 !important; }
+  }
+</style>

@@ -1,0 +1,345 @@
+---
+import { parts, subsystems, subsystemColor } from '../data/parts.js';
+
+const partById = Object.fromEntries(parts.map(p => [p.id, p]));
+function breadcrumb(p) {
+  const chain = []; let cur = p;
+  while (cur) { chain.unshift(cur); cur = cur.parentAssembly ? partById[cur.parentAssembly] : null; }
+  return chain;
+}
+// Group parts by subsystem in declaration order, preserving the parts.js grouping.
+const groups = subsystems.map(s => ({
+  ...s,
+  items: parts.filter(p => p.subsystem === s.id),
+})).filter(g => g.items.length);
+---
+
+<section class="av">
+  <p class="av-intro" data-reveal>
+    The full HexaFlow nanolab, exported from SolidWorks. <strong>Scroll</strong> through the parts
+    on the right and the 3D model highlights each one as it enters view — the whole assembly stays in
+    frame so you keep context. <strong>Click a part</strong> in the model or in a card to focus it;
+    tick <strong>Isolate</strong> in the toolbar if you'd rather hide everything else. (Clicking the
+    model never yanks the page — that was the point.)
+  </p>
+
+  <div class="av-scroll-stage" data-reveal>
+    <!-- ── 3D viewer (pinned on desktop, scroll-driven) ────────────────────── -->
+    <div class="av-viewer-pin">
+      <div class="hf3d-host" id="hf3d-host">
+        <div class="hf3d-loading" id="hf3d-loading">
+          <div class="hf3d-spin"></div>
+          <span>Loading 3D assembly…</span>
+        </div>
+        <div class="hf3d-stage" id="hf3d-stage"></div>
+        <div class="hf3d-hint" id="hf3d-hint">Drag to orbit · Scroll to zoom · Click a part to focus</div>
+      </div>
+
+      <!-- 3D toolbar -->
+      <div class="hf3d-toolbar" id="hf3d-toolbar">
+        <button id="hf-reset" title="Reset view + show all">↺ Show all</button>
+        <label class="hf3d-chk"><input type="checkbox" id="hf-wireframe" /> Wireframe</label>
+        <label class="hf3d-chk"><input type="checkbox" id="hf-labels" checked /> Labels</label>
+        <label class="hf3d-chk"><input type="checkbox" id="hf-fasteners" /> Fasteners</label>
+        <label class="hf3d-chk"><input type="checkbox" id="hf-isolate" /> Isolate</label>
+        <label class="hf3d-slider">Explode <input type="range" id="hf-explode" min="0" max="1" step="0.01" value="0" /></label>
+        <button id="hf-fullscreen" title="Fullscreen" style="margin-left:auto">⛶</button>
+      </div>
+    </div>
+
+    <!-- ── Parts (scroll through these; each drives the 3D viewer) ─────────── -->
+    <div class="av-steps" id="hf-steps">
+      <input class="av-search" id="hf-search" type="search" placeholder="Filter parts…" aria-label="Filter parts" />
+      {groups.map(g => (
+        <div class="av-group" data-subsystem={g.id}>
+          <div class="av-group-head" data-reveal>
+            <span class="av-dot" style={`background:${subsystemColor[g.id]}`}></span>
+            <span class="av-group-name">{g.label}</span>
+            <span class="av-group-count">{g.items.length}</span>
+          </div>
+          <p class="av-group-blurb" data-reveal>{g.blurb}</p>
+          {g.items.map(p => {
+            const chain = breadcrumb(p);
+            const files = (p.nativeFiles || []).map(f => f.split('/').pop());
+            return (
+              <article class="av-step" data-part={p.id} style={`--accent:${subsystemColor[p.subsystem]}`}>
+                <div class="av-step-media">
+                  {p.image
+                    ? <figure class="depth-fig" data-reveal>
+                        <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+                        <img class="df-img" data-layer="mid" src={p.image} alt={p.name} loading="lazy" />
+                        <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+                      </figure>
+                    : <div class="av-step-noimg" aria-hidden="true"><span>⬡</span><p>No render — see native files</p></div>}
+                </div>
+                <div class="av-step-info">
+                  <nav class="av-crumb" aria-label="Assembly path">
+                    {chain.map((c, i) => (
+                      <span>
+                        <button data-part={c.id} class="av-crumb-btn">{c.name}</button>
+                        {i < chain.length - 1 && <span class="av-crumb-sep">›</span>}
+                      </span>
+                    ))}
+                  </nav>
+                  <span class="av-tag">{p.subsystem}</span>
+                  <button class="av-step-title" data-part={p.id}>
+                    <span class="av-step-idx">{p.id === 'nanolab-assembly' ? '◎' : '⬡'}</span>
+                    <span class="font-display">{p.name}</span>
+                  </button>
+                  <p class="av-step-role">{p.role}</p>
+                  <p class="av-step-desc">{p.description}</p>
+                  <details class="av-files">
+                    <summary class="av-files-sum">⬇ Files ({(p.drawingFile ? 1 : 0) + files.length})</summary>
+                    <div class="av-files-body">
+                      {p.drawingFile && (
+                        <a class="av-dl av-dl-drawing" href={encodeURI(p.drawingFile)} target="_blank" rel="noopener">
+                          Drawing ({p.drawingFile.split('.').pop().toUpperCase()})
+                        </a>
+                      )}
+                      {files.map(f => (
+                        <a class="av-dl" href={encodeURI('/cad-files/' + f)} download title={f}>⬇ {f}</a>
+                      ))}
+                    </div>
+                  </details>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initViewer } from '../scripts/assembly3d.js';
+  import { parts, subsystemColor, model } from '../data/parts.js';
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  let viewer = null;
+  let isolateMode = false;     // mirrors the toolbar checkbox
+  let currentScrollId = null;  // dedupes the scroll→3D bridge
+
+  // ── Selection visuals (DOM only — NEVER scrolls the page) ──────────────
+  // This is the core of the isolate fix: highlighting a part updates the
+  // active card + list state and the 3D viewer, but does not call
+  // scrollIntoView. The user's scroll position is theirs to control.
+  function setActive(id) {
+    $$('.av-step').forEach(el => el.classList.toggle('is-active', el.dataset.part === id));
+    $$('.av-crumb-btn').forEach(el => el.classList.toggle('is-active', el.dataset.part === id));
+  }
+
+  function selectFromClick(id) {
+    setActive(id);
+    if (viewer) viewer.select(id, { isolate: isolateMode });
+  }
+
+  // Card titles + breadcrumbs focus a part in 3D without scrolling.
+  $$('.av-step-title, .av-crumb-btn').forEach(el =>
+    el.addEventListener('click', () => selectFromClick(el.dataset.part))
+  );
+
+  // ── Search ─────────────────────────────────────────────────────────────
+  $('#hf-search').addEventListener('input', (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    $$('.av-step').forEach(step => {
+      const name = (step.querySelector('.font-display')?.textContent || '').toLowerCase();
+      const role = (step.querySelector('.av-step-role')?.textContent || '').toLowerCase();
+      step.style.display = (!q || name.includes(q) || role.includes(q)) ? '' : 'none';
+    });
+    $$('.av-group').forEach(g => {
+      g.style.display = $$('.av-step', g).some(s => s.style.display !== 'none') ? '' : 'none';
+    });
+  });
+
+  // ── Boot the 3D viewer ───────────────────────────────────────────────────
+  (async () => {
+    try {
+      viewer = await initViewer(document.getElementById('hf3d-stage'), {
+        parts, subsystemColor, model,
+        // mesh click → update active card state ONLY. No scrollIntoView.
+        // Empty-space click (id === null) returns to the overview card.
+        onSelect: (id) => setActive(id || 'nanolab-assembly'),
+      });
+      $('#hf3d-loading').style.display = 'none';
+      $('#hf3d-hint').style.opacity = '1';
+      viewer.select('nanolab-assembly', { isolate: false });
+      setActive('nanolab-assembly');
+      bootScrollBridge();
+    } catch (err) {
+      console.error('HexaFlow 3D init failed:', err);
+      $('#hf3d-loading').innerHTML =
+        `<span>Could not load the 3D model.<br><code>${(err && err.message) ? err.message : err}</code><br><small>The parts list and details below still work.</small></span>`;
+    }
+  })();
+
+  // ── Scroll → 3D bridge ──────────────────────────────────────────────────
+  // As each .av-step crosses the viewport center, highlight it in the 3D
+  // viewer. One-way (scroll → 3D); never scrolls the page. Respects the
+  // Isolate toolbar toggle so users who opted into isolation keep it while
+  // scrolling.
+  function bootScrollBridge() {
+    const steps = $$('.av-step');
+    if (!steps.length) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+
+    const io = new IntersectionObserver((entries) => {
+      // Among intersecting steps, pick the one closest to viewport center.
+      const visible = entries
+        .filter(e => e.isIntersecting && e.target.style.display !== 'none')
+        .sort((a, b) => {
+          const ca = a.boundingClientRect.top + a.boundingClientRect.height / 2 - innerHeight / 2;
+          const cb = b.boundingClientRect.top + b.boundingClientRect.height / 2 - innerHeight / 2;
+          return Math.abs(ca) - Math.abs(cb);
+        });
+      if (!visible[0]) return;
+      const id = visible[0].target.dataset.part;
+      if (!id || id === currentScrollId) return;
+      currentScrollId = id;
+      setActive(id);
+      viewer?.select(id, { isolate: isolateMode });
+    }, { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+    steps.forEach(s => io.observe(s));
+  }
+
+  // ── 3D toolbar ──────────────────────────────────────────────────────────
+  $('#hf-wireframe').addEventListener('change', e => viewer?.setWireframe(e.target.checked));
+  $('#hf-labels').addEventListener('change', e => viewer?.setLabels(e.target.checked));
+  $('#hf-fasteners').addEventListener('change', e => viewer?.setFastenersVisible(e.target.checked));
+  $('#hf-isolate').addEventListener('change', e => {
+    isolateMode = e.target.checked;
+    viewer?.setIsolateMode(isolateMode);
+    // apply the new mode to the currently-active part
+    const active = $('.av-step.is-active');
+    if (active && viewer) viewer.select(active.dataset.part, { isolate: isolateMode });
+  });
+  $('#hf-explode').addEventListener('input', e => viewer?.setExplode(parseFloat(e.target.value)));
+  $('#hf-reset').addEventListener('click', () => {
+    viewer?.resetView();
+    $('#hf-explode').value = 0;
+    currentScrollId = null;
+    setActive('nanolab-assembly');
+    viewer?.select('nanolab-assembly', { isolate: false });
+  });
+  $('#hf-fullscreen').addEventListener('click', () => viewer?.toggleFullscreen());
+</script>
+
+<style>
+  .av { max-width: 72rem; margin: 0 auto; }
+  .av-intro { color: var(--hex-muted); line-height: 1.65; font-size: 0.95rem; margin: 0 0 1.5rem; max-width: 46rem; }
+  .av-intro strong { color: var(--hex-text); }
+
+  /* ── Pinned viewer + scrolling steps ──────────────────────────────────── */
+  .av-scroll-stage { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+  @media (min-width: 1024px) {
+    .av-scroll-stage { grid-template-columns: 1.05fr 1fr; align-items: start; gap: 2rem; }
+    .av-viewer-pin {
+      position: sticky; top: var(--sticky-offset);
+      height: calc(100vh - var(--sticky-offset) - 1rem);
+      display: flex; flex-direction: column; gap: .75rem;
+    }
+    .av-viewer-pin .hf3d-host { aspect-ratio: auto; flex: 1; min-height: 0; }
+  }
+
+  /* ── 3D viewer ─────────────────────────────────────────────────────────── */
+  .hf3d-host { position: relative; aspect-ratio: 4 / 3; border-radius: .9rem; overflow: hidden;
+    background: #060e1c; border: 1px solid var(--hex-line);
+    box-shadow: 0 18px 50px -20px rgba(0,0,0,0.8); }
+  .hf3d-stage { position: absolute; inset: 0; }
+  .hf3d-loading { position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: .75rem; color: var(--hex-muted);
+    font-size: .9rem; z-index: 2; text-align: center; padding: 1rem; }
+  .hf3d-loading code { color: #fda4af; font-size: .8rem; word-break: break-word; }
+  .hf3d-spin { width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid rgba(212,160,23,.25); border-top-color: var(--hex-gold);
+    animation: hf3d-spin 0.8s linear infinite; }
+  @keyframes hf3d-spin { to { transform: rotate(360deg); } }
+  .hf3d-hint { position: absolute; left: 50%; bottom: .6rem; transform: translateX(-50%);
+    font-size: .72rem; color: rgba(240,244,255,0.7); background: rgba(6,14,28,0.6);
+    border: 1px solid var(--hex-line); padding: .25rem .6rem; border-radius: 999px;
+    opacity: 0; transition: opacity .4s; pointer-events: none; white-space: nowrap; z-index: 2; }
+  .hf3d-labels { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+  .hf3d-label { position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: .3rem;
+    font: 600 .68rem 'Inter', sans-serif; color: #f0f4ff; background: rgba(6,14,28,0.82);
+    border: 1px solid rgba(212,160,23,0.3); padding: .15rem .45rem; border-radius: .3rem;
+    white-space: nowrap; transform-origin: 50% 100%; pointer-events: none; }
+  .hf3d-label-dot { width: .45rem; height: .45rem; border-radius: 50%; }
+
+  .hf3d-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
+    padding: .6rem .8rem; background: var(--hex-card); border: 1px solid var(--hex-line); border-radius: .6rem; }
+  .hf3d-toolbar button { background: rgba(212,160,23,.1); border: 1px solid rgba(212,160,23,.25); color: var(--hex-gold);
+    border-radius: .4rem; padding: .4rem .75rem; font: 600 .8rem 'Inter', sans-serif; cursor: pointer; transition: background .15s; }
+  .hf3d-toolbar button:hover { background: rgba(212,160,23,.18); }
+  .hf3d-chk { display: inline-flex; align-items: center; gap: .35rem; color: #cbd5e1; font: 500 .8rem 'Inter', sans-serif; cursor: pointer; }
+  .hf3d-chk input { accent-color: var(--hex-gold); }
+  .hf3d-slider { display: inline-flex; align-items: center; gap: .4rem; color: #cbd5e1; font: 500 .8rem 'Inter', sans-serif; }
+  .hf3d-slider input[type=range] { accent-color: var(--hex-gold); width: 100px; }
+
+  /* ── Steps ─────────────────────────────────────────────────────────────── */
+  .av-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .av-search { padding: .55rem .8rem; background: #060e1c;
+    border: 1px solid rgba(212,160,23,.2); border-radius: .5rem; color: #f0f4ff;
+    font: 500 .85rem 'Inter', sans-serif; }
+  .av-search:focus { outline: none; border-color: rgba(212,160,23,.5); }
+  .av-group { display: flex; flex-direction: column; gap: .4rem; }
+  .av-group-head { display: flex; align-items: center; gap: .5rem; padding-top: 1rem; }
+  .av-dot { width: .6rem; height: .6rem; border-radius: 50%; }
+  .av-group-name { font: 700 .72rem 'Space Grotesk', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: .08em; }
+  .av-group-count { margin-left: auto; font-size: .68rem; color: var(--hex-muted-2); }
+  .av-group-blurb { font-size: .72rem; color: var(--hex-muted-2); margin: 0 0 .5rem; line-height: 1.5; max-width: 32rem; }
+
+  .av-step { display: grid; gap: 1.25rem; background: var(--hex-card); border: 1px solid var(--hex-line);
+    border-radius: .9rem; padding: 1.4rem; min-height: 62vh;
+    transition: border-color .25s var(--ease-out-cine), box-shadow .25s var(--ease-out-cine), transform .25s var(--ease-out-cine); }
+  @media (min-width: 620px) { .av-step { grid-template-columns: 220px 1fr; align-items: start; } }
+  .av-step.is-active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), 0 14px 40px -18px rgba(0,0,0,.7);
+    transform: translateY(-2px);
+  }
+
+  .av-step-media { display: flex; }
+  .av-step-media .depth-fig { width: 100%; }
+  .av-step-media .df-img { border-radius: .6rem; }
+  .av-step-noimg { aspect-ratio: 4/3; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: .5rem; background: #060e1c; border: 1px solid var(--hex-line); border-radius: .6rem; color: var(--hex-muted-2); }
+  .av-step-noimg span { font-size: 3rem; color: rgba(212,160,23,.3); }
+  .av-step-noimg p { font-size: .75rem; margin: 0; }
+
+  .av-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; margin-bottom: .5rem; }
+  .av-crumb-btn { background: none; border: 0; color: #7090b8; font: 600 .78rem 'Inter', sans-serif; padding: 0; cursor: pointer; }
+  .av-crumb-btn:hover, .av-crumb-btn.is-active { color: var(--hex-gold); }
+  .av-crumb-sep { color: #475569; margin: 0 .15rem; }
+  .av-tag { display: inline-block; font: 600 .68rem 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    padding: .2rem .6rem; border-radius: 999px; margin-bottom: .6rem; }
+  .av-step-title { display: flex; align-items: center; gap: .5rem; background: none; border: 0; padding: 0; cursor: pointer;
+    text-align: left; font: 700 1.4rem 'Space Grotesk', sans-serif; color: var(--hex-text); margin: 0 0 .35rem;
+    transition: color .15s; }
+  .av-step-title:hover { color: var(--hex-gold); }
+  .av-step-idx { font-size: 1rem; color: var(--accent); }
+  .av-step-role { font: 600 .95rem 'Inter', sans-serif; color: var(--hex-gold); margin: 0 0 .6rem; }
+  .av-step-desc { color: var(--hex-muted); line-height: 1.65; font-size: .92rem; margin: 0 0 1rem; }
+  .av-files { margin-top: .25rem; }
+  .av-files-sum { cursor: pointer; display: inline-flex; align-items: center; gap: .35rem;
+    font: 600 .76rem 'Inter', sans-serif; color: var(--hex-gold);
+    background: rgba(212,160,23,.08); border: 1px solid rgba(212,160,23,.25);
+    border-radius: .45rem; padding: .4rem .7rem; list-style: none; user-select: none;
+    transition: background .15s, border-color .15s; }
+  .av-files-sum::-webkit-details-marker { display: none; }
+  .av-files-sum::after { content: '▾'; font-size: .65rem; opacity: .65; transition: transform .2s ease; }
+  .av-files[open] .av-files-sum { background: rgba(212,160,23,.16); border-color: rgba(212,160,23,.4); }
+  .av-files[open] .av-files-sum::after { transform: rotate(180deg); }
+  .av-files-body { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
+  .av-dl { display: inline-flex; align-items: center; gap: .3rem; padding: .4rem .7rem; border-radius: .45rem;
+    font: 600 .76rem 'Inter', sans-serif; text-decoration: none; background: rgba(212,160,23,.08);
+    border: 1px solid rgba(212,160,23,.25); color: var(--hex-gold); transition: background .15s; }
+  .av-dl:hover { background: rgba(212,160,23,.16); }
+  .av-dl-drawing { background: rgba(147,197,253,.08); border-color: rgba(147,197,253,.3); color: #93c5fd; }
+
+  @media (prefers-reduced-motion: reduce) { .av-step { transform: none !important; } }
+</style>

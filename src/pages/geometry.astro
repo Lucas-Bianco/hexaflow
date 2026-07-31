@@ -1,0 +1,212 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="Geometry">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Geometry"
+    subtitle="The unique geometry of our water delivery system efficiently utilizes capillary action and its amplified uses in microgravity."
+    badge="Design"
+  >
+
+    <!-- Thorny Devil image + intro -->
+    <div style="display:grid;grid-template-columns:1fr;gap:2.5rem;margin-bottom:3rem;" data-reveal>
+
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+
+        <div>
+          <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+            Inspired by the Thorny Devil Lizard
+          </h2>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            The HexaFlow water delivery system draws from the <em>Moloch horridus</em> — the thorny devil lizard —
+            which uses capillary action to transport water through microscopic grooved patterns on its skin.
+            The honeycomb-like geometry of its scales passively moves water from any surface contact point
+            directly to its mouth, with no muscular effort.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            HexaFlow replicates this hexagonal channel geometry at a functional scale using SLA 3D printing
+            with resin material. Resin's polar properties create stronger adhesion bonds with water than
+            water molecules share with each other — this is what drives the capillary flow. At the proper
+            scale, the system can retain water even when fully inverted.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            The channels space hexagons <strong style="color:#e2e8f0;">0.51 mm (0.020 in) apart</strong> with a channel width of
+            <strong style="color:#e2e8f0;">0.48 mm</strong> to optimize capillary distribution.
+          </p>
+
+          <!-- Channel geometry spec block -->
+          <div class="card" data-reveal style="padding:1.1rem 1.25rem;margin:0 0 1.5rem;">
+            <div class="section-label" style="margin-bottom:0.6rem;">Channel Geometry</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;">
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side-to-side</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.167 in / 4.24 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side length</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.100 in / 2.54 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel depth</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.050 in / 1.27 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel width</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.48 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Gap between channels</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.51 mm / 0.020 in</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="font-display" data-reveal style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">
+            Why the channels hold water
+          </h3>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            Resin is a polar material, so it bonds to water more strongly than water bonds to itself. That stronger
+            adhesion is what drives efficient capillary transport through the hex network — and it lets the system
+            hold water even when fully inverted. Only the critical hex dome is SLA-printed in resin; the body is FDM.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            Total channel capacity is <strong style="color:#e2e8f0;">10.12 mL</strong> (precisely 10.1155 mL) when fully
+            saturated — roughly 10 minutes of constant flow at the 1 mL/min long-term pump rate to saturate. The
+            drop-test pump runs at ~100 mL/min, moving 8.63 mL through the 5.18 s test window.
+          </p>
+        </div>
+
+        <!-- Thorny Devil photo -->
+        <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+          <figure class="depth-fig" data-reveal>
+            <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+            <img class="df-img" data-layer="mid"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Thorny_dragon.jpg/640px-Thorny_dragon.jpg"
+              alt="Thorny devil lizard (Moloch horridus) — the biological inspiration for HexaFlow's hex channel geometry"
+              loading="lazy"
+            />
+            <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+          </figure>
+          <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <em>Moloch horridus</em> — thorny devil lizard. Its skin channels passively transport water via capillary action.
+            <span style="color:#475569;"> (Image: Wikimedia Commons)</span>
+          </div>
+        </div>
+
+        <!-- TDC Photos -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/geometry-1.jpg" alt="TDC hex channel top-down view" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+              TDC hex channel — top view
+            </div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/geometry-2.jpg" alt="TDC capillary channel close-up" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+              Capillary channel detail
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Specs grid -->
+    <div data-reveal>
+      <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+        Technical Specifications
+      </h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;">
+        {[
+          { label:'Channel Capacity',  value:'10.12 mL',        desc:'Precisely 10.1155 mL when fully saturated — ~10 min at 1 mL/min long-term pump' },
+          { label:'Hex Spacing',       value:'0.51 mm',          desc:'0.020 in gap between channels; 0.48 mm channel width' },
+          { label:'Side-to-Side',      value:'0.167 in',         desc:'4.24 mm hex span with 0.100 in (2.54 mm) side length' },
+          { label:'Channel Depth',     value:'0.050 in',         desc:'1.27 mm etched channel depth across the dome' },
+          { label:'Manufacturing',     value:'SLA Resin Dome',  desc:'Polar resin hex dome; FDM body. Only the dome is SLA-printed' },
+          { label:'Surface Property',  value:'Polar Resin',     desc:'Stronger water adhesion than water-to-water cohesion' },
+          { label:'Gravity Required',  value:'None',            desc:'Capillary action works in microgravity environments' },
+          { label:'Inversion Test',    value:'Passes',          desc:'System retains water at proper scale when fully inverted' },
+        ].map((s, i) => (
+          <div class={`card reveal-${i + 1}`}>
+            <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">{s.label}</div>
+            <div class="font-display" style="font-size:1.25rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
+            <div style="font-size:0.825rem;color:#64748b;line-height:1.5;">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Hex diagram (SVG) -->
+    <section class="pin">
+      <header class="pin-head">
+        <div class="section-label">Geometry</div>
+        <h2 class="font-display" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Channel Geometry Diagram
+        </h2>
+      </header>
+      <div class="pin-body" data-reveal>
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:2.5rem;">
+        <svg width="100%" viewBox="0 0 400 220" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Hex grid pattern showing channel layout -->
+          <!-- Row 1 -->
+          <polygon points="60,20 90,37 90,70 60,87 30,70 30,37"   fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="120,20 150,37 150,70 120,87 90,70 90,37"  fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="180,20 210,37 210,70 180,87 150,70 150,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="240,20 270,37 270,70 240,87 210,70 210,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="300,20 330,37 330,70 300,87 270,70 270,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="360,20 390,37 390,70 360,87 330,70 330,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <!-- Row 2 (offset) -->
+          <polygon points="30,87 60,104 60,137 30,154 0,137 0,104"   fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="90,87 120,104 120,137 90,154 60,137 60,104"  fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2" stroke-dasharray="none"/>
+          <polygon points="150,87 180,104 180,137 150,154 120,137 120,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="210,87 240,104 240,137 210,154 180,137 180,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
+          <polygon points="270,87 300,104 300,137 270,154 240,137 240,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="330,87 360,104 360,137 330,154 300,137 300,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
+          <!-- Row 3 -->
+          <polygon points="60,154 90,171 90,204 60,220 30,204 30,171"  fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="120,154 150,171 150,204 120,220 90,204 90,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="180,154 210,171 210,204 180,220 150,204 150,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="240,154 270,171 270,204 240,220 210,204 210,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
+          <polygon points="300,154 330,171 330,204 300,220 270,204 270,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
+          <!-- Spacing annotation -->
+          <line x1="90" y1="53" x2="120" y2="53" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3 2"/>
+          <text x="105" y="48" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="Inter,sans-serif">0.51mm</text>
+          <!-- Water flow arrows -->
+          <text x="90" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
+          <text x="210" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
+          <text x="330" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
+        </svg>
+        <p style="font-size:0.8rem;color:#64748b;margin-top:1rem;text-align:center;max-width:400px;">
+          Top-down view of hexagonal channel layout. Highlighted cells show water distribution points.
+          Hexagons are spaced 0.51 mm apart with 0.48 mm channel width to optimize capillary flow.
+        </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Source -->
+    <div data-reveal style="margin-top:2rem;padding:1rem 1.25rem;border-radius:0.5rem;
+                background:rgba(212,160,23,0.04);border:1px solid rgba(212,160,23,0.12);">
+      <p style="font-size:0.825rem;color:#64748b;margin:0;">
+        <strong style="color:#94a3b8;">Source:</strong> Skin morphology study of <em>Moloch horridus</em> — ResearchGate.
+        Capillary channel geometry and polar adhesion principles adapted for SLA resin fabrication.
+      </p>
+    </div>
+
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

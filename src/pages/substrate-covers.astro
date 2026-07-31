@@ -1,0 +1,183 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+---
+<Layout title="Substrate Covers">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Substrate Covers"
+    subtitle="A purpose-built cover for every substrate — holding material in place through microgravity while keeping moisture sensors and roots within reach."
+    badge="Materials"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Overview -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Purpose
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          In microgravity, loose substrate would float free. Each one needs a purpose-built cover that
+          stops migration, holds the plant in place, and lets the hex channels reach the roots.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          In the 1-minute inversion test, every cover and substrate stayed put — a strong sign the
+          designs will hold in actual microgravity.
+        </p>
+      </div>
+
+      <!-- Cover types -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Cover Designs by Substrate
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              substrate: 'Rockwool',
+              cover: 'Sensor-Port Cover',
+              desc: 'Custom cover with precision openings sized for moisture sensor probes. Holds rockwool cube firmly while allowing sensor insertion without disturbing roots.',
+              color: '#d4a017',
+            },
+            {
+              substrate: 'Clay Pebbles',
+              cover: 'Mesh Grate Cover',
+              desc: 'Mesh grate holds clay pebbles in place during microgravity — preventing pebble migration while allowing water and root penetration through the matrix.',
+              color: '#93c5fd',
+            },
+            {
+              substrate: 'Pine Bark',
+              cover: 'Sealed Bark Cover',
+              desc: 'Cover designed to contain bark chips. Keeps larger particles from floating while allowing the moisture and root system to interact with the channel delivery.',
+              color: '#a78bfa',
+            },
+            {
+              substrate: 'Illite (Clay)',
+              cover: 'Compact Clay Cover',
+              desc: 'Dense cover suited for the finer illite clay particles. Scored highest on Feasibility in Microgravity (FIM) in the decision matrix — naturally packs well.',
+              color: '#f59e0b',
+            },
+          ].map((c, i) => (
+            <div class={`card reveal-${i + 1}`} style={`border-color:${c.color}25;`}>
+              <div style={`font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
+                           color:${c.color};margin-bottom:0.35rem;`}>{c.substrate}</div>
+              <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{c.cover}</h3>
+              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Microgravity test -->
+      <div class="card" style="border-color:rgba(74,222,128,0.25);" data-reveal>
+        <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">
+          ✓ Microgravity Simulation Test — Passed
+        </div>
+        <p style="font-size:0.875rem;color:#94a3b8;margin:0;line-height:1.65;">
+          Planted substrates with covers were inverted for one minute. Plants, covers, and substrates
+          all remained secure — confirming the containment designs will work in zero-gravity conditions.
+        </p>
+      </div>
+
+      <!-- Grate iteration chain -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          The Grate Iteration Chain
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          Containing the clay pebbles took five tries. Each material was tested, failed, and fed the
+          next prototype — until the team landed on a geometry that held.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          <div class="card reveal-1">
+            <div class="section-label" style="margin-bottom:0.5rem;">Attempt 1</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">3D-Printed Filament Grate</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Too flexible — pebbles escaped through the gaps.
+            </p>
+          </div>
+          <div class="card reveal-2">
+            <div class="section-label" style="margin-bottom:0.5rem;">Attempt 2</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">Plexiglass Grate</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Same result — the pebbles still slipped past.
+            </p>
+          </div>
+          <div class="card reveal-3">
+            <div class="section-label" style="margin-bottom:0.5rem;">Attempt 3</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">Hard Cork</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Broke when popped out of the mold.
+            </p>
+          </div>
+          <div class="card reveal-4">
+            <div class="section-label" style="margin-bottom:0.5rem;">Attempt 4</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">"Less Grates, More Space" Wood Prototype</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Worked — proving the concept needed fewer bars and a wider opening.
+            </p>
+          </div>
+          <div class="card reveal-5" style="border-color:rgba(74,222,128,0.35);">
+            <div class="section-label" style="margin-bottom:0.5rem;">Final — Horizontal-Grate Redesign</div>
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#4ade80;margin:0 0 0.5rem;">Horizontal Grate</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Prompted by their advisor <strong style="color:#e2e8f0;">Mrs. Magas</strong>, the team
+              redesigned the grate to run horizontal — the geometry that finally held.
+            </p>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.7;margin:1rem 0 0;">
+          In parallel, the team bought larger clay pebbles so the grate clearance could be wider —
+          fewer bars, bigger pebbles, no escape.
+        </p>
+      </div>
+
+      <!-- Sensor cutout tradeoff -->
+      <div class="card" data-reveal>
+        <div class="section-label" style="margin-bottom:0.5rem;">Sensor Cutout Tradeoff</div>
+        <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          Repositioned With Every Plant Cutout
+        </h3>
+        <p style="font-size:0.875rem;color:#94a3b8;line-height:1.65;margin:0;">
+          The moisture-sensor cutout had to be repositioned every time the plant cutout changed — a
+          constant distance tradeoff for stability, balancing sensor reach against a secure hold on
+          the substrate.
+        </p>
+      </div>
+
+      <!-- Cover photos -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Cover Photos
+        </h2>
+        <PhotoGallery photos={[
+          { src:'/images/cover-1.jpg', caption:'Rockwool cover (sensor port)' },
+          { src:'/images/cover-2.jpg', caption:'Clay pebble mesh grate' },
+          { src:'/images/cover-3.jpg', caption:'Pine bark cover' },
+          { src:'/images/cover-4.jpg', caption:'Illite clay cover' },
+          { src:'/images/cover-5.jpg', caption:'Inversion test — all covers' },
+          { src:'/images/cover-6.jpg', caption:'Cover detail — front view' },
+          { src:'/images/cover-7.jpg', caption:'Cover assembly' },
+          { src:'/images/cover-8.jpg', caption:'Installed covers' },
+        ]} />
+      </div>
+
+      <!-- Back link -->
+      <a href="/secondary-substrates"
+         style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.875rem;
+                color:#d4a017;text-decoration:none;"
+         onmouseover="this.style.opacity='0.75'"
+         onmouseout="this.style.opacity='1'">
+        ← Back to Secondary Substrates
+      </a>
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

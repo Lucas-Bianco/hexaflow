@@ -1,0 +1,214 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="Aeroponics">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Aeroponics"
+    subtitle="Plants suspended in air, roots drinking directly from the hexagonal channel system — aeroponics is the Nanolab's primary growing method, chosen because there's no growing medium to stay wet, so no root rot."
+    badge="Biology"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- Overview -->
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;" data-reveal>
+        <div>
+          <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+              style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+            How It Works in HexaFlow
+          </h2>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            In microgravity, plants grow on the TDC Delivery System with roots absorbing water
+            directly from the channel system — sidestepping the complications of substrate-water
+            interaction in zero gravity.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            <strong style="color:#e2e8f0;">Plant clips</strong> secure vegetation both on Earth and in space.
+            Inserted into TDC holes, they grip the stem firmly enough that the team verified retention by
+            inverting the TDC with kale threaded through both clips for one full minute — plants stayed put.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            Aeroponics was chosen as the primary substrate because there's no growing medium — and with
+            no medium to stay wet, there's no root rot. The AI vision model reads root moisture from the
+            camera feed and waters only when the roots are dry, a continuous feedback loop that
+            <strong style="color:#e2e8f0;">completely eliminates root rot</strong>.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            The customizable water/nutrient reservoir is built from recycled plastic, VEX fittings, and
+            heat-sealed seams — a modular design that scales across HexaFlow configurations and future
+            expansion.
+          </p>
+        </div>
+      </div>
+
+      <!-- Alternatives considered -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Alternatives Considered — and Rejected
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          The team evaluated several substrate and delivery approaches before aeroponics won on
+          simplicity and root-rot elimination:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              name:'Ebb-and-Flow',
+              spec:'Flood 15 min every 2–3 h, dual reservoir',
+              why:'Rejected — added complexity vs. medium-free aeroponics',
+            },
+            {
+              name:'Wick System (CapMat II)',
+              spec:'1.0 mm mat, 8.0 cm capillary lift — the Apogee dwarf-wheat ISS approach',
+              why:'Rejected — retained medium stays wet, invites root rot',
+            },
+            {
+              name:'Arcillite / Illite',
+              spec:'Granular substrate media',
+              why:'Rejected — medium holds moisture against the roots',
+            },
+            {
+              name:'Hex System w/ Plant Hook',
+              spec:'Hex-channel mechanical support',
+              why:'Rejected — aeroponics won on simplicity',
+            },
+          ].map((a, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{a.name}</h3>
+              <p style="font-size:0.825rem;color:#e2e8f0;margin:0 0 0.5rem;line-height:1.55;">{a.spec}</p>
+              <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.55;">{a.why}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Benefits -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Why Aeroponics Wins
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          {[
+            { stat:'Dry Roots',    label:'Triggered Watering', desc:'AI vision waters only when roots are dry — minimal water loss, no root rot' },
+            { stat:'Suspended',    label:'Root System',      desc:'Roots hang in air — maximum oxygen exposure' },
+            { stat:'Accelerated',  label:'Growth Rate',      desc:'Enhanced atmospheric gas exposure (O₂, CO₂)' },
+            { stat:'None',         label:'Gravity Required', desc:'System works in microgravity environments' },
+          ].map((s, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <div class="font-display" style="font-size:1.5rem;font-weight:700;color:#d4a017;margin-bottom:0.25rem;">{s.stat}</div>
+              <div style="font-weight:600;color:#fff;font-size:0.9rem;margin-bottom:0.35rem;">{s.label}</div>
+              <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Aeroponics photos -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Build & Verification
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-1.jpg" alt="Plant clips securing kale in TDC" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Plant clips securing kale in the TDC</div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-2.jpg" alt="Aeroponic root system" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Aeroponic root system</div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-3.jpg" alt="Reservoir and VEX fittings" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Reservoir and VEX fittings</div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-4.jpg" alt="Inversion test — kale retained" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Inversion test — kale fully retained</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suitable crops -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;" data-reveal>
+        <div class="card reveal-1">
+          <div class="section-label" style="margin-bottom:0.75rem;">Suitable Crops</div>
+          <ul style="color:#94a3b8;font-size:0.875rem;line-height:2;margin:0;padding-left:1.1rem;">
+            <li>Leafy greens</li>
+            <li>Vegetables</li>
+            <li>Small flowering plants</li>
+            <li>Kale — verified in plant-clip retention trials</li>
+          </ul>
+        </div>
+        <div class="card reveal-2" style="border-color:rgba(255,100,100,0.15);">
+          <div class="section-label" style="color:#f87171;margin-bottom:0.75rem;">Not Suitable</div>
+          <ul style="color:#94a3b8;font-size:0.875rem;line-height:2;margin:0;padding-left:1.1rem;">
+            <li>Root vegetables — grow deformed without soil pressure</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Space programs -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Space Aeroponics Programs
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+          {[
+            {
+              org:'China',
+              program:'Lunar Farming Program',
+              desc:'Integrated aeroponics into lunar agriculture experiments, demonstrating the method viability in space environments.',
+            },
+            {
+              org:'Sierra Space',
+              program:'Astro Garden (XROOTS)',
+              desc:'eXposed Root On-Orbit Test System — developing aeroponic cultivation for long-duration spaceflight.',
+            },
+          ].map((p, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <div class="section-label" style="margin-bottom:0.4rem;">{p.org}</div>
+              <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">{p.program}</h3>
+              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Works cited -->
+      <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
+                  border:1px solid rgba(212,160,23,0.12);" data-reveal>
+        <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">Works Cited</div>
+        <div style="font-size:0.825rem;color:#64748b;line-height:1.8;">
+          LettUs Grow · Atlas Scientific · Food Gardening Network · NASA Science ·
+          Agrotonomy · NoSoilSolutions · Greenhouse Canada · NASA XROOTS Program Documentation
+        </div>
+        <a href="/sources" style="font-size:0.825rem;color:#d4a017;text-decoration:none;margin-top:0.5rem;display:inline-block;">
+          View full sources list →
+        </a>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
