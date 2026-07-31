@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -8,7 +8,25 @@ const team = [
   { name: 'Nate',    role: 'Correspondent & Water Movement Lead'   },
   { name: 'Sabrina', role: 'Note Taker & Substrate Lead'           },
   { name: 'Maddie',  role: 'Scheduler & Modularity Lead'           },
-  { name: 'Lucas',   role: 'Web Development Lead'                  },
+  { name: 'Lucas',   role: 'Web Development Lead'                   },
+];
+
+const stats = [
+  { v: '5',       u: 'Team Members'     },
+  { v: '5.18s',   u: 'Test Window'      },
+  { v: '10.12mL', u: 'Channel Capacity' },
+  { v: '0.76mm',  u: 'Hex Spacing'      },
+];
+
+const features = [
+  { title: 'Hexagonal Geometry', href: '/geometry', k: '01',
+    desc: 'Channels inspired by the thorny devil lizard use capillary action — 10.12mL capacity, 0.76mm spacing, SLA printed resin.' },
+  { title: 'AI Vision Control',  href: '/ai-control', k: '02',
+    desc: 'Vision model monitors root moisture and activates the pump only when needed, creating a continuous feedback loop.' },
+  { title: 'Aeroponics',         href: '/aeroponics', k: '03',
+    desc: 'Plants are suspended in air. Roots absorb water directly from the channels — 98% less water than traditional farming.' },
+  { title: 'Modular Design',     href: '/modular-enclosure', k: '04',
+    desc: 'Sliding shelf system with two configurations: drop test (larger pump) and long-term (precise pump + sensors).' },
 ];
 ---
 
@@ -16,140 +34,102 @@ const team = [
   <Nav slot="nav" />
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section style="position:relative;min-height:90vh;display:flex;align-items:center;
-                  justify-content:center;overflow:hidden;">
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
 
-    <!-- Hex grid pattern -->
-    <div aria-hidden="true" style="position:absolute;inset:0;opacity:0.15;
-         background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 54,76 54,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 2,76 2,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3C/svg%3E\");
-         background-size:56px 97px;">
-    </div>
-
-    <!-- Subtle glow -->
-    <div aria-hidden="true" style="position:absolute;top:30%;left:50%;transform:translateX(-50%);
-         width:600px;height:400px;border-radius:50%;
-         background:radial-gradient(ellipse,rgba(212,160,23,0.07),transparent 70%);pointer-events:none;">
-    </div>
-
-    <div style="position:relative;text-align:center;padding:2rem 1.5rem;max-width:52rem;margin:0 auto;">
-      <!-- Logo mark -->
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
-        <svg width="72" height="72" viewBox="0 0 100 100">
+    <div class="hero-inner">
+      <div class="hero-mark reveal reveal-1">
+        <svg width="84" height="84" viewBox="0 0 100 100" aria-hidden="true">
           <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
-                   fill="rgba(212,160,23,0.1)" stroke="#d4a017" stroke-width="4"/>
+                   fill="rgba(212,160,23,0.08)" stroke="var(--hex-gold)" stroke-width="3.5"/>
           <polygon points="50,20 80,36 80,64 50,80 20,64 20,36"
-                   fill="none" stroke="rgba(212,160,23,0.3)" stroke-width="2"/>
-          <text x="50" y="66" text-anchor="middle" fill="#d4a017"
-                font-size="40" font-family="Inter,sans-serif" font-weight="700">H</text>
+                   fill="none" stroke="rgba(212,160,23,0.35)" stroke-width="2"/>
+          <text x="50" y="66" text-anchor="middle" fill="var(--hex-gold)"
+                font-size="42" font-family="Space Grotesk, sans-serif" font-weight="700">H</text>
         </svg>
       </div>
 
-      <h1 class="font-display" style="font-size:clamp(3rem,8vw,5.5rem);font-weight:700;
-                 color:#fff;letter-spacing:-0.02em;line-height:1;margin:0 0 1.25rem;">
-        HexaFlow
-      </h1>
+      <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · Biomimetic Engineering</span>
 
-      <p class="font-display" style="font-size:1.25rem;color:#d4a017;font-weight:600;
-                margin:0 0 1rem;letter-spacing:0.01em;">
-        Modular Capillary Action Nanolab
+      <h1 class="hero-title reveal reveal-2">HexaFlow</h1>
+
+      <p class="hero-sub reveal reveal-3">Modular Capillary Action Nanolab</p>
+
+      <p class="hero-lede reveal reveal-3">
+        A modular capillary action nanolab that uses AI vision and biomimicry to
+        deliver water to plants — inspired by the thorny devil lizard.
       </p>
 
-      <p style="color:#94a3b8;font-size:1.05rem;line-height:1.7;max-width:38rem;
-                margin:0 auto 2.5rem;">
-        A modular capillary action nanolab that uses AI vision and biomimicry to deliver
-        water to plants — inspired by the thorny devil lizard.
-      </p>
-
-      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a href="/geometry"
-           style="padding:0.75rem 1.75rem;border-radius:0.5rem;font-weight:600;
-                  font-size:0.95rem;text-decoration:none;color:#060e1c;
-                  background:#d4a017;transition:opacity 0.15s;"
-           onmouseover="this.style.opacity='0.88'"
-           onmouseout="this.style.opacity='1'">
-          Explore the Project
-        </a>
-        <a href="#team"
-           style="padding:0.75rem 1.75rem;border-radius:0.5rem;font-weight:600;
-                  font-size:0.95rem;text-decoration:none;color:#d4a017;
-                  border:1px solid rgba(212,160,23,0.35);transition:background 0.15s;"
-           onmouseover="this.style.background='rgba(212,160,23,0.08)'"
-           onmouseout="this.style.background='transparent'">
-          Meet the Team
-        </a>
+      <div class="hero-cta reveal reveal-4">
+        <a class="btn btn-primary" href="/assembly">Explore the Assembly →</a>
+        <a class="btn btn-ghost" href="#team">Meet the Team</a>
       </div>
+    </div>
+
+    <div class="hero-scroll reveal reveal-5" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="hero-scroll-line"></span>
     </div>
   </section>
 
   <!-- ── Stats ─────────────────────────────────────────────────────────── -->
-  <div style="border-top:1px solid rgba(212,160,23,0.12);border-bottom:1px solid rgba(212,160,23,0.12);
-              background:#091829;padding:2rem 1.5rem;">
-    <div style="max-width:56rem;margin:0 auto;display:grid;
-                grid-template-columns:repeat(2,1fr);gap:1.5rem 2rem;">
-      {[
-        { v:'5',      u:'Team Members'     },
-        { v:'5.18s',  u:'Test Window'      },
-        { v:'10.12mL',u:'Channel Capacity' },
-        { v:'0.76mm', u:'Hex Spacing'      },
-      ].map(s => (
-        <div style="text-align:center;">
-          <div class="font-display" style="font-size:1.85rem;font-weight:700;color:#d4a017;">{s.v}</div>
-          <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.1em;margin-top:0.2rem;">{s.u}</div>
-        </div>
-      ))}
-    </div>
-  </div>
+  <section class="stats" aria-label="Key figures" data-reveal>
+    {stats.map(s => (
+      <div class="stat">
+        <span class="stat-v font-display">{s.v}</span>
+        <span class="stat-u">{s.u}</span>
+      </div>
+    ))}
+  </section>
 
   <!-- ── About ─────────────────────────────────────────────────────────── -->
-  <section style="max-width:72rem;margin:0 auto;padding:5rem 1.5rem;">
-    <div style="display:grid;grid-template-columns:1fr;gap:3rem;">
-      <div>
-        <div class="section-label">About the Project</div>
-        <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">What is HexaFlow?</h2>
-        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-          HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver
-          water to plants. The five-member team from Tri-County RVTHS developed this system to address
-          root rot prevention while enabling interchangeable experiments and rapid data collection within
-          a <strong style="color:#e2e8f0;">5.18-second test window</strong>.
-        </p>
-        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-          The system uses hexagonal channels inspired by the <strong style="color:#e2e8f0;">thorny devil lizard</strong>
-          (<em>Moloch horridus</em>), which uses capillary action to transport water through grooved
-          patterns on its skin. The vision model senses root moisture from the camera and pumps water
-          to the plant, creating a continuous feedback loop that prevents overwatering and root rot.
-        </p>
-        <p style="color:#94a3b8;line-height:1.75;margin:0;">
-          Manufacturing uses SLA 3D printing with resin material. Resin's polar properties create
-          stronger adhesion bonds with water than water molecules share with each other, enabling
-          efficient capillary transport — and the system can retain water even when inverted.
-        </p>
+  <section class="wrap about" data-reveal>
+    <div class="about-art" aria-hidden="true">
+      <div class="hex-stack">
+        <span class="hex hex-a"></span>
+        <span class="hex hex-b"></span>
+        <span class="hex hex-c"></span>
       </div>
+    </div>
+    <div class="about-body">
+      <div class="section-label">About the Project</div>
+      <h2 class="font-display about-h">What is HexaFlow?</h2>
+      <p>
+        HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver
+        water to plants. The five-member team from Tri-County RVTHS developed this system to address
+        root rot prevention while enabling interchangeable experiments and rapid data collection within
+        a <strong>5.18-second test window</strong>.
+      </p>
+      <p>
+        The system uses hexagonal channels inspired by the <strong>thorny devil lizard</strong>
+        (<em>Moloch horridus</em>), which uses capillary action to transport water through grooved
+        patterns on its skin. The vision model senses root moisture from the camera and pumps water
+        to the plant, creating a continuous feedback loop that prevents overwatering and root rot.
+      </p>
+      <p>
+        Manufacturing uses SLA 3D printing with resin material. Resin's polar properties create
+        stronger adhesion bonds with water than water molecules share with each other, enabling
+        efficient capillary transport — and the system can retain water even when inverted.
+      </p>
     </div>
   </section>
 
   <!-- ── Features ─────────────────────────────────────────────────────── -->
-  <section style="background:#091829;border-top:1px solid rgba(212,160,23,0.1);
-                  border-bottom:1px solid rgba(212,160,23,0.1);padding:5rem 1.5rem;">
-    <div style="max-width:72rem;margin:0 auto;">
-      <div style="text-align:center;margin-bottom:3rem;">
+  <section class="features">
+    <div class="wrap">
+      <div class="features-head" data-reveal>
         <div class="section-label">Core Systems</div>
-        <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0;">How It Works</h2>
+        <h2 class="font-display features-h">How It Works</h2>
+        <p class="features-sub">Four interlocking systems, one closed-loop nanolab.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;">
-        {[
-          { title:'Hexagonal Geometry', href:'/geometry',
-            desc:'Channels inspired by the thorny devil lizard use capillary action — 10.12mL capacity, 0.76mm spacing, SLA printed resin.' },
-          { title:'AI Vision Control',  href:'/ai-control',
-            desc:'Vision model monitors root moisture and activates the pump only when needed, creating a continuous feedback loop.' },
-          { title:'Aeroponics',         href:'/aeroponics',
-            desc:'Plants are suspended in air. Roots absorb water directly from the channels — 98% less water than traditional farming.' },
-          { title:'Modular Design',     href:'/modular-enclosure',
-            desc:'Sliding shelf system with two configurations: drop test (larger pump) and long-term (precise pump + sensors).' },
-        ].map(f => (
-          <a href={f.href} class="card" style="text-decoration:none;display:block;transition:border-color 0.15s;">
-            <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{f.title}</h3>
-            <p style="font-size:0.875rem;color:#64748b;line-height:1.65;margin:0 0 1rem;">{f.desc}</p>
-            <span style="font-size:0.8rem;color:#d4a017;">Learn more →</span>
+      <div class="features-grid" data-reveal>
+        {features.map(f => (
+          <a class="card feat" href={f.href}>
+            <span class="feat-k font-display">{f.k}</span>
+            <h3 class="font-display feat-title">{f.title}</h3>
+            <p class="feat-desc">{f.desc}</p>
+            <span class="feat-link">Learn more →</span>
           </a>
         ))}
       </div>
@@ -157,23 +137,18 @@ const team = [
   </section>
 
   <!-- ── Team ──────────────────────────────────────────────────────────── -->
-  <section id="team" style="max-width:72rem;margin:0 auto;padding:5rem 1.5rem;">
-    <div style="text-align:center;margin-bottom:3rem;">
+  <section id="team" class="wrap team">
+    <div class="team-head" data-reveal>
       <div class="section-label">The People</div>
-      <h2 class="font-display" style="font-size:2rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">Our Team</h2>
-      <p style="color:#64748b;margin:0;">Tri-County RVTHS · Franklin, Massachusetts</p>
+      <h2 class="font-display team-h">Our Team</h2>
+      <p class="team-sub">Tri-County RVTHS · Franklin, Massachusetts</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;">
+    <div class="team-grid" data-reveal>
       {team.map(m => (
-        <div class="card" style="text-align:center;">
-          <div style="width:52px;height:52px;border-radius:50%;background:rgba(212,160,23,0.15);
-                      border:2px solid rgba(212,160,23,0.35);display:flex;align-items:center;
-                      justify-content:center;margin:0 auto 0.85rem;
-                      font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;color:#d4a017;">
-            {m.name[0]}
-          </div>
-          <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.35rem;">{m.name}</div>
-          <div style="font-size:0.8rem;color:#64748b;line-height:1.5;">{m.role}</div>
+        <div class="card member">
+          <div class="member-avatar">{m.name[0]}</div>
+          <div class="member-name font-display">{m.name}</div>
+          <div class="member-role">{m.role}</div>
         </div>
       ))}
     </div>
@@ -183,10 +158,140 @@ const team = [
 </Layout>
 
 <style>
+  /* ── Hero ───────────────────────────────────────────────────────────── */
+  .hero { position: relative; min-height: 92vh; display: flex; align-items: center;
+          justify-content: center; overflow: hidden; padding: 6rem 1.5rem 4rem; }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 54,76 54,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 2,76 2,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3C/svg%3E");
+    background-size: 56px 97px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
+  }
+  .hero-glow { position: absolute; top: 28%; left: 50%; transform: translateX(-50%);
+    width: 720px; height: 460px; max-width: 90vw; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(212,160,23,0.1), transparent 70%);
+    pointer-events: none; filter: blur(8px); }
+  .hero-inner { position: relative; text-align: center; max-width: 52rem; }
+  .hero-mark { display: flex; justify-content: center; margin-bottom: 1.75rem; }
+  .hero-eyebrow {
+    display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--hex-gold);
+    padding: 0.35rem 0.85rem; border: 1px solid var(--hex-line); border-radius: 999px;
+    background: rgba(212,160,23,0.05); margin-bottom: 1.5rem;
+  }
+  .hero-title { font-size: clamp(3.2rem, 9vw, 6rem); font-weight: 700; color: var(--hex-text);
+    letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 1rem;
+    text-shadow: 0 0 60px rgba(212,160,23,0.15); }
+  .hero-sub { font-size: 1.25rem; color: var(--hex-gold); font-weight: 600;
+    letter-spacing: 0.01em; margin: 0 0 1.1rem; }
+  .hero-lede { color: var(--hex-muted); font-size: 1.05rem; line-height: 1.7;
+    max-width: 38rem; margin: 0 auto 2.5rem; }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 0.8rem 1.85rem; border-radius: 0.55rem; font-weight: 600;
+    font-size: 0.95rem; text-decoration: none; transition: transform .15s, background .15s, border-color .15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { color: #060e1c; background: var(--hex-gold);
+    box-shadow: 0 10px 24px -10px rgba(212,160,23,0.7); }
+  .btn-primary:hover { background: #e4b125; }
+  .btn-ghost { color: var(--hex-gold); border: 1px solid rgba(212,160,23,0.35); }
+  .btn-ghost:hover { background: rgba(212,160,23,0.08); }
+  .hero-scroll { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--hex-muted); }
+  .hero-scroll-line { width: 1px; height: 32px; background: linear-gradient(var(--hex-gold), transparent);
+    animation: hf-pulse 2.4s ease-in-out infinite; }
+  @keyframes hf-pulse { 0%,100% { opacity: 0.3; transform: scaleY(0.7); } 50% { opacity: 1; transform: scaleY(1); } }
+
+  /* ── Stats ──────────────────────────────────────────────────────────── */
+  .stats {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--hex-line); border-bottom: 1px solid var(--hex-line);
+    background: var(--hex-surface);
+  }
+  .stat { text-align: center; padding: 2.1rem 1rem; border-bottom: 1px solid var(--hex-line);
+    border-right: 1px solid var(--hex-line); }
+  .stat:nth-child(2n) { border-right: 0; }
+  .stat:nth-last-child(-n+2) { border-bottom: 0; }
+  .stat-v { display: block; font-size: 1.95rem; font-weight: 700; color: var(--hex-gold); line-height: 1; }
+  .stat-u { display: block; font-size: 0.72rem; color: var(--hex-muted);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.45rem; }
   @media (min-width: 640px) {
-    /* stats: 4 columns on sm+ */
-    div[style*="grid-template-columns:repeat(2,1fr)"] {
-      grid-template-columns: repeat(4, 1fr) !important;
-    }
+    .stats { grid-template-columns: repeat(4, 1fr); }
+    .stat { border-bottom: 0; }
+    .stat:nth-child(2n) { border-right: 1px solid var(--hex-line); }
+    .stat:last-child { border-right: 0; }
+  }
+
+  /* ── Layout helpers ─────────────────────────────────────────────────── */
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 5.5rem 1.5rem; }
+
+  /* ── About ──────────────────────────────────────────────────────────── */
+  .about { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
+  @media (min-width: 880px) { .about { grid-template-columns: 0.7fr 1.3fr; gap: 3.5rem; } }
+  .about-art { display: flex; justify-content: center; }
+  .hex-stack { position: relative; width: 220px; height: 240px; }
+  .hex { position: absolute; width: 150px; height: 170px;
+    background: linear-gradient(160deg, rgba(212,160,23,0.12), rgba(212,160,23,0.02));
+    border: 1px solid var(--hex-line); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+  .hex-a { top: 0; left: 35px; }
+  .hex-b { top: 50px; left: 0; border-color: rgba(212,160,23,0.28); }
+  .hex-c { top: 50px; left: 70px; background: linear-gradient(160deg, rgba(212,160,23,0.18), transparent); }
+  .about-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 1.25rem; }
+  .about-body p { color: var(--hex-muted); line-height: 1.75; margin: 0 0 1rem; }
+  .about-body strong { color: #e2e8f0; }
+
+  /* ── Features ───────────────────────────────────────────────────────── */
+  .features { background: var(--hex-surface);
+    border-top: 1px solid var(--hex-line); border-bottom: 1px solid var(--hex-line); }
+  .features-head { text-align: center; margin-bottom: 3rem; }
+  .features-head .section-label { justify-content: center; }
+  .features-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.6rem; }
+  .features-sub { color: var(--hex-muted); margin: 0; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+  .feat { position: relative; display: block; text-decoration: none; }
+  .feat-k { position: absolute; top: 1.1rem; right: 1.3rem; font-size: 0.85rem; font-weight: 700;
+    color: rgba(212,160,23,0.35); letter-spacing: 0.05em; }
+  .feat-title { font-size: 1.05rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.6rem; }
+  .feat-desc { font-size: 0.875rem; color: var(--hex-muted); line-height: 1.65; margin: 0 0 1.1rem; }
+  .feat-link { font-size: 0.8rem; color: var(--hex-gold); font-weight: 600; }
+
+  /* ── Team ───────────────────────────────────────────────────────────── */
+  .team-head { text-align: center; margin-bottom: 3rem; }
+  .team-head .section-label { justify-content: center; }
+  .team-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.5rem; }
+  .team-sub { color: var(--hex-muted); margin: 0; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+  .member { text-align: center; }
+  .member-avatar { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 0.9rem;
+    display: grid; place-items: center;
+    background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.35);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--hex-gold);
+    transition: transform .2s, box-shadow .2s; }
+  .member:hover .member-avatar { transform: scale(1.06); box-shadow: 0 0 0 4px rgba(212,160,23,0.15); }
+  .member-name { font-weight: 700; color: var(--hex-text); margin-bottom: 0.35rem; }
+  .member-role { font-size: 0.8rem; color: var(--hex-muted); line-height: 1.5; }
+
+  /* Staggered children when their container reveals (opacity-only, so it
+     never fights the .card hover-lift transform). */
+  .stats > .stat,
+  .features-grid > .feat,
+  .team-grid > .member { opacity: 0; transition: opacity .6s ease; }
+  .stats.is-in > .stat,
+  .features-grid.is-in > .feat,
+  .team-grid.is-in > .member { opacity: 1; }
+  .stats.is-in > .stat:nth-child(2),
+  .features-grid.is-in > .feat:nth-child(2),
+  .team-grid.is-in > .member:nth-child(2) { transition-delay: .08s; }
+  .stats.is-in > .stat:nth-child(3),
+  .features-grid.is-in > .feat:nth-child(3),
+  .team-grid.is-in > .member:nth-child(3) { transition-delay: .16s; }
+  .stats.is-in > .stat:nth-child(4),
+  .features-grid.is-in > .feat:nth-child(4),
+  .team-grid.is-in > .member:nth-child(4) { transition-delay: .24s; }
+  .team-grid.is-in > .member:nth-child(5) { transition-delay: .32s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stats > .stat, .features-grid > .feat, .team-grid > .member { opacity: 1 !important; }
   }
 </style>

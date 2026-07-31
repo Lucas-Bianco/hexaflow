@@ -1,4 +1,4 @@
-﻿---
+---
 interface Props {
   title: string;
   subtitle: string;
@@ -8,24 +8,34 @@ const { title, subtitle, badge } = Astro.props;
 ---
 
 <!-- Page hero -->
-<div style="background:linear-gradient(180deg,rgba(212,160,23,0.05) 0%,transparent 100%);
-            border-bottom:1px solid rgba(212,160,23,0.1);padding:3.5rem 0 3rem;">
-  <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
-    {badge && (
-      <span style="display:inline-block;font-size:0.7rem;font-weight:600;
-                   text-transform:uppercase;letter-spacing:0.12em;color:#d4a017;
-                   background:rgba(212,160,23,0.08);border:1px solid rgba(212,160,23,0.2);
-                   border-radius:999px;padding:0.25rem 0.75rem;margin-bottom:1rem;">
-        {badge}
-      </span>
-    )}
-    <h1 class="font-display" style="font-size:clamp(2rem,5vw,3.25rem);font-weight:700;
-               color:#fff;margin:0 0 0.75rem;line-height:1.1;">{title}</h1>
-    <p style="color:#94a3b8;font-size:1.05rem;max-width:52rem;line-height:1.6;margin:0;">{subtitle}</p>
+<div class="ps-hero">
+  <div class="ps-hero-glow" aria-hidden="true"></div>
+  <div class="ps-hero-inner">
+    {badge && <span class="ps-badge reveal reveal-1">{badge}</span>}
+    <h1 class="font-display ps-title reveal reveal-2">{title}</h1>
+    <p class="ps-sub reveal reveal-3">{subtitle}</p>
   </div>
 </div>
 
 <!-- Page content -->
-<div style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem 5rem;">
+<div class="ps-content" data-reveal>
   <slot />
 </div>
+
+<style>
+  .ps-hero { position: relative; overflow: hidden; padding: 4rem 0 3.25rem;
+    background: linear-gradient(180deg, rgba(212,160,23,0.06) 0%, transparent 100%);
+    border-bottom: 1px solid var(--hex-line); }
+  .ps-hero-glow { position: absolute; top: -40%; left: 50%; transform: translateX(-50%);
+    width: 60rem; max-width: 120vw; height: 30rem; border-radius: 50%; pointer-events: none;
+    background: radial-gradient(ellipse, rgba(212,160,23,0.08), transparent 70%); }
+  .ps-hero-inner { position: relative; max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+  .ps-badge { display: inline-block; font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--hex-gold);
+    background: rgba(212,160,23,0.07); border: 1px solid var(--hex-line);
+    border-radius: 999px; padding: 0.3rem 0.8rem; margin-bottom: 1.1rem; }
+  .ps-title { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 700; color: var(--hex-text);
+    margin: 0 0 0.85rem; line-height: 1.05; letter-spacing: -0.02em; }
+  .ps-sub { color: var(--hex-muted); font-size: 1.05rem; max-width: 52rem; line-height: 1.65; margin: 0; }
+  .ps-content { max-width: 72rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+</style>

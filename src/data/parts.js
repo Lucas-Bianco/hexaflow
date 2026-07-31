@@ -1,9 +1,24 @@
 // HexaFlow Assembly Viewer — single source of truth.
 // One entry per part. The 2D explorer and the 3D viewer both read from this.
-// Adding a part = add an object. Enabling 3D for a part = set modelFile + drop the .glb in /models.
+//
+// Adding a part = add an object. The 3D viewer links a mesh to a part by matching
+// the glTF node name against `glMatch` substrings (case-sensitive `includes`).
+// Node names that match no part are grouped as Fasteners (m3 screws) and hidden
+// by default.
+
+// The exported 3D assembly (SolidWorks → glTF 2.0 + .bin buffers).
+export const model = {
+  src: '/models/nanolab/Nanolab_Assembly.gltf',
+  rootName: 'Nanolab Assembly',
+  // Part id of the top-level assembly. Selecting it shows the whole assembly
+  // (never isolates to its own stray meshes).
+  rootId: 'nanolab-assembly',
+  // Nodes whose name includes any of these are treated as fasteners, not parts.
+  fastenerMatches: ['m3_short'],
+};
 
 export const subsystems = [
-  { id: 'Enclosure',   label: 'Enclosure',   blurb: 'Outer shell, doors, and the master assemblies that hold everything else.' },
+  { id: 'Enclosure',   label: 'Enclosure',    blurb: 'Outer shell, doors, and the master assemblies that hold everything else.' },
   { id: 'TDC',          label: 'TDC',          blurb: 'Thorny Devil Capillary system — the hex channels that move water by capillary action.' },
   { id: 'Camera/LED',   label: 'Camera / LED', blurb: 'Vision and lighting mounts that let the AI sense root moisture.' },
   { id: 'Water',        label: 'Water',        blurb: 'Injection and pump interface — how water enters and moves through the system.' },
@@ -23,7 +38,7 @@ export const parts = [
     drawingFile: '/cad-files/Nanolab Assembly.SLDDRW',
     nativeFiles: ['/cad-files/Nanolab Assembly.SLDASM', '/cad-files/Nanolab Assembly.SLDDRW'],
     parentAssembly: null,
-    modelFile: null,
+    glMatch: ['Nanolab Assembly'],
   },
   {
     id: 'nanolab-shell',
@@ -35,7 +50,7 @@ export const parts = [
     drawingFile: '/cad-files/Nanolab Shell.SLDDRW',
     nativeFiles: ['/cad-files/Nanolab Shell.SLDPRT', '/cad-files/Nanolab Shell.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Nanolab Shell'],
   },
   {
     id: 'front-door',
@@ -47,7 +62,7 @@ export const parts = [
     drawingFile: '/cad-files/Front Door.SLDDRW',
     nativeFiles: ['/cad-files/Front Door.SLDPRT', '/cad-files/Front Door.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Front Door'],
   },
   {
     id: 'back-door',
@@ -59,7 +74,7 @@ export const parts = [
     drawingFile: '/cad-files/Back Door.SLDDRW',
     nativeFiles: ['/cad-files/Back Door.SLDPRT', '/cad-files/Back Door.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Back Door'],
   },
   {
     id: 'side-doors',
@@ -71,19 +86,19 @@ export const parts = [
     drawingFile: '/cad-files/Side Door.SLDDRW',
     nativeFiles: ['/cad-files/Side Doors.SLDPRT', '/cad-files/Side Door.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Side Doors'],
   },
   {
     id: 'rockwool-window',
     name: 'Rockwool Window',
     subsystem: 'Enclosure',
     role: 'Viewing window for the rockwool substrate region.',
-    description: 'A window panel that allows visual inspection of the rockwool substrate without opening the enclosure.',
+    description: 'A window panel that allows visual inspection of the rockwool substrate without opening the enclosure. Not present in the exported 3D assembly.',
     image: null,
     drawingFile: null,
     nativeFiles: ['/cad-files/Rockwoll Window.SLDPRT'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: [],
   },
 
   // ── TDC (Thorny Devil Capillary) ────────────────────────────────────────
@@ -97,7 +112,7 @@ export const parts = [
     drawingFile: null,
     nativeFiles: ['/cad-files/TDC Assembly V2.SLDASM'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['TDC Assembly V2'],
   },
   {
     id: 'tdc-bottom-v2',
@@ -109,7 +124,7 @@ export const parts = [
     drawingFile: '/cad-files/TDC V2 Bottom.SLDDRW',
     nativeFiles: ['/cad-files/TDC Bottom V2.SLDPRT', '/cad-files/TDC V2 Bottom.SLDDRW', '/cad-files/TDC V2 Top.SLDDRW'],
     parentAssembly: 'tdc-assembly-v2',
-    modelFile: null,
+    glMatch: ['TDC Bottom V2'],
   },
   {
     id: 'resin-addin-tdc',
@@ -121,7 +136,7 @@ export const parts = [
     drawingFile: null,
     nativeFiles: ['/cad-files/Resin Addin TDC.SLDPRT'],
     parentAssembly: 'tdc-assembly-v2',
-    modelFile: null,
+    glMatch: ['Resin Addin TDC'],
   },
   {
     id: 'substrate-grate',
@@ -133,7 +148,7 @@ export const parts = [
     drawingFile: '/cad-files/Clay Grate Substrate Cover.SLDDRW',
     nativeFiles: ['/cad-files/Substrate_Grate.SLDPRT', '/cad-files/Clay Grate Substrate Cover.SLDDRW'],
     parentAssembly: 'tdc-assembly-v2',
-    modelFile: null,
+    glMatch: ['Substrate_Grate'],
   },
   {
     id: 'plant-clip-v2',
@@ -145,7 +160,7 @@ export const parts = [
     drawingFile: '/cad-files/Plant Clip V2.SLDDRW',
     nativeFiles: ['/cad-files/Plant Clip V2.SLDPRT', '/cad-files/Plant Clip V2.SLDDRW'],
     parentAssembly: 'tdc-assembly-v2',
-    modelFile: null,
+    glMatch: ['Plant Clip V2'],
   },
 
   // ── Camera / LED ───────────────────────────────────────────────────────
@@ -159,7 +174,7 @@ export const parts = [
     drawingFile: '/cad-files/Camera+LED Module.SLDDRW',
     nativeFiles: ['/cad-files/Camera+LED Module.SLDPRT', '/cad-files/Camera+LED Module.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Camera+LED Module'],
   },
   {
     id: 'ball-socket-camera-mount',
@@ -171,7 +186,7 @@ export const parts = [
     drawingFile: '/cad-files/Ball + Socket Camera Holder.SLDDRW',
     nativeFiles: ['/cad-files/Ball + Socket Camera Mount.SLDPRT', '/cad-files/Ball + Socket Camera Holder.SLDDRW'],
     parentAssembly: 'camera-led-module',
-    modelFile: null,
+    glMatch: ['Ball + Socket Camera Mount'],
   },
 
   // ── Water ──────────────────────────────────────────────────────────────
@@ -185,19 +200,19 @@ export const parts = [
     drawingFile: '/cad-files/Water Injection Nozzle.SLDDRW',
     nativeFiles: ['/cad-files/Water Injection.SLDPRT', '/cad-files/Water Injection Nozzle.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['Water Injection'],
   },
   {
     id: 'pump-adapter',
     name: 'Pump Adapter',
     subsystem: 'Water',
     role: 'Interface for both the drop-test and long-term pumps.',
-    description: 'An adapter compatible with both the drop-test high-capacity pump and the long-term precision pump — letting one enclosure support both configurations.',
+    description: 'An adapter compatible with both the drop-test high-capacity pump and the long-term precision pump — letting one enclosure support both configurations. Not in the exported 3D assembly.',
     image: '/images/cad-5.jpg',
     drawingFile: '/cad-files/Pump_Adapter.SLDDRW',
     nativeFiles: ['/cad-files/Pump_Adapter.SLDPRT', '/cad-files/Pump_Adapter.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: [],
   },
 
   // ── Substrate ──────────────────────────────────────────────────────────
@@ -206,12 +221,12 @@ export const parts = [
     name: 'Rockwool Substrate Cover',
     subsystem: 'Substrate',
     role: 'Covers the rockwool tray with openings for moisture probes.',
-    description: 'Custom cover for the rockwool substrate tray, with openings sized for moisture-sensor probes. Keeps substrate contained during inversion tests.',
+    description: 'Custom cover for the rockwool substrate tray, with openings sized for moisture-sensor probes. Keeps substrate contained during inversion tests. Not in the exported 3D assembly.',
     image: '/images/cad-6.jpg',
     drawingFile: '/cad-files/Rockwool Substrate Cover.SLDDRW',
     nativeFiles: ['/cad-files/Rockwool Substrate Cover.SLDDRW'],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: [],
   },
   {
     id: 'soil-moisture-sensor',
@@ -223,7 +238,7 @@ export const parts = [
     drawingFile: null,
     nativeFiles: ['/cad-files/Capacitive_Soil_Moisture_Sensor.SLDPRT'],
     parentAssembly: 'rockwool-cover',
-    modelFile: null,
+    glMatch: ['Capacitive_Soil_Moisture_Sensor'],
   },
 
   // ── Electronics ─────────────────────────────────────────────────────────
@@ -232,7 +247,7 @@ export const parts = [
     name: 'HexaFlow PCB',
     subsystem: 'Electronics',
     role: 'Custom control board — mounts the pump, camera, and sensor interfaces.',
-    description: 'The HexaFlow printed circuit board. KiCad project plus the SolidWorks assembly model and the C+G module schematic PDF that documents the circuit.',
+    description: 'The HexaFlow printed circuit board. KiCad project plus the SolidWorks assembly model and the C+G module schematic PDF that documents the circuit. In 3D this includes the board, pin headers, USB-A port, and TO-92 sensor.',
     image: null,
     drawingFile: '/cad-files/C+G Module (PCB) Schematic.pdf',
     nativeFiles: [
@@ -241,7 +256,7 @@ export const parts = [
       '/cad-files/C+G Module (PCB) Schematic.pdf',
     ],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['HexaFlow_PCB'],
   },
   {
     id: 'usb-b-camera-clip',
@@ -258,16 +273,16 @@ export const parts = [
       '/cad-files/USB-B-S-TH_S.sldprt',
     ],
     parentAssembly: 'nanolab-assembly',
-    modelFile: null,
+    glMatch: ['USB-B'],
   },
 ];
 
-// Subsystem color accents for callouts / tags.
+// Subsystem color accents for callouts / tags / 3D highlights.
 export const subsystemColor = {
-  'Enclosure':  '#93c5fd',
-  'TDC':        '#d4a017',
-  'Camera/LED': '#f0f4ff',
-  'Water':      '#7dd3fc',
-  'Substrate':  '#86efac',
-  'Electronics':'#fda4af',
+  'Enclosure':   '#93c5fd',
+  'TDC':         '#d4a017',
+  'Camera/LED':  '#f0f4ff',
+  'Water':       '#7dd3fc',
+  'Substrate':   '#86efac',
+  'Electronics': '#fda4af',
 };

@@ -1,4 +1,4 @@
-﻿---
+---
 const cols = [
   {
     head: 'Science',
@@ -30,42 +30,33 @@ const cols = [
 ];
 ---
 
-<footer style="margin-top:5rem;border-top:1px solid rgba(212,160,23,0.12);background:#040b1a;">
-  <div style="max-width:72rem;margin:0 auto;padding:3rem 1.5rem;display:grid;
-              grid-template-columns:1fr;gap:2.5rem;">
-
+<footer class="hf-foot">
+  <div class="hf-foot-grid">
     <!-- Brand -->
-    <div>
-      <a href="/" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;margin-bottom:0.75rem;">
-        <svg width="26" height="26" viewBox="0 0 100 100">
+    <div class="hf-foot-brand">
+      <a href="/" class="hf-foot-logo" aria-label="HexaFlow home">
+        <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true">
           <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
-                   fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="5"/>
-          <text x="50" y="66" text-anchor="middle" fill="#d4a017"
+                   fill="rgba(212,160,23,0.12)" stroke="var(--hex-gold)" stroke-width="5"/>
+          <text x="50" y="66" text-anchor="middle" fill="var(--hex-gold)"
                 font-size="46" font-family="Inter,sans-serif" font-weight="700">H</text>
         </svg>
-        <span class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;">HexaFlow</span>
+        <span class="font-display">HexaFlow</span>
       </a>
-      <p style="color:#64748b;font-size:0.875rem;line-height:1.65;max-width:28rem;margin:0;">
+      <p class="hf-foot-blurb">
         A modular capillary action nanolab using AI vision and biomimicry to deliver water to plants —
         inspired by the thorny devil lizard. Built by students at Tri-County RVTHS, Franklin, Massachusetts.
       </p>
     </div>
 
     <!-- Link columns -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;">
+    <div class="hf-foot-cols">
       {cols.map(col => (
-        <div>
-          <div class="section-label" style="margin-bottom:0.75rem;">{col.head}</div>
-          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.4rem;">
+        <div class="hf-foot-col">
+          <div class="section-label hf-foot-head">{col.head}</div>
+          <ul class="hf-foot-links">
             {col.links.map(l => (
-              <li>
-                <a href={l.href}
-                   style="color:#64748b;font-size:0.85rem;text-decoration:none;transition:color 0.15s;"
-                   onmouseover="this.style.color='#d4a017'"
-                   onmouseout="this.style.color='#64748b'">
-                  {l.label}
-                </a>
-              </li>
+              <li><a href={l.href}>{l.label}</a></li>
             ))}
           </ul>
         </div>
@@ -73,8 +64,30 @@ const cols = [
     </div>
   </div>
 
-  <div style="border-top:1px solid rgba(255,255,255,0.05);padding:1rem 1.5rem;
-              text-align:center;font-size:0.8rem;color:#475569;">
+  <div class="hf-foot-bottom">
     © {new Date().getFullYear()} HexaFlow — Tri-County RVTHS · Franklin, MA
   </div>
 </footer>
+
+<style>
+  .hf-foot { margin-top: 5rem; border-top: 1px solid var(--hex-line);
+    background: #040b1a; }
+  .hf-foot-grid { max-width: 72rem; margin: 0 auto; padding: 3.25rem 1.5rem;
+    display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 760px) { .hf-foot-grid { grid-template-columns: 1.1fr 2fr; gap: 3rem; } }
+  .hf-foot-logo { display: inline-flex; align-items: center; gap: 0.6rem;
+    text-decoration: none; margin-bottom: 0.85rem; }
+  .hf-foot-logo span { font-size: 1.1rem; font-weight: 700; color: var(--hex-text); }
+  .hf-foot-blurb { color: var(--hex-muted); font-size: 0.875rem; line-height: 1.65;
+    max-width: 28rem; margin: 0; }
+  .hf-foot-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.75rem; }
+  @media (min-width: 560px) { .hf-foot-cols { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  .hf-foot-head { margin-bottom: 0.85rem; }
+  .hf-foot-links { list-style: none; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 0.55rem; }
+  .hf-foot-links a { color: var(--hex-muted); font-size: 0.85rem; text-decoration: none;
+    transition: color .15s; }
+  .hf-foot-links a:hover { color: var(--hex-gold); }
+  .hf-foot-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding: 1.1rem 1.5rem;
+    text-align: center; font-size: 0.8rem; color: #475569; }
+</style>

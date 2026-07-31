@@ -1,4 +1,4 @@
-﻿---
+---
 interface Props {
   title: string;
   description?: string;
@@ -12,12 +12,16 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | HexaFlow</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#060e1c" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body class="bg-[#060e1c] text-[#e2e8f0] min-h-screen font-sans antialiased">
+    <!-- Scroll progress indicator -->
+    <div class="hf-progress" aria-hidden="true"><div class="hf-progress-fill" id="hf-progress-fill"></div></div>
+
     <slot name="nav" />
     <main class="pt-16">
       <slot />
@@ -27,36 +31,162 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
 </html>
 
 <style is:global>
+  :root {
+    --hex-bg:      #060e1c;
+    --hex-surface: #091829;
+    --hex-card:    #0d1e35;
+    --hex-gold:    #d4a017;
+    --hex-gold-soft: rgba(212,160,23,0.12);
+    --hex-line:    rgba(212,160,23,0.15);
+    --hex-muted:   #94a3b8;
+    --hex-text:    #f0f4ff;
+    --hex-glow:    rgba(212,160,23,0.07);
+  }
+
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
-  ::selection { background-color: rgba(212,160,23,0.25); }
+  body {
+    background-color: var(--hex-bg);
+    /* hex-grid + radial vignette atmosphere, fixed for depth */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, var(--hex-glow), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.4' opacity='0.5'/%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: auto, 56px 97px;
+  }
+
+  ::selection { background-color: rgba(212,160,23,0.25); color: #fff; }
+
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: #060e1c; }
+  ::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.28); border-radius: 5px; border: 2px solid #060e1c; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(212,160,23,0.45); }
 
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #060e1c; }
-  ::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.3); border-radius: 3px; }
-
   .font-display { font-family: 'Space Grotesk', sans-serif; }
 
-  /* Shared card style */
-  .card {
-    background: #0d1e35;
-    border: 1px solid rgba(212,160,23,0.15);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-  }
-  .card:hover { border-color: rgba(212,160,23,0.35); }
+  :focus-visible { outline: 2px solid var(--hex-gold); outline-offset: 3px; border-radius: 2px; }
 
-  /* Section label */
+  /* Shared card */
+  .card {
+    background: var(--hex-card);
+    border: 1px solid var(--hex-line);
+    border-radius: 0.85rem;
+    padding: 1.5rem;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .card:hover {
+    border-color: rgba(212,160,23,0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,160,23,0.05);
+  }
+
+  /* Section label with lead rule */
   .section-label {
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #d4a017;
-    margin-bottom: 0.5rem;
+    letter-spacing: 0.14em;
+    color: var(--hex-gold);
+    margin-bottom: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .section-label::before {
+    content: "";
+    width: 1.4rem;
+    height: 1px;
+    background: var(--hex-gold);
+    opacity: 0.6;
+  }
+
+  /* ── Scroll-reveal system ─────────────────────────────────────────────
+     Any element with .reveal (or [data-reveal]) starts hidden and slides up
+     when the IntersectionObserver adds .is-in. Stagger via .reveal-1..6. */
+  .reveal,
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in,
+  [data-reveal].is-in { opacity: 1; transform: none; }
+
+  .reveal-1 { transition-delay: .06s; }
+  .reveal-2 { transition-delay: .12s; }
+  .reveal-3 { transition-delay: .18s; }
+  .reveal-4 { transition-delay: .24s; }
+  .reveal-5 { transition-delay: .30s; }
+  .reveal-6 { transition-delay: .36s; }
+
+  /* Scroll progress bar — thin gold line at the very top */
+  .hf-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60;
+    background: transparent; pointer-events: none;
+  }
+  .hf-progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, rgba(212,160,23,0.2), var(--hex-gold));
+    box-shadow: 0 0 10px rgba(212,160,23,0.5);
+    transition: width .08s linear;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hf-progress-fill { transition: none; }
+    * { transition: none !important; }
   }
 </style>
+
+<noscript>
+  <style>
+    .reveal, [data-reveal] { opacity: 1 !important; transform: none !important; }
+  </style>
+</noscript>
+
+<script>
+  // ── Scroll-reveal: add .is-in when elements enter the viewport ──────────
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = () => document.querySelectorAll('.reveal, [data-reveal]');
+
+  if (reduce) {
+    revealEls().forEach((el) => el.classList.add('is-in'));
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -7% 0px' }
+    );
+    revealEls().forEach((el) => io.observe(el));
+    // Safety net: never leave content hidden if the observer misses something.
+    setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.is-in), [data-reveal]:not(.is-in)')
+        .forEach((el) => el.classList.add('is-in'));
+    }, 2000);
+  } else {
+    revealEls().forEach((el) => el.classList.add('is-in'));
+  }
+
+  // ── Scroll-progress bar ────────────────────────────────────────────────
+  const fill = document.getElementById('hf-progress-fill');
+  if (fill) {
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      fill.style.width = p + '%';
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>
