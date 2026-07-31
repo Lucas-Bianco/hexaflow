@@ -35,9 +35,49 @@ import PageShell from '../components/PageShell.astro';
             scale, the system can retain water even when fully inverted.
           </p>
           <p style="color:#94a3b8;line-height:1.75;margin:0;">
-            The channels space hexagons <strong style="color:#e2e8f0;">0.76mm apart</strong> to optimize capillary distribution.
-            Total channel capacity is approximately <strong style="color:#e2e8f0;">10.12mL</strong> — enough to provide
-            adequate hydration and nutrients while preventing root rot.
+            The channels space hexagons <strong style="color:#e2e8f0;">0.51 mm (0.020 in) apart</strong> with a channel width of
+            <strong style="color:#e2e8f0;">0.48 mm</strong> to optimize capillary distribution.
+          </p>
+
+          <!-- Channel geometry spec block -->
+          <div class="card" data-reveal style="padding:1.1rem 1.25rem;margin:0 0 1.5rem;">
+            <div class="section-label" style="margin-bottom:0.6rem;">Channel Geometry</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;">
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side-to-side</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.167 in / 4.24 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side length</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.100 in / 2.54 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel depth</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.050 in / 1.27 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel width</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.48 mm</div>
+              </div>
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Gap between channels</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.51 mm / 0.020 in</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="font-display" data-reveal style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">
+            Why the channels hold water
+          </h3>
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            Resin is a polar material, so it bonds to water more strongly than water bonds to itself. That stronger
+            adhesion is what drives efficient capillary transport through the hex network — and it lets the system
+            hold water even when fully inverted. Only the critical hex dome is SLA-printed in resin; the body is FDM.
+          </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            Total channel capacity is <strong style="color:#e2e8f0;">10.12 mL</strong> (precisely 10.1155 mL) when fully
+            saturated — roughly 10 minutes of constant flow at the 1 mL/min long-term pump rate to saturate. The
+            drop-test pump runs at ~100 mL/min, moving 8.63 mL through the 5.18 s test window.
           </p>
         </div>
 
@@ -91,9 +131,11 @@ import PageShell from '../components/PageShell.astro';
       </h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;">
         {[
-          { label:'Channel Capacity',  value:'≈ 10.12 mL',     desc:'Total volume across the hex channel network' },
-          { label:'Hex Spacing',       value:'0.76 mm',         desc:'Gap between hexagon cells for optimal capillary distribution' },
-          { label:'Manufacturing',     value:'SLA 3D Printing', desc:'Resin material with polar surface adhesion properties' },
+          { label:'Channel Capacity',  value:'10.12 mL',        desc:'Precisely 10.1155 mL when fully saturated — ~10 min at 1 mL/min long-term pump' },
+          { label:'Hex Spacing',       value:'0.51 mm',          desc:'0.020 in gap between channels; 0.48 mm channel width' },
+          { label:'Side-to-Side',      value:'0.167 in',         desc:'4.24 mm hex span with 0.100 in (2.54 mm) side length' },
+          { label:'Channel Depth',     value:'0.050 in',         desc:'1.27 mm etched channel depth across the dome' },
+          { label:'Manufacturing',     value:'SLA Resin Dome',  desc:'Polar resin hex dome; FDM body. Only the dome is SLA-printed' },
           { label:'Surface Property',  value:'Polar Resin',     desc:'Stronger water adhesion than water-to-water cohesion' },
           { label:'Gravity Required',  value:'None',            desc:'Capillary action works in microgravity environments' },
           { label:'Inversion Test',    value:'Passes',          desc:'System retains water at proper scale when fully inverted' },
@@ -141,7 +183,7 @@ import PageShell from '../components/PageShell.astro';
           <polygon points="300,154 330,171 330,204 300,220 270,204 270,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
           <!-- Spacing annotation -->
           <line x1="90" y1="53" x2="120" y2="53" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="105" y="48" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="Inter,sans-serif">0.76mm</text>
+          <text x="105" y="48" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="Inter,sans-serif">0.51mm</text>
           <!-- Water flow arrows -->
           <text x="90" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
           <text x="210" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
@@ -149,7 +191,7 @@ import PageShell from '../components/PageShell.astro';
         </svg>
         <p style="font-size:0.8rem;color:#64748b;margin-top:1rem;text-align:center;max-width:400px;">
           Top-down view of hexagonal channel layout. Highlighted cells show water distribution points.
-          Hexagons are spaced 0.76mm apart to optimize capillary flow.
+          Hexagons are spaced 0.51 mm apart with 0.48 mm channel width to optimize capillary flow.
         </p>
         </div>
       </div>

@@ -9,7 +9,7 @@ import PageShell from '../components/PageShell.astro';
 
   <PageShell
     title="Aeroponics"
-    subtitle="Plants suspended in air, roots drinking directly from the hexagonal channel system — aeroponics is the Nanolab's primary growing method and the reason HexaFlow cuts water use by 98%."
+    subtitle="Plants suspended in air, roots drinking directly from the hexagonal channel system — aeroponics is the Nanolab's primary growing method, chosen because there's no growing medium to stay wet, so no root rot."
     badge="Biology"
   >
     <div style="display:grid;gap:2.5rem;">
@@ -31,11 +31,58 @@ import PageShell from '../components/PageShell.astro';
             Inserted into TDC holes, they grip the stem firmly enough that the team verified retention by
             inverting the TDC with kale threaded through both clips for one full minute — plants stayed put.
           </p>
-          <p style="color:#94a3b8;line-height:1.75;margin:0;">
-            An AI module regulates water delivery to prevent root rot. The customizable water/nutrient
-            reservoir is built from recycled plastic, VEX fittings, and heat-sealed seams — a modular
-            design that scales across HexaFlow configurations and future expansion.
+          <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+            Aeroponics was chosen as the primary substrate because there's no growing medium — and with
+            no medium to stay wet, there's no root rot. The AI vision model reads root moisture from the
+            camera feed and waters only when the roots are dry, a continuous feedback loop that
+            <strong style="color:#e2e8f0;">completely eliminates root rot</strong>.
           </p>
+          <p style="color:#94a3b8;line-height:1.75;margin:0;">
+            The customizable water/nutrient reservoir is built from recycled plastic, VEX fittings, and
+            heat-sealed seams — a modular design that scales across HexaFlow configurations and future
+            expansion.
+          </p>
+        </div>
+      </div>
+
+      <!-- Alternatives considered -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Alternatives Considered — and Rejected
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          The team evaluated several substrate and delivery approaches before aeroponics won on
+          simplicity and root-rot elimination:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              name:'Ebb-and-Flow',
+              spec:'Flood 15 min every 2–3 h, dual reservoir',
+              why:'Rejected — added complexity vs. medium-free aeroponics',
+            },
+            {
+              name:'Wick System (CapMat II)',
+              spec:'1.0 mm mat, 8.0 cm capillary lift — the Apogee dwarf-wheat ISS approach',
+              why:'Rejected — retained medium stays wet, invites root rot',
+            },
+            {
+              name:'Arcillite / Illite',
+              spec:'Granular substrate media',
+              why:'Rejected — medium holds moisture against the roots',
+            },
+            {
+              name:'Hex System w/ Plant Hook',
+              spec:'Hex-channel mechanical support',
+              why:'Rejected — aeroponics won on simplicity',
+            },
+          ].map((a, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{a.name}</h3>
+              <p style="font-size:0.825rem;color:#e2e8f0;margin:0 0 0.5rem;line-height:1.55;">{a.spec}</p>
+              <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.55;">{a.why}</p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -46,7 +93,7 @@ import PageShell from '../components/PageShell.astro';
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
           {[
-            { stat:'98%',          label:'Less Water',       desc:'Compared to traditional soil-based farming' },
+            { stat:'Dry Roots',    label:'Triggered Watering', desc:'AI vision waters only when roots are dry — minimal water loss, no root rot' },
             { stat:'Suspended',    label:'Root System',      desc:'Roots hang in air — maximum oxygen exposure' },
             { stat:'Accelerated',  label:'Growth Rate',      desc:'Enhanced atmospheric gas exposure (O₂, CO₂)' },
             { stat:'None',         label:'Gravity Required', desc:'System works in microgravity environments' },

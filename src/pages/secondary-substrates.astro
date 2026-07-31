@@ -110,6 +110,76 @@ const decisionMatrix = [
         <p style="font-size:0.8rem;color:#475569;margin-top:0.75rem;">
           ★ Highest scoring substrate. All four were selected for further testing.
         </p>
+
+        <!-- Candidate rationale -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.5rem;">
+          <div class="card reveal-1" style="border-color:rgba(74,222,128,0.3);">
+            <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Rockwool — Chosen</div>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
+              Screws directly into the nanolab's existing screw holes, and its binding agent stays put
+              rather than escaping into the channels — allowing a larger plant opening. Water moves
+              through it more effectively in microgravity.
+            </p>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
+              <strong style="color:#e2e8f0;">Supports:</strong> fruits, berries, herbs, melons, peppers.
+            </p>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
+              <strong style="color:#f87171;">Limits:</strong> fails root vegetables and pH-sensitive plants;
+              carries no inherent nutrients.
+            </p>
+          </div>
+
+          <div class="card reveal-2" style="border-color:rgba(74,222,128,0.3);">
+            <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Clay Pebbles — Chosen</div>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
+              ~11.5 mm pebbles are too large to enter the 0.48 mm channels, so containment is built into
+              the geometry. The opening must stay under 11.5 mm, which limits stem size — but anything
+              bigger wouldn't fit a 10×10×20 cm nanolab anyway.
+            </p>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
+              The baked ceramic retains <strong style="color:#e2e8f0;">10–20% less water in microgravity</strong>
+              (NASA source), keeping the root zone from waterlogging.
+            </p>
+          </div>
+
+          <div class="card reveal-3" style="border-color:rgba(248,113,113,0.25);">
+            <div class="section-label" style="color:#f87171;margin-bottom:0.5rem;">Pine Bark — Rejected</div>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
+              Fragments could lodge in the channels, the material is acidic, and sizing the screen to
+              the smallest piece becomes a mass-production problem. Despite winning the October grow
+              test, it failed the matrix on engineering grounds.
+            </p>
+          </div>
+
+          <div class="card reveal-4" style="border-color:rgba(248,113,113,0.25);">
+            <div class="section-label" style="color:#f87171;margin-bottom:0.5rem;">Illite — Rejected</div>
+            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
+              The fine powder would escape through the plant-stem opening and clog the channels.
+              Controlling it would require a separate suspended container with grates — a significant
+              redesign of the nanolab.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feb 9 roots-through-rockwool fix -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          February 9 — Roots-Through-Rockwool Fix
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          A later learning (Feb 9): clay pebbles and rockwool must stay <em>continuously</em> damp to wick
+          water — impractical in microgravity, where wetting is intermittent at best. The team's fix
+          was to <strong style="color:#e2e8f0;">thread the roots through the bottom of the rockwool</strong>
+          so they reach the nutrient water directly, sidestepping the wicking problem entirely.
+        </p>
+        <div style="padding:1rem 1.25rem;background:rgba(212,160,23,0.05);border:1px solid rgba(212,160,23,0.2);
+                    border-radius:0.5rem;font-size:0.875rem;color:#94a3b8;line-height:1.6;">
+          <strong style="color:#d4a017;">Takeaway:</strong> The substrate isn't just an anchor — it's part
+          of the water-delivery path. Routing roots through its base lets the rockwool support the stem
+          while the roots drink straight from the reservoir.
+        </div>
       </div>
 
       <!-- Microgravity test -->

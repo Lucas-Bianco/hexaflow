@@ -88,16 +88,19 @@ const groups = subsystems.map(s => ({
                   </button>
                   <p class="av-step-role">{p.role}</p>
                   <p class="av-step-desc">{p.description}</p>
-                  <div class="av-files">
-                    {p.drawingFile && (
-                      <a class="av-dl av-dl-drawing" href={encodeURI(p.drawingFile)} target="_blank" rel="noopener">
-                        View drawing ({p.drawingFile.split('.').pop().toUpperCase()})
-                      </a>
-                    )}
-                    {files.map(f => (
-                      <a class="av-dl" href={encodeURI('/cad-files/' + f)} download>⬇ {f}</a>
-                    ))}
-                  </div>
+                  <details class="av-files">
+                    <summary class="av-files-sum">⬇ Files ({(p.drawingFile ? 1 : 0) + files.length})</summary>
+                    <div class="av-files-body">
+                      {p.drawingFile && (
+                        <a class="av-dl av-dl-drawing" href={encodeURI(p.drawingFile)} target="_blank" rel="noopener">
+                          Drawing ({p.drawingFile.split('.').pop().toUpperCase()})
+                        </a>
+                      )}
+                      {files.map(f => (
+                        <a class="av-dl" href={encodeURI('/cad-files/' + f)} download title={f}>⬇ {f}</a>
+                      ))}
+                    </div>
+                  </details>
                 </div>
               </article>
             );
@@ -321,7 +324,17 @@ const groups = subsystems.map(s => ({
   .av-step-idx { font-size: 1rem; color: var(--accent); }
   .av-step-role { font: 600 .95rem 'Inter', sans-serif; color: var(--hex-gold); margin: 0 0 .6rem; }
   .av-step-desc { color: var(--hex-muted); line-height: 1.65; font-size: .92rem; margin: 0 0 1rem; }
-  .av-files { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .av-files { margin-top: .25rem; }
+  .av-files-sum { cursor: pointer; display: inline-flex; align-items: center; gap: .35rem;
+    font: 600 .76rem 'Inter', sans-serif; color: var(--hex-gold);
+    background: rgba(212,160,23,.08); border: 1px solid rgba(212,160,23,.25);
+    border-radius: .45rem; padding: .4rem .7rem; list-style: none; user-select: none;
+    transition: background .15s, border-color .15s; }
+  .av-files-sum::-webkit-details-marker { display: none; }
+  .av-files-sum::after { content: '▾'; font-size: .65rem; opacity: .65; transition: transform .2s ease; }
+  .av-files[open] .av-files-sum { background: rgba(212,160,23,.16); border-color: rgba(212,160,23,.4); }
+  .av-files[open] .av-files-sum::after { transform: rotate(180deg); }
+  .av-files-body { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .6rem; }
   .av-dl { display: inline-flex; align-items: center; gap: .3rem; padding: .4rem .7rem; border-radius: .45rem;
     font: 600 .76rem 'Inter', sans-serif; text-decoration: none; background: rgba(212,160,23,.08);
     border: 1px solid rgba(212,160,23,.25); color: var(--hex-gold); transition: background .15s; }

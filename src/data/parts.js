@@ -107,7 +107,7 @@ export const parts = [
     name: 'TDC Assembly V2',
     subsystem: 'TDC',
     role: 'The core capillary experiment module — second generation.',
-    description: 'The improved Thorny Devil Capillary assembly. Combines resin construction with 3D-printed framing to cut weight and cost, and allows camera placement to monitor the pump and reservoir. Hex channels are spaced 0.76 mm apart for optimal capillary distribution.',
+    description: 'The improved Thorny Devil Capillary assembly. Combines a resin hex dome (SLA-printed for polar capillary adhesion) with 3D-printed framing to cut weight and cost, and allows camera placement to monitor the pump and reservoir. Hex channels are 0.48 mm across, spaced 0.51 mm apart (0.020 in) for optimal capillary distribution.',
     image: '/images/cad-3.jpg',
     drawingFile: null,
     nativeFiles: ['/cad-files/TDC Assembly V2.SLDASM'],

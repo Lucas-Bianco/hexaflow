@@ -36,6 +36,69 @@ const embedUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/pubhtml?widg
         </a>
       </div>
 
+      <!-- Documented parts list -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.2rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          Documented Parts
+        </h2>
+        <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 1.25rem;line-height:1.65;">
+          The components specified across the HexaFlow build and drop-test documentation — the same
+          hardware captured live in the sheet below.
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
+
+          <div class="card reveal-1">
+            <div class="section-label" style="color:#d4a017;margin-bottom:0.6rem;">Compute</div>
+            <ul style="color:#94a3b8;font-size:0.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li><strong style="color:#e2e8f0;">Raspberry Pi Zero 2W</strong> — runs the AI, monitoring, and UI</li>
+              <li><strong style="color:#e2e8f0;">64 GB microSD</strong> for storage</li>
+            </ul>
+          </div>
+
+          <div class="card reveal-2">
+            <div class="section-label" style="color:#d4a017;margin-bottom:0.6rem;">Imaging</div>
+            <ul style="color:#94a3b8;font-size:0.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li><strong style="color:#e2e8f0;">InoMaker 1080p camera</strong> — 130° FOV main optic</li>
+              <li><strong style="color:#e2e8f0;">Two secondary camera modules</strong> for multi-angle coverage</li>
+            </ul>
+          </div>
+
+          <div class="card reveal-3">
+            <div class="section-label" style="color:#d4a017;margin-bottom:0.6rem;">Sensors</div>
+            <ul style="color:#94a3b8;font-size:0.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li><strong style="color:#e2e8f0;">BME680</strong> — temperature, humidity, VOC</li>
+              <li><strong style="color:#e2e8f0;">Adafruit 4026</strong> capacitive moisture sensor</li>
+              <li><strong style="color:#e2e8f0;">Atlas Scientific pH kit</strong></li>
+              <li><strong style="color:#e2e8f0;">TDS sensor</strong> for nutrient concentration</li>
+              <li><strong style="color:#e2e8f0;">ADS1115 ADC</strong> for analog signal conditioning</li>
+            </ul>
+          </div>
+
+          <div class="card reveal-4">
+            <div class="section-label" style="color:#d4a017;margin-bottom:0.6rem;">Power &amp; Switching</div>
+            <ul style="color:#94a3b8;font-size:0.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li><strong style="color:#e2e8f0;">BS170 MOSFET</strong> for load switching</li>
+              <li><strong style="color:#e2e8f0;">USB-A &amp; USB-B breakouts</strong></li>
+              <li><strong style="color:#e2e8f0;">NeoPixel strip</strong> for actuated lighting</li>
+              <li><strong style="color:#e2e8f0;">5 V USB powered</strong></li>
+            </ul>
+          </div>
+
+          <div class="card reveal-5" style="border-color:rgba(212,160,23,0.3);">
+            <div class="section-label" style="color:#d4a017;margin-bottom:0.6rem;">Drop-Test BOM</div>
+            <ul style="color:#94a3b8;font-size:0.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+              <li>1× <strong style="color:#e2e8f0;">TDC V2</strong></li>
+              <li>1× <strong style="color:#e2e8f0;">50 mL reservoir pouch</strong></li>
+              <li>1× <strong style="color:#e2e8f0;">5000 RPM pump</strong></li>
+              <li>1× <strong style="color:#e2e8f0;">circular substrate cover</strong> (for the drop test)</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Embedded Google Sheets -->
       <div>
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.2rem;font-weight:700;color:#fff;margin:0 0 1rem;">

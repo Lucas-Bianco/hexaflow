@@ -159,6 +159,120 @@ import PageShell from '../components/PageShell.astro';
         </div>
       </div>
 
+      <!-- NASA HUNCH design constraints -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          The NASA HUNCH Design Space
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          Every dimension of the enclosure answers to a NASA HUNCH constraint. The envelope is a
+          <strong style="color:#e2e8f0;">2U nanolab (20 × 10 × 10 cm)</strong>, power is capped at
+          <strong style="color:#e2e8f0;">5 V USB-A / 500 mA</strong>, and the build has to come in under a
+          <strong style="color:#e2e8f0;">$100 budget</strong>. Water supply must be
+          <strong style="color:#e2e8f0;">entirely mechanical</strong>, with no more than
+          <strong style="color:#e2e8f0;">50 mL of water</strong> on board, started by a
+          <strong style="color:#e2e8f0;">24 V start signal</strong> — and condensation can never reach
+          the sensors or electronics.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem;">
+          {[
+            { k:'Envelope', v:'2U nanolab · 20 × 10 × 10 cm' },
+            { k:'Power',    v:'5 V USB-A · 500 mA' },
+            { k:'Budget',   v:'$100 total build' },
+            { k:'Water',    v:'≤ 50 mL · fully mechanical delivery' },
+            { k:'Start',    v:'24 V start signal' },
+            { k:'Risk',     v:'Condensation isolated from sensors / electronics' },
+          ].map(c => (
+            <div class="card" style="padding:0.85rem 1rem;">
+              <div class="section-label" style="margin-bottom:0.3rem;">{c.k}</div>
+              <div style="font-size:0.85rem;color:#e2e8f0;font-weight:600;line-height:1.45;">{c.v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Sliding shelf: two configs from one enclosure -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          One Enclosure, Two Missions
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          The sliding shelf system lets a single enclosure serve both missions. The
+          <strong style="color:#e2e8f0;">drop-test</strong> build runs a high-capacity
+          <strong style="color:#e2e8f0;">100 mL/min</strong> pump to flood the channels inside the short
+          drop window; the <strong style="color:#e2e8f0;">long-term</strong> build swaps in a precision
+          <strong style="color:#e2e8f0;">1 mL/min</strong> pump alongside the TDS and pH sensors for
+          sustained, fine-grain watering under AI control.
+        </p>
+      </div>
+
+      <!-- Hardware iteration -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Iterating the Hardware
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          <div class="card">
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Door Screws</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              M3 16 mm <span style="color:#94a3b8;">→</span> M3 4 mm, seated in M3 thread inserts for a cleaner, lower-profile door.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Walls</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              4 mm <span style="color:#94a3b8;">→</span> 2 mm walls, freeing internal volume without losing rigidity.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Wire Holes</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              5 mm <span style="color:#94a3b8;">→</span> 8 mm wire holes, so cable routing no longer binds.
+            </p>
+          </div>
+          <div class="card">
+            <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Substrate Modules</h3>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              M4×6 mm screws with M4 thread inserts — a stronger, repeatable mount for the substrate modules.
+            </p>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:#94a3b8;line-height:1.7;margin:1rem 0 0;">
+          Wiring went solderless and swappable: pin headers plus side and back clips mean boards can be
+          swapped without soldering, so the enclosure is serviceable in minutes instead of rebuilt.
+        </p>
+      </div>
+
+      <!-- Manufacturing split + VOC lesson -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Manufacturing Split &amp; a Lesson Learned
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          <div class="card" style="border-color:rgba(212,160,23,0.35);">
+            <div class="section-label" style="margin-bottom:0.5rem;">FDM Body</div>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              The enclosure body prints in FDM — economical, tough, and good enough for every
+              non-critical surface.
+            </p>
+          </div>
+          <div class="card" style="border-color:rgba(103,232,249,0.35);">
+            <div class="section-label" style="margin-bottom:0.5rem;">SLA Hex Dome</div>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              Only the critical hex dome is SLA-printed in resin — a polar material chosen specifically
+              to drive capillary adhesion in the channels.
+            </p>
+          </div>
+          <div class="card" style="border-color:rgba(248,113,113,0.35);">
+            <div class="section-label" style="margin-bottom:0.5rem;">VOC Lesson</div>
+            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+              The team's new resin printer emitted VOCs that shriveled the test plants overnight —
+              emissions and biology don't share a room.
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </PageShell>
 
