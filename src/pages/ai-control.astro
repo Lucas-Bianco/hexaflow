@@ -9,7 +9,7 @@ import PageShell from '../components/PageShell.astro';
 
   <PageShell
     title="AI & Control"
-    subtitle="HexaFlow employs artificial intelligence and precision pump control to manage water delivery, preventing root rot through intelligent continuous monitoring."
+    subtitle="A locally-running vision model watches the roots and drives the pump in a closed loop — HexaFlow waters plants only when they actually need it."
     badge="Automation"
   >
     <div style="display:grid;gap:2.5rem;">
@@ -20,13 +20,13 @@ import PageShell from '../components/PageShell.astro';
           AI-Driven Operation
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-          The locally-running AI model continuously observes plant roots via camera and dispenses water
-          incrementally. It verifies adequate hydration before ceasing pump activity —
-          creating a closed-loop system that responds to actual plant conditions rather than a fixed timer.
+          The locally-running AI model observes plant roots via camera and dispenses water
+          incrementally — verifying adequate hydration before stopping the pump. The result is a
+          closed-loop system that responds to actual plant conditions rather than a fixed timer.
         </p>
         <p style="color:#94a3b8;line-height:1.75;margin:0;">
-          The vision model senses moisture from the camera and pumps water to the plant,
-          creating a <strong style="color:#e2e8f0;">continuous feedback loop</strong> that prevents
+          The vision model reads moisture straight from the camera feed and drives the pump accordingly,
+          closing a <strong style="color:#e2e8f0;">continuous feedback loop</strong> that prevents
           both overwatering and underwatering.
         </p>
       </div>
@@ -44,10 +44,10 @@ import PageShell from '../components/PageShell.astro';
             </h3>
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.75;margin:0;padding-left:1.1rem;">
               <li>AI disengages during the drop window</li>
-              <li>Constant water pumping for user-defined duration</li>
-              <li>Uses a <strong style="color:#e2e8f0;">high-capacity pump</strong></li>
-              <li>Targets <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> capacity during the 5.18s test window</li>
-              <li>Maximizes channel fill during microgravity event</li>
+              <li>Constant pumping for a user-defined duration</li>
+              <li>Driven by a <strong style="color:#e2e8f0;">high-capacity pump</strong></li>
+              <li>Targets <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> over the 5.18s test window</li>
+              <li>Maximizes channel fill during the microgravity event</li>
             </ul>
           </div>
           <div class="card reveal-2">
@@ -58,8 +58,8 @@ import PageShell from '../components/PageShell.astro';
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.75;margin:0;padding-left:1.1rem;">
               <li>AI vision actively monitors root moisture</li>
               <li>Smaller, energy-efficient pump</li>
-              <li>Saves <strong style="color:#e2e8f0;">320mA</strong> vs. the drop test pump</li>
-              <li>Fine-grain water delivery control</li>
+              <li>Saves <strong style="color:#e2e8f0;">320mA</strong> versus the drop-test pump</li>
+              <li>Fine-grained control over water delivery</li>
               <li>Adaptive data collection and imaging protocols</li>
               <li>TDS and pH sensors active</li>
             </ul>
@@ -73,15 +73,15 @@ import PageShell from '../components/PageShell.astro';
           Custom Carrier Board
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
-          The payload features a custom carrier board that consolidates all electronics connections
-          for simplified, more dependable wiring:
+          A custom carrier board consolidates every electronics connection into one board —
+          simpler wiring, fewer failure points:
         </p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
           {[
-            { title:'Raspberry Pi Integration', desc:'Connected via USB Type B and standard USB port' },
-            { title:'4-Camera USB Hub',          desc:'Embedded support for up to 4 cameras simultaneously' },
-            { title:'Direct ADC Embedding',       desc:'Enhanced connection reliability for analog sensors' },
-            { title:'Consolidated Breakouts',     desc:'Power and device signal breakouts for simplified wiring' },
+            { title:'Raspberry Pi Integration', desc:'Connects via USB Type B and a standard USB port' },
+            { title:'4-Camera USB Hub',          desc:'Embedded support for up to 4 cameras at once' },
+            { title:'Direct ADC Embedding',       desc:'More reliable connections for analog sensors' },
+            { title:'Consolidated Breakouts',     desc:'Power and signal breakouts in one place for simpler wiring' },
           ].map((f, i) => (
             <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{f.title}</h3>

@@ -9,7 +9,7 @@ import PageShell from '../components/PageShell.astro';
 
   <PageShell
     title="Prototyping Iteration"
-    subtitle="Iterative design and testing documentation — from early concept builds through the final CDR prototype."
+    subtitle="Iterative design and testing, traced from early concept builds through the final CDR prototype."
     badge="Process"
   >
     <div style="display:grid;gap:2rem;">
@@ -18,10 +18,10 @@ import PageShell from '../components/PageShell.astro';
       <div data-reveal style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
         <div>
           <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.3rem;">
-            Prototyping and Testing Document
+            Prototyping &amp; Testing Document
           </div>
           <div style="font-size:0.875rem;color:#64748b;">
-            Full iteration log maintained in Google Docs.
+            The complete iteration log lives in a Google Doc.
           </div>
         </div>
         <a href="https://drive.google.com" target="_blank" rel="noopener"
@@ -63,15 +63,19 @@ import PageShell from '../components/PageShell.astro';
 
       <!-- Known iteration notes -->
       <div>
-        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
           Iteration Summary
         </h2>
+        <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin:0 0 1.25rem;">
+          The major milestones that shaped the design — each one a deliberate response to what the
+          previous build revealed.
+        </p>
         <div class="iter-grid" data-reveal style="display:grid;gap:1rem;">
           {[
             { phase:'Substrate Testing',   desc:'Tested 8 materials — pine bark showed growth; all developed mold → pivoted to aeroponics.' },
             { phase:'TDC V1',              desc:'First hexagonal capillary plate using SLA resin. Verified capillary action and inversion water retention at 10.12mL capacity.' },
-            { phase:'TDC V2',              desc:'Combined resin construction with 3D-printed framing to reduce weight and cost. Added camera slot for pump/reservoir monitoring.' },
-            { phase:'Drop Test Iteration', desc:'Refined drop test configuration — removed TDS/pH sensors, upgraded to high-capacity pump targeting 10.81mL in 5.18s.' },
+            { phase:'TDC V2',              desc:'Combined resin construction with 3D-printed framing to reduce weight and cost. Added a camera slot for pump/reservoir monitoring.' },
+            { phase:'Drop Test Iteration', desc:'Refined drop test configuration — removed TDS/pH sensors, upgraded to a high-capacity pump targeting 10.81mL in 5.18s.' },
             { phase:'AI Integration',      desc:'Vision model trained on root moisture data. Dual-mode AI system implemented (drop test vs. long-term).' },
             { phase:'Custom Carrier Board',desc:'Consolidated electronics: RPi, 4-camera hub, direct ADC, power breakouts — simplified wiring for reliability.' },
           ].map(p => (

@@ -9,7 +9,7 @@ import PageShell from '../components/PageShell.astro';
 
   <PageShell
     title="Modular Enclosure"
-    subtitle="A sliding shelf system for electronics, lights, and the experiment module — with two distinct configurations for drop testing and long-term plant growth."
+    subtitle="A sliding shelf system that carries the electronics, lights, and experiment module — built in two distinct configurations for drop testing and long-term plant growth."
     badge="Hardware"
   >
     <div style="display:grid;gap:2.5rem;">
@@ -17,7 +17,7 @@ import PageShell from '../components/PageShell.astro';
       <!-- Two configs -->
       <div data-reveal>
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Two Configurations
+          Two Configurations, One Enclosure
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
 
@@ -28,10 +28,10 @@ import PageShell from '../components/PageShell.astro';
               Drop Test Setup
             </h3>
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.9;margin:0;padding-left:1.1rem;">
-              <li>No TDS or pH sensors (removed for weight/space)</li>
+              <li>TDS and pH sensors removed to save weight and space</li>
               <li>Larger, high-capacity pump installed</li>
               <li>Target: <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> channel fill</li>
-              <li>Fills channels as much as possible during <strong style="color:#e2e8f0;">5.18s</strong> drop window</li>
+              <li>Fills channels as much as possible within the <strong style="color:#e2e8f0;">5.18s</strong> drop window</li>
               <li>Optimized for short-duration data collection</li>
             </ul>
           </div>
@@ -46,7 +46,7 @@ import PageShell from '../components/PageShell.astro';
               <li>TDS (Total Dissolved Solids) sensor included</li>
               <li>pH sensor included</li>
               <li>Larger reservoir for extended growing sessions</li>
-              <li>Smaller, precise pump (320mA savings over drop test pump)</li>
+              <li>Smaller, precise pump (320mA savings over the drop-test pump)</li>
               <li>Fine-grain water delivery tuning</li>
               <li>AI actively monitors and controls watering</li>
             </ul>
@@ -62,8 +62,8 @@ import PageShell from '../components/PageShell.astro';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
           {[
             { title:'Sliding Shelf System', desc:'Electronics, lights, and the experiment module all mount to a sliding rail — hot-swappable without tools.' },
-            { title:'Hollow Side Walls',    desc:'Cable management runs through hollow walls, protecting electronics from water exposure.' },
-            { title:'Front & Side Doors',   desc:'Panel doors provide easy access to internal components and the experiment module.' },
+            { title:'Hollow Side Walls',    desc:'Cable management routes through hollow walls, keeping electronics clear of water exposure.' },
+            { title:'Front & Side Doors',   desc:'Panel doors open onto the internal components and the experiment module for quick access.' },
             { title:'Modular Slots',        desc:'The experiment module slot accepts the TDC (capillary plate), substrate tray, or future experiment types.' },
           ].map((f, i) => (
             <div class={`card reveal-${i + 1}`}>
@@ -142,8 +142,7 @@ import PageShell from '../components/PageShell.astro';
           </svg>
         </div>
         <p style="font-size:0.8rem;color:#64748b;margin-top:0.75rem;text-align:center;">
-          Enclosure diagram showing shelf system, cable management walls, electronics, and experiment module positions.
-          Add the actual enclosure diagram photo when available.
+          Enclosure diagram showing the shelf rails, hollow cable-management walls, electronics bay, and experiment module position.
         </p>
         </div>
     </section>
@@ -156,7 +155,7 @@ import PageShell from '../components/PageShell.astro';
           <div class="df-hex" data-layer="near" aria-hidden="true"></div>
         </figure>
         <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
-          Modular enclosure — sliding shelf system with electronics, lights, and experiment module
+          Modular enclosure — the sliding shelf system carrying electronics, lights, and the experiment module
         </div>
       </div>
 

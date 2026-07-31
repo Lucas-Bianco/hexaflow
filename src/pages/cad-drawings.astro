@@ -7,47 +7,47 @@ import PageShell from '../components/PageShell.astro';
 const components = [
   {
     name: 'Nanolab Enclosure',
-    desc: 'Outer shell with a sliding shelf system for electronic plates, lights, and the experiment module. Hollow side walls enable cable management while protecting electronics from water.',
+    desc: 'The outer shell houses a sliding shelf system for electronic plates, lights, and the experiment module. Hollow side walls route cables while keeping electronics dry.',
   },
   {
     name: 'TDC (Thorny Devil Capillary System)',
-    desc: 'The core experiment module — a hexagonal pattern that leverages capillary action to evenly distribute water throughout the interior. Hexagons are spaced 0.76mm apart to optimize distribution.',
+    desc: 'The core experiment module — a hexagonal lattice that uses capillary action to distribute water evenly throughout the interior. Hexagons are spaced 0.76mm apart to optimize distribution.',
   },
   {
     name: 'TDC V2',
-    desc: 'Improved iteration combining resin construction with 3D-printed framing. Reduces weight and manufacturing cost while allowing camera placement for monitoring the pump and reservoir.',
+    desc: 'A refined iteration that pairs resin construction with 3D-printed framing. It cuts weight and manufacturing cost while opening a camera viewport for monitoring the pump and reservoir.',
   },
   {
     name: 'Camera/LED Mounting Module',
-    desc: 'Mounts the camera and LED lighting above the root zone, with an anti-glare strip to prevent lens flare during imaging.',
+    desc: 'Mounts the camera and LED lighting above the root zone, with an anti-glare strip to suppress lens flare during imaging.',
   },
   {
     name: 'Plant Clips',
-    desc: 'Friction-fit holders that insert between hexagon gaps and clamp around the plant stem. Tested successfully under 1-minute inversion with kale.',
+    desc: 'Friction-fit holders that slip between hexagon gaps and clamp around the plant stem. Tested successfully under a 1-minute inversion with kale.',
   },
   {
     name: 'Water Injector',
-    desc: 'Located at the system base for hemisphere entry. Allows precise water introduction into the channel network. Injector hole can be sealed during drop tests.',
+    desc: 'Mounted at the system base for hemisphere entry. It delivers precise water introduction into the channel network, and the injector hole can be sealed during drop tests.',
   },
   {
     name: 'Pump Adapter',
-    desc: 'Interface piece compatible with both the drop test high-capacity pump and the long-term precision pump — allows the same enclosure to support both configurations.',
+    desc: 'An interface piece compatible with both the high-capacity drop-test pump and the long-term precision pump — one enclosure, two configurations.',
   },
   {
     name: 'Front & Side Door Panels',
-    desc: 'Access panels for internal components and the experiment module slot. Allows rapid swap of experiment modules without full disassembly.',
+    desc: 'Access panels for internal components and the experiment module slot. They allow rapid module swaps without full disassembly.',
   },
   {
     name: 'Substrate Covers (Rockwool)',
-    desc: 'Custom covers for the rockwool substrate tray with openings sized for moisture sensor probes. Keeps substrate contained during inversion tests.',
+    desc: 'Custom covers for the rockwool substrate tray, with openings sized for moisture-sensor probes. They keep substrate contained during inversion tests.',
   },
   {
     name: 'Clay Pebble Grates',
-    desc: 'Mesh grates hold clay pebbles in place during microgravity — preventing substrate migration while allowing water and root penetration.',
+    desc: 'Mesh grates hold clay pebbles in place during microgravity — preventing substrate migration while letting water and roots pass through.',
   },
   {
     name: 'USB Camera Clip (Reservoir)',
-    desc: 'Clip that mounts a USB camera to observe the pump and reservoir, separate from the primary root-zone camera.',
+    desc: 'A clip that mounts a USB camera to monitor the pump and reservoir, separate from the primary root-zone camera.',
   },
 ];
 ---
@@ -56,7 +56,7 @@ const components = [
 
   <PageShell
     title="CAD Drawings + Photos"
-    subtitle="Technical component designs combining resin construction, SLA printing, and 3D-printed framing — each part designed for the nanolab's modular architecture."
+    subtitle="Technical component designs combining resin construction, SLA printing, and 3D-printed framing — every part engineered for the nanolab's modular architecture."
     badge="Documentation"
   >
     <div style="display:grid;gap:2.5rem;">
@@ -64,7 +64,7 @@ const components = [
       <!-- Component descriptions -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          System Components
+          Custom Components, Built In-House
         </h2>
         <div style="display:grid;gap:0.85rem;">
           {components.map((c, i) => (
@@ -87,7 +87,7 @@ const components = [
       <!-- CAD photo gallery -->
       <div data-reveal>
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
-          CAD Drawings &amp; Photos
+          Renderings &amp; Photos
         </h2>
         <div class="cad-grid">
           {[

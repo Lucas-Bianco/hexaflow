@@ -9,7 +9,7 @@ import PageShell from '../components/PageShell.astro';
 
   <PageShell
     title="User Interface"
-    subtitle="A locally-networked dashboard giving operators real-time monitoring, graphing, photo galleries, and full system control — designed to work on any device aspect ratio."
+    subtitle="A locally-networked dashboard delivering real-time monitoring, graphing, photo galleries, and full system control — built to run on any device aspect ratio."
     badge="Software"
   >
     <div style="display:grid;gap:2.5rem;">
@@ -20,9 +20,9 @@ import PageShell from '../components/PageShell.astro';
           Development &amp; Version Control
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-          The team prioritized version control using GitHub, recognizing that major revisions would
-          occur throughout development. GitHub enables incremental tracking and explanatory commit
-          messages for organized UI development.
+          Version control was a day-one decision, not an afterthought. With major revisions expected
+          across the build, the team standardized on GitHub from the start — incremental commits paired
+          with explanatory messages kept UI development organized and every change traceable.
         </p>
         <a href="https://github.com/AidanForrester/TC-HUNCH-Nanolab"
            target="_blank" rel="noopener"
@@ -45,21 +45,22 @@ import PageShell from '../components/PageShell.astro';
           Core UI Capabilities
         </h2>
         <p style="color:#94a3b8;font-size:0.9rem;margin:0 0 1.25rem;">
-          The interface is accessible via local network and offers the following functions:
+          Every capability below ships over the local network — operators get full control without
+          direct physical access to the hardware.
         </p>
         <div class="feat-grid" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
           {[
             {
               title:'Live Camera Feed',
-              desc:'Real-time monitoring with sensor and AI readouts displayed alongside the camera view. Supports swappable camera views.',
+              desc:'Real-time monitoring with sensor and AI readouts alongside the camera view, plus support for swappable camera sources.',
             },
             {
               title:'Real-Time Graphing',
-              desc:'Live-updating graphs with comparison functionality. Data is downloadable in both JSON and PNG formats.',
+              desc:'Live-updating graphs with comparison views. Export data as JSON or PNG.',
             },
             {
               title:'Photo Galleries',
-              desc:'Automatic photo capture at 6-hour intervals during plant growth, plus rapid captures during drop tests.',
+              desc:'Automatic capture every 6 hours during plant growth, with rapid burst captures during drop tests.',
             },
             {
               title:'Quick-Access Buttons',
@@ -67,11 +68,11 @@ import PageShell from '../components/PageShell.astro';
             },
             {
               title:'Configurable Settings',
-              desc:'Substrate type, photo frequency, light brightness, and sensor parameters are all adjustable from the interface.',
+              desc:'Substrate type, photo frequency, light brightness, and sensor parameters — all adjustable from the interface.',
             },
             {
               title:'All Aspect Ratios',
-              desc:"Device specs for astronaut hardware were unknown, so the interface was designed to work on any screen size.",
+              desc:"Astronaut hardware specs were unknown at build time, so the interface was built to work on any screen size.",
             },
           ].map(f => (
             <div class="card">
@@ -85,7 +86,7 @@ import PageShell from '../components/PageShell.astro';
       <!-- UI screenshot -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Interface Screenshot
+          Interface at a Glance
         </h2>
         <figure class="depth-fig" data-reveal>
           <div class="df-glow" data-layer="far" aria-hidden="true"></div>
@@ -110,8 +111,8 @@ import PageShell from '../components/PageShell.astro';
           </svg>
           <div>
             <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.35rem;">V2UI.mp4</div>
-            <div style="font-size:0.85rem;color:#64748b;">
-              Drop <code style="color:#d4a017;">V2UI.mp4</code> into <code style="color:#d4a017;">public/images/</code> to enable video playback.
+            <div style="font-size:0.85rem;color:#64748b;line-height:1.5;">
+              Drop <code style="color:#d4a017;">V2UI.mp4</code> into <code style="color:#d4a017;">public/images/</code> to enable inline video playback.
             </div>
           </div>
         </div>
