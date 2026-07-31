@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
 
 const decisionMatrix = [
   { substrate:'Pine Bark',   compat:4, fim:4, mod:3, total:11 },
@@ -216,27 +217,16 @@ const decisionMatrix = [
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Substrate Test Photos
         </h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
-          {[
-            { src:'/images/substrate-1.jpg', caption:'Substrate test — sample 1' },
-            { src:'/images/substrate-2.jpg', caption:'Substrate test — sample 2' },
-            { src:'/images/substrate-3.jpg', caption:'Substrate test — sample 3' },
-            { src:'/images/substrate-4.jpg', caption:'Substrate test — sample 4' },
-            { src:'/images/substrate-5.jpg', caption:'Substrate test — sample 5' },
-            { src:'/images/substrate-6.jpg', caption:'Substrate test — sample 6' },
-            { src:'/images/substrate-7.jpg', caption:'Substrate test — sample 7' },
-            { src:'/images/substrate-8.jpg', caption:'Substrate test — sample 8' },
-          ].map(p => (
-            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-              <figure class="depth-fig" data-reveal>
-                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
-                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-              </figure>
-              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
-            </div>
-          ))}
-        </div>
+        <PhotoGallery photos={[
+          { src:'/images/substrate-1.jpg', caption:'Substrate test — sample 1' },
+          { src:'/images/substrate-2.jpg', caption:'Substrate test — sample 2' },
+          { src:'/images/substrate-3.jpg', caption:'Substrate test — sample 3' },
+          { src:'/images/substrate-4.jpg', caption:'Substrate test — sample 4' },
+          { src:'/images/substrate-5.jpg', caption:'Substrate test — sample 5' },
+          { src:'/images/substrate-6.jpg', caption:'Substrate test — sample 6' },
+          { src:'/images/substrate-7.jpg', caption:'Substrate test — sample 7' },
+          { src:'/images/substrate-8.jpg', caption:'Substrate test — sample 8' },
+        ]} />
       </div>
 
       <!-- Works cited note -->

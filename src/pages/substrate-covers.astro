@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
 ---
 <Layout title="Substrate Covers">
   <Nav slot="nav" />
@@ -155,27 +156,16 @@ import PageShell from '../components/PageShell.astro';
         <h2 class="font-display" style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Cover Photos
         </h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
-          {[
-            { src:'/images/cover-1.jpg', caption:'Rockwool cover (sensor port)' },
-            { src:'/images/cover-2.jpg', caption:'Clay pebble mesh grate' },
-            { src:'/images/cover-3.jpg', caption:'Pine bark cover' },
-            { src:'/images/cover-4.jpg', caption:'Illite clay cover' },
-            { src:'/images/cover-5.jpg', caption:'Inversion test — all covers' },
-            { src:'/images/cover-6.jpg', caption:'Cover detail — front view' },
-            { src:'/images/cover-7.jpg', caption:'Cover assembly' },
-            { src:'/images/cover-8.jpg', caption:'Installed covers' },
-          ].map(p => (
-            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-              <figure class="depth-fig" data-reveal>
-                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
-                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-              </figure>
-              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
-            </div>
-          ))}
-        </div>
+        <PhotoGallery photos={[
+          { src:'/images/cover-1.jpg', caption:'Rockwool cover (sensor port)' },
+          { src:'/images/cover-2.jpg', caption:'Clay pebble mesh grate' },
+          { src:'/images/cover-3.jpg', caption:'Pine bark cover' },
+          { src:'/images/cover-4.jpg', caption:'Illite clay cover' },
+          { src:'/images/cover-5.jpg', caption:'Inversion test — all covers' },
+          { src:'/images/cover-6.jpg', caption:'Cover detail — front view' },
+          { src:'/images/cover-7.jpg', caption:'Cover assembly' },
+          { src:'/images/cover-8.jpg', caption:'Installed covers' },
+        ]} />
       </div>
 
       <!-- Back link -->

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
 
 const photos = [
   { src:'/images/project-1.jpg',  caption:'Full project assembly — front view' },
@@ -36,29 +37,7 @@ const photos = [
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
           Project Gallery
         </h2>
-        <div class="photo-grid">
-          {photos.map((p, i) => (
-            [0, 2, 9, 10].includes(i) ? (
-              <figure class="depth-fig featured" data-reveal>
-                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
-                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-                <figcaption class="gi-caption">
-                  <div class="gi-num">Photo {i+1}</div>
-                  <div class="gi-text">{p.caption}</div>
-                </figcaption>
-              </figure>
-            ) : (
-              <div class={`gi reveal reveal-${(i % 6) + 1}`} data-reveal>
-                <img src={p.src} alt={p.caption} loading="lazy"/>
-                <div class="gi-caption">
-                  <div class="gi-num">Photo {i+1}</div>
-                  <div class="gi-text">{p.caption}</div>
-                </div>
-              </div>
-            )
-          ))}
-        </div>
+        <PhotoGallery photos={photos} />
       </div>
 
     </div>
