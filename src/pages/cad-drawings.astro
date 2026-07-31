@@ -62,13 +62,13 @@ const components = [
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Component descriptions -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           System Components
         </h2>
         <div style="display:grid;gap:0.85rem;">
           {components.map((c, i) => (
-            <div class="card" style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:start;">
+            <div class={`card reveal reveal-${Math.min(i + 1, 6)}`} data-reveal style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:start;">
               <div style="width:32px;height:32px;border-radius:0.375rem;background:rgba(212,160,23,0.1);
                            border:1px solid rgba(212,160,23,0.25);display:flex;align-items:center;
                            justify-content:center;font-size:0.8rem;font-weight:700;color:#d4a017;
@@ -85,11 +85,11 @@ const components = [
       </div>
 
       <!-- CAD photo gallery -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
           CAD Drawings &amp; Photos
         </h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;">
+        <div class="cad-grid">
           {[
             { src:'/images/cad-1.jpg',  caption:'Nanolab enclosure' },
             { src:'/images/cad-2.jpg',  caption:'TDC top view' },
@@ -117,12 +117,20 @@ const components = [
             { src:'/images/cad-24.jpg', caption:'CAD drawing 24' },
             { src:'/images/cad-25.jpg', caption:'CAD drawing 25' },
             { src:'/images/cad-26.jpg', caption:'CAD drawing 26' },
-          ].map(p => (
-            <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-              <img src={p.src} alt={p.caption}
-                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
-              <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
-            </div>
+          ].map((p, i) => (
+            [0, 2, 6, 8].includes(i) ? (
+              <figure class="depth-fig featured" data-reveal>
+                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
+                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+                <figcaption class="gi-caption">{p.caption}</figcaption>
+              </figure>
+            ) : (
+              <div class={`gi reveal reveal-${(i % 6) + 1}`} data-reveal>
+                <img src={p.src} alt={p.caption} loading="lazy"/>
+                <div class="gi-caption">{p.caption}</div>
+              </div>
+            )
           ))}
         </div>
       </div>
@@ -132,3 +140,39 @@ const components = [
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  .cad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .gi {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--hex-line);
+  }
+  .gi img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 180px;
+  }
+  .gi-caption {
+    padding: 0.4rem 0.75rem;
+    background: var(--hex-card);
+    font-size: 0.75rem;
+    color: var(--hex-muted-2);
+  }
+  /* DepthFigure hero items — span 2 columns and crop taller for prominence */
+  .depth-fig.featured {
+    grid-column: span 2;
+  }
+  .depth-fig.featured .df-img {
+    height: 280px;
+    object-fit: cover;
+  }
+  @media (max-width: 560px) {
+    .depth-fig.featured { grid-column: span 2; }
+  }
+</style>

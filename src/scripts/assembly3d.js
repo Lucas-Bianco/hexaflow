@@ -54,7 +54,11 @@ export async function initViewer(host, opts) {
   // Gentle auto-rotation until the user first interacts, then it stops for good.
   controls.autoRotate = true;
   controls.autoRotateSpeed = 0.7;
-  controls.addEventListener('start', () => { controls.autoRotate = false; });
+  // 'start' covers orbit/pan/zoom; pointerdown also covers plain clicks (picking
+  // a part) so an isolated part doesn't keep spinning out of view.
+  const stopRotate = () => { controls.autoRotate = false; };
+  controls.addEventListener('start', stopRotate);
+  renderer.domElement.addEventListener('pointerdown', stopRotate);
 
   // ── Label overlays (HTML, projected each frame) ─────────────────────────
   const labelLayer = document.createElement('div');
@@ -68,7 +72,8 @@ export async function initViewer(host, opts) {
   const partRoots = new Map();      // partId -> Object3D[] (nodes to move on explode)
   const basePositions = new Map();  // Object3D -> Vector3 (original position)
   let selectedId = null;
-  let isolate = false;
+  let isolate = false;       // active isolation state (derived from isolateMode + selection)
+  let isolateMode = false;   // user preference: should selecting a part hide the others?
   let wireframe = false;
   let labelsOn = true;
   let explodeAmount = 0;
@@ -216,7 +221,7 @@ export async function initViewer(host, opts) {
     const hits = raycaster.intersectObjects(targets, false);
     if (hits.length) {
       const id = hits[0].object.userData.partId;
-      if (id && id !== '__fasteners__') { select(id, { isolate: true }); return; }
+      if (id && id !== '__fasteners__') { select(id, { isolate: isolateMode }); return; }
     }
     // empty space click → clear
     select(null);
@@ -230,6 +235,14 @@ export async function initViewer(host, opts) {
   function setLabels(on) { labelsOn = on; }
   function setFastenersVisible(on) {
     (meshOf.get('__fasteners__') || []).forEach(m => (m.visible = on));
+  }
+  // Isolate mode: when ON, selecting a part hides the others (old behavior). When
+  // OFF (default), the whole assembly stays visible and the selected part is just
+  // highlighted — so you keep context and can click around without losing the rest.
+  function setIsolateMode(on) {
+    isolateMode = on;
+    if (!on) { isolate = false; applyVisibility(); }
+    else if (selectedId && selectedId !== model.rootId) { isolate = true; applyVisibility(); }
   }
 
   // ── Explode ────────────────────────────────────────────────────────────
@@ -300,6 +313,7 @@ export async function initViewer(host, opts) {
     setWireframe,
     setLabels,
     setFastenersVisible,
+    setIsolateMode,
     setExplode,
     toggleFullscreen: () => {
       const fs = host.closest('.hf3d-host') || host;

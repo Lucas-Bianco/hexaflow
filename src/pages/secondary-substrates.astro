@@ -22,8 +22,9 @@ const decisionMatrix = [
     <div style="display:grid;gap:2.5rem;">
 
       <!-- October preliminary test -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           October Preliminary Test
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
@@ -42,10 +43,10 @@ const decisionMatrix = [
             { name:'Crushed Pine Bark', result:'partial' },
             { name:'Layered Pine Bark', result:'pass' },
             { name:'Auger',             result:'fail' },
-          ].map(s => {
+          ].map((s, i) => {
             const col = s.result === 'pass' ? '#4ade80' : s.result === 'partial' ? '#facc15' : '#f87171';
             return (
-              <div style={`background:#0d1e35;border:1px solid ${col}25;border-radius:0.5rem;
+              <div class={`reveal-${(i % 6) + 1}`} style={`background:#0d1e35;border:1px solid ${col}25;border-radius:0.5rem;
                            padding:0.75rem;text-align:center;`}>
                 <div style={`width:8px;height:8px;border-radius:50%;background:${col};
                               margin:0 auto 0.5rem;`}></div>
@@ -66,7 +67,7 @@ const decisionMatrix = [
       </div>
 
       <!-- Decision matrix -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
           Substrate Decision Matrix
         </h2>
@@ -112,7 +113,7 @@ const decisionMatrix = [
       </div>
 
       <!-- Microgravity test -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Microgravity Simulation Test
         </h2>
@@ -120,7 +121,7 @@ const decisionMatrix = [
           Planted substrates were inverted with their covers for one minute to simulate weightlessness.
         </p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-          <div class="card">
+          <div class="card reveal-1">
             <div class="section-label" style="margin-bottom:0.5rem;">Procedure</div>
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.8;margin:0;padding-left:1.1rem;">
               <li>Plants inserted into substrate</li>
@@ -129,7 +130,7 @@ const decisionMatrix = [
               <li>Observations recorded</li>
             </ul>
           </div>
-          <div class="card" style="border-color:rgba(74,222,128,0.25);">
+          <div class="card reveal-2" style="border-color:rgba(74,222,128,0.25);">
             <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Result</div>
             <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;margin:0;">
               Plants, covers, and substrates all remained secure — suggesting they will function
@@ -140,7 +141,7 @@ const decisionMatrix = [
       </div>
 
       <!-- Substrate photos -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Substrate Test Photos
         </h2>
@@ -156,8 +157,11 @@ const decisionMatrix = [
             { src:'/images/substrate-8.jpg', caption:'Substrate test — sample 8' },
           ].map(p => (
             <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-              <img src={p.src} alt={p.caption}
-                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
+              <figure class="depth-fig" data-reveal>
+                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
+                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+              </figure>
               <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
             </div>
           ))}
@@ -166,7 +170,7 @@ const decisionMatrix = [
 
       <!-- Works cited note -->
       <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(212,160,23,0.04);
-                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#64748b;">
+                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#64748b;" data-reveal>
         <strong style="color:#94a3b8;">Works Cited:</strong> 28 academic and technical references covering
         plant nutrition, hydroponic systems, substrate properties, and space agriculture research from
         NASA and peer-reviewed journals.

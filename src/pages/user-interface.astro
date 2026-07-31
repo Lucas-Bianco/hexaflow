@@ -15,7 +15,7 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Overview -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Development &amp; Version Control
         </h2>
@@ -41,13 +41,13 @@ import PageShell from '../components/PageShell.astro';
 
       <!-- Features -->
       <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Core UI Capabilities
         </h2>
         <p style="color:#94a3b8;font-size:0.9rem;margin:0 0 1.25rem;">
           The interface is accessible via local network and offers the following functions:
         </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <div class="feat-grid" data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
           {[
             {
               title:'Live Camera Feed',
@@ -83,21 +83,22 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- UI screenshot -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Interface Screenshot
         </h2>
-        <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-          <img src="/images/ui-1.jpg" alt="HexaFlow user interface dashboard screenshot"
-               style="width:100%;display:block;object-fit:cover;" loading="lazy"/>
-          <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+        <figure class="depth-fig" data-reveal>
+          <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+          <img class="df-img" data-layer="mid" src="/images/ui-1.jpg" alt="HexaFlow user interface dashboard screenshot" loading="lazy" />
+          <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+          <figcaption style="padding:0.6rem 1rem;background:var(--hex-card);font-size:0.78rem;color:var(--hex-muted-2);">
             HexaFlow UI dashboard — live camera feed, graphing, and controls
-          </div>
-        </div>
+          </figcaption>
+        </figure>
       </div>
 
       <!-- Video placeholder -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Interface Demo Video
         </h2>
@@ -121,3 +122,17 @@ import PageShell from '../components/PageShell.astro';
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  /* Opacity-only stagger so we never fight the .card hover-lift transform. */
+  .feat-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .feat-grid.is-in > .card { opacity: 1; }
+  .feat-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
+  .feat-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }
+  .feat-grid.is-in > .card:nth-child(4) { transition-delay: .24s; }
+  .feat-grid.is-in > .card:nth-child(5) { transition-delay: .32s; }
+  .feat-grid.is-in > .card:nth-child(6) { transition-delay: .40s; }
+  @media (prefers-reduced-motion: reduce) {
+    .feat-grid > .card { opacity: 1 !important; }
+  }
+</style>

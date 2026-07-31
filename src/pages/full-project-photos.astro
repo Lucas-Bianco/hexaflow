@@ -32,17 +32,33 @@ const photos = [
   >
     <div style="display:grid;gap:2rem;">
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
-        {photos.map((p, i) => (
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src={p.src} alt={p.caption}
-                 style="width:100%;display:block;object-fit:cover;max-height:200px;" loading="lazy"/>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;">
-              <div style="font-size:0.7rem;color:#475569;margin-bottom:0.1rem;">Photo {i+1}</div>
-              <div style="font-size:0.8rem;color:#94a3b8;">{p.caption}</div>
-            </div>
-          </div>
-        ))}
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+          Project Photo Gallery
+        </h2>
+        <div class="photo-grid">
+          {photos.map((p, i) => (
+            [0, 2, 9, 10].includes(i) ? (
+              <figure class="depth-fig featured" data-reveal>
+                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
+                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+                <figcaption class="gi-caption">
+                  <div class="gi-num">Photo {i+1}</div>
+                  <div class="gi-text">{p.caption}</div>
+                </figcaption>
+              </figure>
+            ) : (
+              <div class={`gi reveal reveal-${(i % 6) + 1}`} data-reveal>
+                <img src={p.src} alt={p.caption} loading="lazy"/>
+                <div class="gi-caption">
+                  <div class="gi-num">Photo {i+1}</div>
+                  <div class="gi-text">{p.caption}</div>
+                </div>
+              </div>
+            )
+          ))}
+        </div>
       </div>
 
     </div>
@@ -50,3 +66,43 @@ const photos = [
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .gi {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--hex-line);
+  }
+  .gi img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 200px;
+  }
+  .gi-caption {
+    padding: 0.5rem 0.85rem;
+    background: var(--hex-card);
+  }
+  .gi-num {
+    font-size: 0.7rem;
+    color: #475569;
+    margin-bottom: 0.1rem;
+  }
+  .gi-text {
+    font-size: 0.8rem;
+    color: var(--hex-muted);
+  }
+  /* DepthFigure hero items — span 2 columns and crop taller for prominence */
+  .depth-fig.featured {
+    grid-column: span 2;
+  }
+  .depth-fig.featured .df-img {
+    height: 320px;
+    object-fit: cover;
+  }
+</style>

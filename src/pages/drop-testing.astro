@@ -16,9 +16,9 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Overview -->
-      <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;" data-reveal>
         <div>
-          <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
             Test Methodology
           </h2>
           <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
@@ -48,8 +48,8 @@ import PageShell from '../components/PageShell.astro';
             { label:'Measurement',    value:'Calipers',     desc:'Water dispersal measured before and after each drop' },
             { label:'Channel Reset',  value:'Compressed air', desc:'Clears channels between tests for accurate data' },
             { label:'Expected Result', value:'No free droplets', desc:'Water rises into channels via capillary action' },
-          ].map(s => (
-            <div class="card">
+          ].map((s, i) => (
+            <div class={`card reveal-${i + 1}`}>
               <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">{s.label}</div>
               <div class="font-display" style="font-size:1.1rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
               {s.desc && <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>}
@@ -59,7 +59,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Drop test diagram -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Test Setup Diagram
         </h2>
@@ -103,28 +103,37 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Photo gallery -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Drop Test Photos
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/drop-test-1.jpg" alt="Drop test photo 1 — filtered water dispersal"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/drop-test-1.jpg" alt="Drop test photo 1 — filtered water dispersal" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
               Drop test — filtered view
             </div>
           </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/drop-test-2.jpg" alt="Drop test photo 2 — channel water behavior"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/drop-test-2.jpg" alt="Drop test photo 2 — channel water behavior" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
               Drop test — channel fill
             </div>
           </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/drop-test-3.jpg" alt="Drop test photo 3 — post-drop caliper measurement"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/drop-test-3.jpg" alt="Drop test photo 3 — post-drop caliper measurement" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
               Post-drop caliper measurement
             </div>
@@ -133,7 +142,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Data link -->
-      <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
+      <div data-reveal style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
                   border:1px solid rgba(212,160,23,0.15);">
         <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.4rem;">
           📊 Capillary Physical Tests Data

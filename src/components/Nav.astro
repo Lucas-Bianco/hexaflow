@@ -20,7 +20,7 @@ const navLinks = [
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<nav class="hf-nav">
+<nav class="hf-nav" data-nav>
   <!-- Logo -->
   <a href="/" class="hf-logo" aria-label="HexaFlow home">
     <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true">
@@ -70,7 +70,12 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     -webkit-backdrop-filter: blur(14px) saturate(120%);
     backdrop-filter: blur(14px) saturate(120%);
     border-bottom: 1px solid rgba(212,160,23,0.18);
+    transition: transform var(--dur-nav) var(--ease-out-cine), height var(--dur-nav) var(--ease-out-cine),
+                background var(--dur-nav) var(--ease-out-cine);
   }
+  .hf-nav.nav-shrunk { height: 3.4rem; background: rgba(6,14,28,0.88); }
+  .hf-nav.nav-hidden { transform: translateY(-110%); }
+  @media (prefers-reduced-motion: reduce) { .hf-nav.nav-hidden { transform: none; } }
   .hf-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
   .hf-logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
 

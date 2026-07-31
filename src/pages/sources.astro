@@ -65,14 +65,14 @@ const groups = [
     badge="References"
   >
     <div style="display:grid;gap:2.5rem;">
-      {groups.map(g => (
+      {groups.map((g, gi) => (
         <div>
           <h2 class="font-display" style="font-size:1.25rem;font-weight:700;color:#fff;margin:0 0 1rem;
                       display:flex;align-items:center;gap:0.75rem;">
             <span style="display:inline-block;width:4px;height:1.25rem;background:#d4a017;border-radius:2px;flex-shrink:0;"></span>
-            {g.cat}
+            {gi === 0 ? <span class="kinetic" data-kinetic="word" data-reveal>{g.cat}</span> : g.cat}
           </h2>
-          <div style="display:grid;gap:0.6rem;">
+          <div class="refs-grid" data-reveal style="display:grid;gap:0.6rem;">
             {g.refs.map(r => (
               <div class="card" style="padding:1rem 1.25rem;">
                 <div style="font-weight:600;color:#e2e8f0;font-size:0.9rem;margin-bottom:0.25rem;">{r.title}</div>
@@ -83,7 +83,7 @@ const groups = [
         </div>
       ))}
 
-      <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
+      <div data-reveal style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
                   border:1px solid rgba(212,160,23,0.12);">
         <p style="font-size:0.875rem;color:#64748b;margin:0;">
           Add full citations (authors, year, DOI/URL) to each entry. The secondary substrates section
@@ -95,3 +95,19 @@ const groups = [
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  /* Opacity-only stagger so we never fight the .card hover-lift transform. */
+  .refs-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .refs-grid.is-in > .card { opacity: 1; }
+  .refs-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
+  .refs-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }
+  .refs-grid.is-in > .card:nth-child(4) { transition-delay: .24s; }
+  .refs-grid.is-in > .card:nth-child(5) { transition-delay: .32s; }
+  .refs-grid.is-in > .card:nth-child(6) { transition-delay: .40s; }
+  .refs-grid.is-in > .card:nth-child(7) { transition-delay: .48s; }
+  .refs-grid.is-in > .card:nth-child(8) { transition-delay: .56s; }
+  @media (prefers-reduced-motion: reduce) {
+    .refs-grid > .card { opacity: 1 !important; }
+  }
+</style>

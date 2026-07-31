@@ -15,9 +15,10 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Overview -->
-      <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
+      <div style="display:grid;grid-template-columns:1fr;gap:2rem;" data-reveal>
         <div>
-          <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+              style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
             How It Works in HexaFlow
           </h2>
           <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
@@ -39,7 +40,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Benefits -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Benefits of Aeroponics
         </h2>
@@ -49,8 +50,8 @@ import PageShell from '../components/PageShell.astro';
             { stat:'Suspended',    label:'Root System',      desc:'Roots hang in air — maximum oxygen exposure' },
             { stat:'Accelerated',  label:'Growth Rate',      desc:'Enhanced atmospheric gas exposure (O₂, CO₂)' },
             { stat:'None',         label:'Gravity Required', desc:'System works in microgravity environments' },
-          ].map(s => (
-            <div class="card">
+          ].map((s, i) => (
+            <div class={`card reveal-${i + 1}`}>
               <div class="font-display" style="font-size:1.5rem;font-weight:700;color:#d4a017;margin-bottom:0.25rem;">{s.stat}</div>
               <div style="font-weight:600;color:#fff;font-size:0.9rem;margin-bottom:0.35rem;">{s.label}</div>
               <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>
@@ -60,37 +61,49 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Aeroponics photos -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Aeroponics Photos
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/aeroponics-1.jpg" alt="Plant clips securing kale in TDC"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-1.jpg" alt="Plant clips securing kale in TDC" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Plant clips in TDC</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/aeroponics-2.jpg" alt="Aeroponic root system"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-2.jpg" alt="Aeroponic root system" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Aeroponic root system</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/aeroponics-3.jpg" alt="Reservoir and VEX fittings"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-3.jpg" alt="Reservoir and VEX fittings" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Reservoir assembly</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/aeroponics-4.jpg" alt="Inversion test — kale retained"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+            <figure class="depth-fig" data-reveal>
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/aeroponics-4.jpg" alt="Inversion test — kale retained" loading="lazy" />
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Inversion test</div>
           </div>
         </div>
       </div>
 
       <!-- Suitable crops -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;">
-        <div class="card">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;" data-reveal>
+        <div class="card reveal-1">
           <div class="section-label" style="margin-bottom:0.75rem;">Suitable Crops</div>
           <ul style="color:#94a3b8;font-size:0.875rem;line-height:2;margin:0;padding-left:1.1rem;">
             <li>Leafy greens</li>
@@ -99,7 +112,7 @@ import PageShell from '../components/PageShell.astro';
             <li>Kale (tested in plant clip trials)</li>
           </ul>
         </div>
-        <div class="card" style="border-color:rgba(255,100,100,0.15);">
+        <div class="card reveal-2" style="border-color:rgba(255,100,100,0.15);">
           <div class="section-label" style="color:#f87171;margin-bottom:0.75rem;">Not Suitable</div>
           <ul style="color:#94a3b8;font-size:0.875rem;line-height:2;margin:0;padding-left:1.1rem;">
             <li>Root vegetables (grow deformed without soil pressure)</li>
@@ -108,7 +121,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Space programs -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Space Aeroponics Programs
         </h2>
@@ -124,8 +137,8 @@ import PageShell from '../components/PageShell.astro';
               program:'Astro Garden (XROOTS)',
               desc:'eXposed Root On-Orbit Test System — developing aeroponic plant cultivation for long-duration spaceflight.',
             },
-          ].map(p => (
-            <div class="card">
+          ].map((p, i) => (
+            <div class={`card reveal-${i + 1}`}>
               <div class="section-label" style="margin-bottom:0.4rem;">{p.org}</div>
               <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">{p.program}</h3>
               <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{p.desc}</p>
@@ -136,7 +149,7 @@ import PageShell from '../components/PageShell.astro';
 
       <!-- Works cited -->
       <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
-                  border:1px solid rgba(212,160,23,0.12);">
+                  border:1px solid rgba(212,160,23,0.12);" data-reveal>
         <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">Works Cited</div>
         <div style="font-size:0.825rem;color:#64748b;line-height:1.8;">
           LettUs Grow · Atlas Scientific · Food Gardening Network · NASA Science ·

@@ -33,8 +33,16 @@ const features = [
 <Layout title="Home" description="HexaFlow – A modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants.">
   <Nav slot="nav" />
 
+  <!-- ── MorphBackground: chapter color-worlds, fixed behind everything ── -->
+  <div class="bg-world" aria-hidden="true">
+    <div class="bg-world-layer" data-world="enclosure" style="background:var(--world-enclosure)"></div>
+    <div class="bg-world-layer" data-world="tdc"       style="background:var(--world-tdc)"></div>
+    <div class="bg-world-layer" data-world="water"    style="background:var(--world-water)"></div>
+    <div class="bg-world-layer" data-world="substrate" style="background:var(--world-substrate)"></div>
+  </div>
+
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" data-chapter="tdc">
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="hero-glow" aria-hidden="true"></div>
 
@@ -52,7 +60,7 @@ const features = [
 
       <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · Biomimetic Engineering</span>
 
-      <h1 class="hero-title reveal reveal-2">HexaFlow</h1>
+      <h1 class="hero-title kinetic" data-kinetic="char">HexaFlow</h1>
 
       <p class="hero-sub reveal reveal-3">Modular Capillary Action Nanolab</p>
 
@@ -84,7 +92,7 @@ const features = [
   </section>
 
   <!-- ── About ─────────────────────────────────────────────────────────── -->
-  <section class="wrap about" data-reveal>
+  <section class="wrap about" data-reveal data-chapter="enclosure">
     <div class="about-art" aria-hidden="true">
       <div class="hex-stack">
         <span class="hex hex-a"></span>
@@ -116,7 +124,7 @@ const features = [
   </section>
 
   <!-- ── Features ─────────────────────────────────────────────────────── -->
-  <section class="features">
+  <section class="features" data-chapter="water">
     <div class="wrap">
       <div class="features-head" data-reveal>
         <div class="section-label">Core Systems</div>

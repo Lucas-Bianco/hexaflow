@@ -20,7 +20,7 @@ const embedUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/pubhtml?widg
     <div style="display:grid;gap:2rem;">
 
       <!-- Links -->
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <div data-reveal style="display:flex;gap:1rem;flex-wrap:wrap;">
         <a href={sheetUrl} target="_blank" rel="noopener"
            style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.65rem 1.25rem;
                   border-radius:0.5rem;font-weight:600;font-size:0.875rem;text-decoration:none;
@@ -38,10 +38,10 @@ const embedUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/pubhtml?widg
 
       <!-- Embedded Google Sheets -->
       <div>
-        <h2 class="font-display" style="font-size:1.2rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.2rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Embedded BOM
         </h2>
-        <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);
+        <div data-reveal style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);
                     background:#0d1e35;">
           <iframe
             src={embedUrl}
@@ -53,7 +53,7 @@ const embedUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/pubhtml?widg
             style="display:block;"
           ></iframe>
         </div>
-        <p style="font-size:0.78rem;color:#475569;margin-top:0.6rem;">
+        <p data-reveal style="font-size:0.78rem;color:#475569;margin-top:0.6rem;">
           If the sheet does not appear, it may not be published. Open it directly using the button above,
           or go to File → Share → Publish to web in Google Sheets to enable embedding.
         </p>

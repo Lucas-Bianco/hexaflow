@@ -14,12 +14,12 @@ import PageShell from '../components/PageShell.astro';
   >
 
     <!-- Thorny Devil image + intro -->
-    <div style="display:grid;grid-template-columns:1fr;gap:2.5rem;margin-bottom:3rem;">
+    <div style="display:grid;grid-template-columns:1fr;gap:2.5rem;margin-bottom:3rem;" data-reveal>
 
       <div style="display:grid;grid-template-columns:1fr;gap:2rem;">
 
         <div>
-          <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1rem;">
             Inspired by the Thorny Devil Lizard
           </h2>
           <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
@@ -43,12 +43,15 @@ import PageShell from '../components/PageShell.astro';
 
         <!-- Thorny Devil photo -->
         <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Thorny_dragon.jpg/640px-Thorny_dragon.jpg"
-            alt="Thorny devil lizard (Moloch horridus) — the biological inspiration for HexaFlow's hex channel geometry"
-            style="width:100%;display:block;object-fit:cover;max-height:380px;"
-            loading="lazy"
-          />
+          <figure class="depth-fig" data-reveal>
+            <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+            <img class="df-img" data-layer="mid"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Thorny_dragon.jpg/640px-Thorny_dragon.jpg"
+              alt="Thorny devil lizard (Moloch horridus) — the biological inspiration for HexaFlow's hex channel geometry"
+              loading="lazy"
+            />
+            <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+          </figure>
           <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
             <em>Moloch horridus</em> — thorny devil lizard. Its skin channels passively transport water via capillary action.
             <span style="color:#475569;"> (Image: Wikimedia Commons)</span>
@@ -57,16 +60,22 @@ import PageShell from '../components/PageShell.astro';
 
         <!-- TDC Photos -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;">
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/geometry-1.jpg" alt="TDC hex channel top-down view"
-                 style="width:100%;display:block;object-fit:cover;max-height:280px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/geometry-1.jpg" alt="TDC hex channel top-down view" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
               TDC hex channel — top view
             </div>
           </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/geometry-2.jpg" alt="TDC capillary channel close-up"
-                 style="width:100%;display:block;object-fit:cover;max-height:280px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/geometry-2.jpg" alt="TDC capillary channel close-up" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
               Capillary channel detail
             </div>
@@ -76,7 +85,7 @@ import PageShell from '../components/PageShell.astro';
     </div>
 
     <!-- Specs grid -->
-    <div>
+    <div data-reveal>
       <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
         Technical Specifications
       </h2>
@@ -88,8 +97,8 @@ import PageShell from '../components/PageShell.astro';
           { label:'Surface Property',  value:'Polar Resin',     desc:'Stronger water adhesion than water-to-water cohesion' },
           { label:'Gravity Required',  value:'None',            desc:'Capillary action works in microgravity environments' },
           { label:'Inversion Test',    value:'Passes',          desc:'System retains water at proper scale when fully inverted' },
-        ].map(s => (
-          <div class="card">
+        ].map((s, i) => (
+          <div class={`card reveal-${i + 1}`}>
             <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">{s.label}</div>
             <div class="font-display" style="font-size:1.25rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
             <div style="font-size:0.825rem;color:#64748b;line-height:1.5;">{s.desc}</div>
@@ -99,11 +108,15 @@ import PageShell from '../components/PageShell.astro';
     </div>
 
     <!-- Hex diagram (SVG) -->
-    <div>
-      <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-        Channel Geometry Diagram
-      </h2>
-      <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:2.5rem;">
+    <section class="pin">
+      <header class="pin-head">
+        <div class="section-label">Geometry</div>
+        <h2 class="font-display" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Channel Geometry Diagram
+        </h2>
+      </header>
+      <div class="pin-body" data-reveal>
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:2.5rem;">
         <svg width="100%" viewBox="0 0 400 220" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
           <!-- Hex grid pattern showing channel layout -->
           <!-- Row 1 -->
@@ -138,11 +151,12 @@ import PageShell from '../components/PageShell.astro';
           Top-down view of hexagonal channel layout. Highlighted cells show water distribution points.
           Hexagons are spaced 0.76mm apart to optimize capillary flow.
         </p>
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- Source -->
-    <div style="margin-top:2rem;padding:1rem 1.25rem;border-radius:0.5rem;
+    <div data-reveal style="margin-top:2rem;padding:1rem 1.25rem;border-radius:0.5rem;
                 background:rgba(212,160,23,0.04);border:1px solid rgba(212,160,23,0.12);">
       <p style="font-size:0.825rem;color:#64748b;margin:0;">
         <strong style="color:#94a3b8;">Source:</strong> Skin morphology study of <em>Moloch horridus</em> — ResearchGate.

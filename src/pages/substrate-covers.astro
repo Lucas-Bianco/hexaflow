@@ -15,7 +15,7 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Overview -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Purpose
         </h2>
@@ -31,8 +31,9 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Cover types -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Cover Designs by Substrate
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
@@ -61,8 +62,8 @@ import PageShell from '../components/PageShell.astro';
               desc: 'Dense cover suited for the finer illite clay particles. Scored highest on Feasibility in Microgravity (FIM) in the decision matrix — naturally packs well.',
               color: '#f59e0b',
             },
-          ].map(c => (
-            <div class="card" style={`border-color:${c.color}25;`}>
+          ].map((c, i) => (
+            <div class={`card reveal-${i + 1}`} style={`border-color:${c.color}25;`}>
               <div style={`font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
                            color:${c.color};margin-bottom:0.35rem;`}>{c.substrate}</div>
               <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{c.cover}</h3>
@@ -73,7 +74,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Microgravity test -->
-      <div class="card" style="border-color:rgba(74,222,128,0.25);">
+      <div class="card" style="border-color:rgba(74,222,128,0.25);" data-reveal>
         <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">
           ✓ Microgravity Simulation Test — Passed
         </div>
@@ -84,7 +85,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Cover photos -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           Cover Photos
         </h2>
@@ -100,8 +101,11 @@ import PageShell from '../components/PageShell.astro';
             { src:'/images/cover-8.jpg', caption:'Installed covers' },
           ].map(p => (
             <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-              <img src={p.src} alt={p.caption}
-                   style="width:100%;display:block;object-fit:cover;max-height:180px;" loading="lazy"/>
+              <figure class="depth-fig" data-reveal>
+                <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+                <img class="df-img" data-layer="mid" src={p.src} alt={p.caption} loading="lazy" />
+                <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+              </figure>
               <div style="padding:0.4rem 0.75rem;background:#0d1e35;font-size:0.75rem;color:#64748b;">{p.caption}</div>
             </div>
           ))}

@@ -15,14 +15,14 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- Two configs -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Two Configurations
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;">
 
           <!-- Drop Test -->
-          <div class="card" style="border-color:rgba(212,160,23,0.35);">
+          <div class="card reveal-1" style="border-color:rgba(212,160,23,0.35);">
             <div class="section-label" style="margin-bottom:0.75rem;">Configuration A</div>
             <h3 class="font-display" style="font-size:1.15rem;font-weight:700;color:#fff;margin:0 0 1rem;">
               Drop Test Setup
@@ -37,7 +37,7 @@ import PageShell from '../components/PageShell.astro';
           </div>
 
           <!-- Long-term -->
-          <div class="card">
+          <div class="card reveal-2">
             <div class="section-label" style="margin-bottom:0.75rem;">Configuration B</div>
             <h3 class="font-display" style="font-size:1.15rem;font-weight:700;color:#fff;margin:0 0 1rem;">
               Long-Term Growing Setup
@@ -55,7 +55,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Enclosure design -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Enclosure Design
         </h2>
@@ -65,8 +65,8 @@ import PageShell from '../components/PageShell.astro';
             { title:'Hollow Side Walls',    desc:'Cable management runs through hollow walls, protecting electronics from water exposure.' },
             { title:'Front & Side Doors',   desc:'Panel doors provide easy access to internal components and the experiment module.' },
             { title:'Modular Slots',        desc:'The experiment module slot accepts the TDC (capillary plate), substrate tray, or future experiment types.' },
-          ].map(f => (
-            <div class="card">
+          ].map((f, i) => (
+            <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">{f.title}</h3>
               <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{f.desc}</p>
             </div>
@@ -75,10 +75,14 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Enclosure diagram (SVG) -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Enclosure Diagram
-        </h2>
+      <section class="pin">
+        <header class="pin-head">
+          <div class="section-label">Hardware</div>
+          <h2 class="font-display" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+            Enclosure Diagram
+          </h2>
+        </header>
+        <div class="pin-body" data-reveal>
         <div class="card" style="display:flex;justify-content:center;padding:2rem;">
           <svg width="100%" viewBox="0 0 380 260" style="max-width:480px;" xmlns="http://www.w3.org/2000/svg">
             <!-- Outer enclosure -->
@@ -141,12 +145,16 @@ import PageShell from '../components/PageShell.astro';
           Enclosure diagram showing shelf system, cable management walls, electronics, and experiment module positions.
           Add the actual enclosure diagram photo when available.
         </p>
-      </div>
+        </div>
+    </section>
 
       <!-- Enclosure photo -->
-      <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-        <img src="/images/enclosure-1.jpg" alt="HexaFlow modular enclosure — full assembly"
-             style="width:100%;display:block;object-fit:cover;max-height:420px;" loading="lazy"/>
+      <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
+        <figure class="depth-fig">
+          <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+          <img class="df-img" data-layer="mid" src="/images/enclosure-1.jpg" alt="HexaFlow modular enclosure — full assembly" loading="lazy"/>
+          <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+        </figure>
         <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
           Modular enclosure — sliding shelf system with electronics, lights, and experiment module
         </div>

@@ -15,8 +15,8 @@ import PageShell from '../components/PageShell.astro';
     <div style="display:grid;gap:2.5rem;">
 
       <!-- How it works -->
-      <div>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
           AI-Driven Operation
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
@@ -32,12 +32,12 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Dual modes -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Dual Configuration Modes
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
-          <div class="card" style="border-color:rgba(212,160,23,0.3);">
+          <div class="card reveal-1" style="border-color:rgba(212,160,23,0.3);">
             <div class="section-label">Drop Test Mode</div>
             <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
               Drop Testing Configuration
@@ -50,7 +50,7 @@ import PageShell from '../components/PageShell.astro';
               <li>Maximizes channel fill during microgravity event</li>
             </ul>
           </div>
-          <div class="card">
+          <div class="card reveal-2">
             <div class="section-label">Long-Term Mode</div>
             <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
               Long-Term Growing Configuration
@@ -68,7 +68,7 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Custom carrier board -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Custom Carrier Board
         </h2>
@@ -82,8 +82,8 @@ import PageShell from '../components/PageShell.astro';
             { title:'4-Camera USB Hub',          desc:'Embedded support for up to 4 cameras simultaneously' },
             { title:'Direct ADC Embedding',       desc:'Enhanced connection reliability for analog sensors' },
             { title:'Consolidated Breakouts',     desc:'Power and device signal breakouts for simplified wiring' },
-          ].map(f => (
-            <div class="card">
+          ].map((f, i) => (
+            <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{f.title}</h3>
               <p style="font-size:0.85rem;color:#64748b;margin:0;line-height:1.55;">{f.desc}</p>
             </div>
@@ -92,31 +92,40 @@ import PageShell from '../components/PageShell.astro';
       </div>
 
       <!-- Carrier board / hardware photos -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Hardware Photos
         </h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/ai-1.jpg" alt="Custom carrier board"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-1.jpg" alt="Custom carrier board" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Custom carrier board</div>
           </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/ai-2.jpg" alt="AI control electronics"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-2.jpg" alt="AI control electronics" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">AI control electronics</div>
           </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
-            <img src="/images/ai-3.jpg" alt="Raspberry Pi and pump wiring"
-                 style="width:100%;display:block;object-fit:cover;max-height:220px;" loading="lazy"/>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-3.jpg" alt="Raspberry Pi and pump wiring" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
             <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">RPi and pump wiring</div>
           </div>
         </div>
       </div>
 
       <!-- Feedback loop diagram -->
-      <div>
+      <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
           Feedback Loop
         </h2>

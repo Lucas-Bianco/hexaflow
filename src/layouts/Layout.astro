@@ -17,6 +17,9 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <!-- Lenis smooth scroll — progressive enhancement. If it fails to load,
+         window.Lenis is undefined and we fall back to native scroll. -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js" defer></script>
   </head>
   <body class="bg-[#060e1c] text-[#e2e8f0] min-h-screen font-sans antialiased">
     <!-- Scroll progress indicator -->
@@ -32,15 +35,65 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
 
 <style is:global>
   :root {
-    --hex-bg:      #060e1c;
-    --hex-surface: #091829;
-    --hex-card:    #0d1e35;
-    --hex-gold:    #d4a017;
+    /* ── Depth tiers (replaces flat surface with a 5-step ramp) ─────────── */
+    --hex-void:      #04080f;
+    --hex-bg:        #060e1c;
+    --hex-surface:   #091829;
+    --hex-card:      #0d1e35;
+    --hex-card-2:    #112747;
+    --hex-line:      rgba(212,160,23,0.15);
+    --hex-line-2:    rgba(212,160,23,0.28);
+
+    /* ── Text ─────────────────────────────────────────────────────────── */
+    --hex-text:      #f0f4ff;
+    --hex-muted:     #94a3b8;
+    --hex-muted-2:   #64748b;
+
+    /* ── Gold ramp (was a single value) ────────────────────────────────── */
+    --hex-gold:      #d4a017;
+    --hex-gold-hi:   #f0c64a;
     --hex-gold-soft: rgba(212,160,23,0.12);
-    --hex-line:    rgba(212,160,23,0.15);
-    --hex-muted:   #94a3b8;
-    --hex-text:    #f0f4ff;
-    --hex-glow:    rgba(212,160,23,0.07);
+    --hex-gold-glow: rgba(212,160,23,0.07);
+
+    /* ── Chapter color-worlds (subsystem tints for MorphBackground) ─────── */
+    --world-enclosure:   rgba(147,197,253,0.10);
+    --world-tdc:         rgba(212,160,23,0.12);
+    --world-camera:      rgba(240,244,255,0.08);
+    --world-water:       rgba(125,211,252,0.10);
+    --world-substrate:   rgba(134,239,172,0.10);
+    --world-electronics: rgba(253,164,175,0.10);
+
+    /* ── Type scale (Space Grotesk display + Inter body) ────────────────── */
+    --t-display:  clamp(3.2rem, 9vw, 6rem);
+    --t-h1:       clamp(2.2rem, 5vw, 3.2rem);
+    --t-h2:       clamp(1.6rem, 3vw, 2.2rem);
+    --t-h3:       1.15rem;
+    --t-body:     1.05rem;
+    --t-eyebrow:  0.72rem;
+    --tracking-kinetic: 0.04em;
+
+    /* ── Spacing / layout ─────────────────────────────────────────────── */
+    --space-section: clamp(5rem, 10vh, 8rem);
+    --wrap-max:    72rem;
+    --wrap-pad:    1.5rem;
+    --sticky-offset: 5rem;
+    --pin-height:  220vh;
+
+    /* ── Motion tokens ────────────────────────────────────────────────── */
+    --ease-out-cine:    cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-cine: cubic-bezier(0.83, 0, 0.17, 1);
+    --ease-soft:        cubic-bezier(0.2, 0.7, 0.2, 1);
+    --dur-reveal:  0.8s;
+    --dur-enter:   0.6s;
+    --dur-kinetic: 0.5s;
+    --dur-nav:     0.35s;
+    --stagger-step: 0.06s;
+
+    /* ── Parallax depths (translateY as % of element height, 0→1 progress) */
+    --parallax-near: 8%;
+    --parallax-mid:  16%;
+    --parallax-far:  28%;
+    --parallax-bg:  3%;
   }
 
   * { box-sizing: border-box; }
@@ -50,7 +103,7 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     background-color: var(--hex-bg);
     /* hex-grid + radial vignette atmosphere, fixed for depth */
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, var(--hex-glow), transparent 70%),
+      radial-gradient(ellipse 80% 50% at 50% -10%, var(--hex-gold-glow), transparent 70%),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.4' opacity='0.5'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: auto, 56px 97px;
@@ -86,7 +139,7 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
 
   /* Section label with lead rule */
   .section-label {
-    font-size: 0.7rem;
+    font-size: var(--t-eyebrow);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -111,7 +164,7 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
   [data-reveal] {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+    transition: opacity var(--dur-reveal) var(--ease-soft), transform var(--dur-reveal) var(--ease-soft);
     will-change: opacity, transform;
   }
   .reveal.is-in,
@@ -124,7 +177,22 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
   .reveal-5 { transition-delay: .30s; }
   .reveal-6 { transition-delay: .36s; }
 
-  /* Scroll progress bar — thin gold line at the very top */
+  /* ── KineticHeadline: per-unit stagger reveal (split by the Layout script) ─ */
+  .kinetic { display: inline-block; }
+  .kinetic-unit {
+    display: inline-block;
+    transform: translateY(0.5em);
+    opacity: 0;
+    transition: transform var(--dur-kinetic) var(--ease-out-cine), opacity var(--dur-kinetic) var(--ease-out-cine);
+    transition-delay: calc(var(--i, 0) * 0.05s);
+    will-change: transform, opacity;
+  }
+  .kinetic.is-in .kinetic-unit,
+  .kinetic [data-reveal].is-in .kinetic-unit { transform: none; opacity: 1; }
+  /* a kinetic headline that is itself a reveal target lights up its units on .is-in */
+  .kinetic[data-reveal].is-in .kinetic-unit { transform: none; opacity: 1; }
+
+  /* Scroll-progress bar — thin gold line at the very top */
   .hf-progress {
     position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60;
     background: transparent; pointer-events: none;
@@ -136,17 +204,71 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     transition: width .08s linear;
   }
 
+  /* ── PinnedReveal: sticky section header that pins for its body ──────── */
+  .pin { min-height: var(--pin-height); position: relative; }
+  .pin-head {
+    position: sticky; top: var(--sticky-offset);
+    min-height: calc(100vh - var(--sticky-offset));
+    display: flex; flex-direction: column; justify-content: center;
+    max-width: var(--wrap-max); margin: 0 auto; padding: 0 var(--wrap-pad);
+  }
+  .pin-body { padding: 0 var(--wrap-pad) var(--space-section); max-width: var(--wrap-max); margin: 0 auto; }
+
+  /* ── DepthFigure: layered parallax image ─────────────────────────────── */
+  .depth-fig { position: relative; border-radius: 0.85rem; overflow: hidden;
+    border: 1px solid var(--hex-line); background: var(--hex-surface); }
+  .df-glow { position: absolute; inset: -20%; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 40%, var(--hex-gold-glow), transparent 70%); filter: blur(10px); }
+  .df-img { position: relative; display: block; width: 100%; height: auto; }
+  /* The image stays put so the overflow:hidden frame never exposes edges;
+     only the glow + hex layers parallax for depth. (beats [data-layer="mid"]) */
+  .depth-fig .df-img { animation: none; }
+  .df-hex { position: absolute; top: 10%; right: 8%; width: 4rem; height: 4.5rem; pointer-events: none;
+    background: linear-gradient(160deg, rgba(212,160,23,0.18), transparent);
+    border: 1px solid var(--hex-line-2);
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+
+  /* ── MorphBackground: fixed chapter color-world crossfade ───────────── */
+  .bg-world { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+  .bg-world-layer { position: absolute; inset: 0; opacity: 0;
+    transition: opacity 1.2s var(--ease-in-out-cine); }
+  .bg-world-layer.is-on { opacity: 1; }
+
+  /* ── Lenis ──────────────────────────────────────────────────────────── */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+
+  /* ── Scroll-driven parallax (compositor thread, Chrome 115+/Safari 26+) ─ */
+  @supports (animation-timeline: scroll()) {
+    .hf-progress-fill {
+      width: auto; transform-origin: 0 50%;
+      animation: hf-grow auto linear; animation-timeline: scroll(root block);
+    }
+    @keyframes hf-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+    [data-layer="near"] { animation: parallax-near auto linear both; animation-timeline: scroll(root block); }
+    [data-layer="mid"]  { animation: parallax-mid  auto linear both; animation-timeline: scroll(root block); }
+    [data-layer="far"]  { animation: parallax-far  auto linear both; animation-timeline: scroll(root block); }
+    [data-layer="bg"]   { animation: parallax-bg   auto linear both; animation-timeline: scroll(root block); }
+    @keyframes parallax-near { from { transform: translateY(calc(var(--parallax-near) * -1)); } to { transform: translateY(var(--parallax-near)); } }
+    @keyframes parallax-mid  { from { transform: translateY(calc(var(--parallax-mid)  * -1)); } to { transform: translateY(var(--parallax-mid)); } }
+    @keyframes parallax-far  { from { transform: translateY(calc(var(--parallax-far)  * -1)); } to { transform: translateY(var(--parallax-far)); } }
+    @keyframes parallax-bg   { from { transform: translateY(calc(var(--parallax-bg)   * -1)); } to { transform: translateY(var(--parallax-bg)); } }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .reveal, [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .reveal, [data-reveal], .kinetic-unit { opacity: 1 !important; transform: none !important; transition: none !important; }
     .hf-progress-fill { transition: none; }
+    [data-nav].nav-hidden { transform: none !important; }
     * { transition: none !important; }
   }
 </style>
 
 <noscript>
   <style>
-    .reveal, [data-reveal] { opacity: 1 !important; transform: none !important; }
+    .reveal, [data-reveal], .kinetic-unit { opacity: 1 !important; transform: none !important; }
   </style>
 </noscript>
 
@@ -176,17 +298,101 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     revealEls().forEach((el) => el.classList.add('is-in'));
   }
 
-  // ── Scroll-progress bar ────────────────────────────────────────────────
+  // ── KineticHeadline: split text into per-unit spans ────────────────────
+  // Runs once per page. Splits [data-kinetic="char"] by character and
+  // [data-kinetic="word"] by word. Skips elements already split.
+  document.querySelectorAll('[data-kinetic]').forEach((el) => {
+    if (el.dataset.split === '1') return;
+    const mode = el.dataset.kinetic;
+    const text = el.textContent;
+    const parts = mode === 'char' ? [...text] : text.split(/(\s+)/);
+    el.innerHTML = parts
+      .map((p, i) => {
+        if (mode === 'word' && /^\s+$/.test(p)) return p;
+        return `<span class="kinetic-unit" style="--i:${i}">${p}</span>`;
+      })
+      .join(mode === 'char' ? '' : '');
+    el.dataset.split = '1';
+    // kinetic headlines reveal their units when they themselves get .is-in
+    // (via .reveal/[data-reveal]); if neither is present, reveal immediately.
+    if (!el.classList.contains('reveal') && !el.hasAttribute('data-reveal')) {
+      el.classList.add('is-in');
+    }
+  });
+
+  // ── Lenis smooth scroll ────────────────────────────────────────────────
+  let lenis = null;
+  if (!reduce && window.Lenis) {
+    lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    window.__lenis = lenis;
+    // Route anchor links (#...) through Lenis.
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (id && id.length > 1) {
+          const target = document.querySelector(id);
+          if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -80 }); }
+        }
+      });
+    });
+  }
+
+  // ── Scroll progress + velocity signal + nav hide/show ─────────────────
   const fill = document.getElementById('hf-progress-fill');
-  if (fill) {
-    const update = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const p = max > 0 ? (h.scrollTop / max) * 100 : 0;
-      fill.style.width = p + '%';
-    };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
+  const root = document.documentElement;
+  const nav = document.querySelector('[data-nav]');
+  let lastY = 0, lastT = performance.now(), lastNavY = 0;
+
+  function onScroll(y) {
+    const max = root.scrollHeight - root.clientHeight;
+    const p = max > 0 ? (y / max) * 100 : 0;
+    if (fill) fill.style.width = p + '%';
+    // velocity (px/ms), clamped ±2, for subtle kinetic skew
+    const now = performance.now();
+    const v = (y - lastY) / Math.max(1, now - lastT);
+    lastY = y; lastT = now;
+    root.style.setProperty('--scroll-vel', Math.max(-2, Math.min(2, v)).toFixed(2));
+    root.style.setProperty('--scroll-y', y + 'px');
+    // Nav hide-on-scroll-down / reveal-on-scroll-up + shrink after any scroll
+    if (nav) {
+      const dy = y - lastNavY; lastNavY = y;
+      nav.classList.toggle('nav-shrunk', y > 40);
+      if (y < 120) nav.classList.remove('nav-hidden');
+      else if (dy > 6) nav.classList.add('nav-hidden');
+      else if (dy < -4) nav.classList.remove('nav-hidden');
+    }
+  }
+
+  if (lenis) lenis.on('scroll', (e) => onScroll(e.animatedScroll));
+  else window.addEventListener('scroll', () => onScroll(window.scrollY), { passive: true });
+  onScroll(window.scrollY);
+
+  // ── MorphBackground: crossfade chapter color-worlds as sections enter ──
+  const chapters = document.querySelectorAll('[data-chapter]');
+  const layers = document.querySelectorAll('.bg-world-layer');
+  if (chapters.length && layers.length) {
+    const worldLayer = new Map();
+    layers.forEach((l) => worldLayer.set(l.dataset.world, l));
+    // Light the first chapter's world immediately so the hero isn't flat.
+    const first = chapters[0].dataset.chapter;
+    if (worldLayer.has(first)) worldLayer.get(first).classList.add('is-on');
+    const chapObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const w = e.target.dataset.chapter;
+          layers.forEach((l) => l.classList.toggle('is-on', l.dataset.world === w));
+        });
+      },
+      { threshold: 0.35 }
+    );
+    chapters.forEach((c) => chapObserver.observe(c));
   }
 </script>
