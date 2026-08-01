@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
+import VideoFigure from '../components/VideoFigure.astro';
 ---
 <Layout title="Drop Testing">
   <Nav slot="nav" />
@@ -50,9 +52,9 @@ import PageShell from '../components/PageShell.astro';
             { label:'Expected Result', value:'No free droplets', desc:'Water climbs into the channels by capillary action' },
           ].map((s, i) => (
             <div class={`card reveal-${i + 1}`}>
-              <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">{s.label}</div>
+              <div style="font-size:0.75rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">{s.label}</div>
               <div class="font-display" style="font-size:1.1rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
-              {s.desc && <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>}
+              {s.desc && <div style="font-size:0.825rem;color:var(--hex-muted-2);">{s.desc}</div>}
             </div>
           ))}
         </div>
@@ -67,7 +69,7 @@ import PageShell from '../components/PageShell.astro';
           <svg width="100%" viewBox="0 0 300 320" style="max-width:320px;" xmlns="http://www.w3.org/2000/svg">
             <!-- Drop height indicator -->
             <line x1="30" y1="20" x2="30" y2="280" stroke="rgba(212,160,23,0.3)" stroke-width="1.5" stroke-dasharray="5 4"/>
-            <text x="10" y="150" fill="#64748b" font-size="9" font-family="Inter,sans-serif"
+            <text x="10" y="150" fill="var(--hex-muted-2)" font-size="9" font-family="Inter,sans-serif"
                   transform="rotate(-90,10,150)">14 feet</text>
             <line x1="20" y1="20"  x2="40" y2="20"  stroke="#d4a017" stroke-width="1.5"/>
             <line x1="20" y1="280" x2="40" y2="280" stroke="#d4a017" stroke-width="1.5"/>
@@ -82,7 +84,7 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="2"/>
             <text x="150" y="72" text-anchor="middle" fill="#fff" font-size="11"
                   font-family="Space Grotesk,sans-serif" font-weight="600">TDC Module</text>
-            <text x="150" y="88" text-anchor="middle" fill="#64748b" font-size="9"
+            <text x="150" y="88" text-anchor="middle" fill="var(--hex-muted-2)" font-size="9"
                   font-family="Inter,sans-serif">5mL dyed water</text>
 
             <!-- Module (bottom = landing) -->
@@ -90,7 +92,7 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(212,160,23,0.04)" stroke="rgba(212,160,23,0.4)" stroke-width="1.5"/>
             <text x="150" y="242" text-anchor="middle" fill="#94a3b8" font-size="11"
                   font-family="Space Grotesk,sans-serif" font-weight="600">Post Drop</text>
-            <text x="150" y="258" text-anchor="middle" fill="#64748b" font-size="9"
+            <text x="150" y="258" text-anchor="middle" fill="var(--hex-muted-2)" font-size="9"
                   font-family="Inter,sans-serif">Calipers measure dispersal</text>
 
             <!-- 5.18s label -->
@@ -102,6 +104,99 @@ import PageShell from '../components/PageShell.astro';
         </div>
       </div>
 
+      <!-- Simulating microgravity on Earth -->
+      <div data-reveal class="mg">
+        <div class="section-label">The Hard Part</div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
+            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          You cannot test microgravity on Earth
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          At Preliminary Design Review, peer teams raised the objection that has shaped
+          every test since: <strong style="color:#e2e8f0;">wicking may not behave in
+          microgravity the way it behaves in a classroom.</strong> Capillary action is
+          driven by adhesion and surface tension, which do not need gravity — but on Earth
+          gravity is always present as a competing force, either helping the water fall or
+          being fought by the channels. Remove it and the balance changes in ways a bench
+          test cannot show.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.5rem;">
+          There is no way to get around that from a school workshop. So instead of claiming
+          otherwise, the team built a ladder of approximations — each one able to falsify a
+          different assumption, none of them able to prove flight readiness.
+        </p>
+
+        <ol class="mg-steps">
+          <li>
+            <span class="mg-k">01</span>
+            <div>
+              <h3>Inversion — static retention</h3>
+              <p>
+                The module was turned upside down and shaken with substrate, covers and a
+                planted stem in place. Nothing fell out. This tests whether the channels can
+                hold water against gravity, and whether containment survives an arbitrary
+                orientation. <em>It says nothing about how water moves in free-fall.</em>
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="mg-k">02</span>
+            <div>
+              <h3>The first flow test — where 1 g wins</h3>
+              <p>
+                Water was run into the dome and tracked as it climbed. It travelled roughly
+                halfway up the sides before gravity overpowered the capillary forces and it
+                stopped. That halfway mark is a 1 g result, not a failure: it is the point
+                the team expects to exceed once gravity is removed.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="mg-k">03</span>
+            <div>
+              <h3>Free-fall — 14 feet, about 0.9 seconds</h3>
+              <p>
+                Dropping the sealed module produces real, if brief, weightlessness. Two suites
+                were run: six drops first, then nine more after the module was revised. Mean
+                capillary movement rose from roughly 9.9 mm to 14.7 mm. Short, noisy, and
+                genuinely free-fall — the spread across the nine ran from 4.28 mm to 31.79 mm.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="mg-k">04</span>
+            <div>
+              <h3>NASA Glenn — 5.18 seconds, still ahead</h3>
+              <p>
+                The drop tower gives roughly five and a half times the free-fall window of the
+                14-foot drop, under instrumented conditions. This is the test that has not
+                happened yet. Until it does, every microgravity figure on this site is an
+                extrapolation from 0.9-second windows, and is labelled as such.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="mg-foot">
+          What the team can say today: the geometry holds water when inverted, moves it
+          measurably in free-fall, and improved by about 48% between revisions. What it
+          cannot yet say is how the lattice behaves over five continuous seconds of
+          weightlessness. That distinction is the whole reason for the trip to Ohio.
+        </p>
+      </div>
+
+      <!-- Drop test footage -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Drop Test Footage
+        </h2>
+        <VideoFigure
+          src="/video/drop-test.mp4"
+          poster="/video/drop-test-poster.jpg"
+          caption="Dyed water on the TDC hex lattice during outdoor drop testing. The blue bead shows the water held on the hexagonal channels rather than dispersing."
+        />
+      </div>
+
       <!-- Photo gallery -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
@@ -111,30 +206,30 @@ import PageShell from '../components/PageShell.astro';
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-1.jpg" alt="Drop test photo 1 — filtered water dispersal" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/drop-test-1.jpg")} alt="Drop test photo 1 — filtered water dispersal" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
               Drop test — filtered dispersal
             </div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-2.jpg" alt="Drop test photo 2 — channel water behavior" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/drop-test-2.jpg")} alt="Drop test photo 2 — channel water behavior" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
               Drop test — channels filling
             </div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-3.jpg" alt="Drop test photo 3 — post-drop caliper measurement" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/drop-test-3.jpg")} alt="Drop test photo 3 — post-drop caliper measurement" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
               Post-drop caliper measurement
             </div>
           </div>
@@ -147,12 +242,10 @@ import PageShell from '../components/PageShell.astro';
         <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.4rem;">
           📊 Capillary Physical Tests Data
         </div>
-        <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 0.75rem;">
-          Full test data and analysis live in the linked Google Sheet.
+        <p style="color:#94a3b8;font-size:0.875rem;margin:0;">
+          Per-drop before/after channel measurements were recorded for all nine runs. The full
+          dataset and analysis are held with the CDR test documentation.
         </p>
-        <span style="font-size:0.85rem;color:#64748b;">
-          Link: <em>Capillary Physical Tests</em> — add your Google Sheets URL here.
-        </span>
       </div>
 
     </div>
@@ -160,3 +253,36 @@ import PageShell from '../components/PageShell.astro';
 
   <Footer slot="footer" />
 </Layout>
+
+
+<style>
+  /* ── "You cannot test microgravity on Earth" ladder ────────────────── */
+  .mg-steps { list-style: none; margin: 0 0 1.5rem; padding: 0;
+              display: grid; gap: 1rem; counter-reset: mg; }
+  .mg-steps > li {
+    display: grid; grid-template-columns: auto 1fr; gap: 1.1rem;
+    background: var(--hex-card); border: 1px solid var(--hex-line);
+    border-radius: 0.85rem; padding: 1.25rem 1.4rem;
+    position: relative;
+  }
+  /* Rising gold weight per rung: the later the test, the closer to flight. */
+  .mg-steps > li::before {
+    content: ""; position: absolute; left: 0; top: 0.9rem; bottom: 0.9rem;
+    width: 3px; border-radius: 3px; background: var(--hex-gold);
+  }
+  .mg-steps > li:nth-child(1)::before { opacity: 0.25; }
+  .mg-steps > li:nth-child(2)::before { opacity: 0.45; }
+  .mg-steps > li:nth-child(3)::before { opacity: 0.7; }
+  .mg-steps > li:nth-child(4)::before { opacity: 1; }
+
+  .mg-k { font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+          font-size: 0.85rem; color: rgba(212,160,23,0.5); padding-top: 0.15rem; }
+  .mg-steps h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem;
+                 font-weight: 700; color: var(--hex-text); margin: 0 0 0.4rem; }
+  .mg-steps p { font-size: 0.875rem; color: var(--hex-muted); line-height: 1.7; margin: 0; }
+  .mg-steps em { color: #e2e8f0; font-style: italic; }
+
+  .mg-foot { font-size: 0.9rem; color: var(--hex-muted); line-height: 1.75;
+             margin: 0; padding: 1.1rem 1.3rem; border-radius: 0.75rem;
+             background: rgba(212,160,23,0.05); border: 1px solid rgba(212,160,23,0.16); }
+</style>

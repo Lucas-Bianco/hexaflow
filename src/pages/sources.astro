@@ -17,7 +17,7 @@ const groups = [
     cat: 'Aeroponics',
     refs: [
       { title: 'LettUs Grow',                 note: 'Aeroponic growing systems and efficiency data (98% water savings)' },
-      { title: 'Atlas Scientific',             note: 'Sensor integration for pH and TDS in aeroponic systems' },
+      { title: 'Atlas Scientific',             note: 'Contact-free pH probe — selected over the Arduino Gravity glass-reed sensor, which cannot work in microgravity', url: 'https://atlas-scientific.com' },
       { title: 'Food Gardening Network',       note: 'Suitable and unsuitable crops for aeroponic growing' },
       { title: 'NASA Science',                 note: 'Plant growth research in space environments' },
       { title: 'Agrotonomy',                   note: 'Commercial aeroponics and root zone oxygen studies' },
@@ -51,7 +51,36 @@ const groups = [
     refs: [
       { title: 'Raspberry Pi documentation',  note: 'GPIO, USB, and carrier board integration references' },
       { title: 'OpenCV / computer vision',    note: 'Plant root moisture detection via image analysis' },
-      { title: 'GitHub — AidanForrester/TC-HUNCH-Nanolab', note: 'Project version control and UI development log' },
+      { title: 'GitHub — AidanForrester/TC-HUNCH-Nanolab', note: 'Project version control and UI development log', url: 'https://github.com/AidanForrester/TC-HUNCH-Nanolab' },
+    ],
+  },
+  {
+    cat: 'Patents & Prior Art',
+    refs: [
+      { title: 'CN105638413A — Plant cultivation in microgravity', note: 'Reviewed during the existing-solutions survey', url: 'https://patents.google.com/patent/CN105638413A' },
+      { title: 'US20220369580A1 — Plant growth system',            note: 'Reviewed during the existing-solutions survey', url: 'https://patents.google.com/patent/US20220369580A1' },
+      { title: 'CN108633718A — Cultivation apparatus',             note: 'Reviewed during the existing-solutions survey', url: 'https://patents.google.com/patent/CN108633718A' },
+    ],
+  },
+  {
+    cat: 'Components',
+    refs: [
+      { title: 'Adafruit 4026 — Capacitive soil moisture sensor', note: 'Chosen over resistive probes, which oxidise in continuous contact with water', url: 'https://www.adafruit.com/product/4026' },
+    ],
+  },
+  {
+    cat: 'Media Credits',
+    refs: [
+      { title: 'Thorny devil (Moloch horridus) photograph', note: 'Wikimedia Commons — used on the Geometry page', url: 'https://commons.wikimedia.org/wiki/File:Thorny_dragon.jpg' },
+    ],
+  },
+  {
+    cat: 'Site Colophon',
+    refs: [
+      { title: 'Astro',     note: 'Static site framework behind these 16 pages', url: 'https://astro.build' },
+      { title: 'Three.js',  note: 'WebGL renderer powering the interactive Assembly Viewer', url: 'https://threejs.org' },
+      { title: 'Lenis',     note: 'Smooth-scroll library driving the scroll-linked sections', url: 'https://lenis.darkroom.engineering' },
+      { title: 'Tailwind CSS', note: 'Utility layer used alongside the project design tokens', url: 'https://tailwindcss.com' },
     ],
   },
 ];
@@ -73,21 +102,30 @@ const groups = [
             {gi === 0 ? <span class="kinetic" data-kinetic="word" data-reveal>{g.cat}</span> : g.cat}
           </h2>
           <div class="refs-grid" data-reveal style="display:grid;gap:0.6rem;">
-            {g.refs.map(r => (
-              <div class="card" style="padding:1rem 1.25rem;">
-                <div style="font-weight:600;color:#e2e8f0;font-size:0.9rem;margin-bottom:0.25rem;">{r.title}</div>
-                <div style="font-size:0.825rem;color:#64748b;">{r.note}</div>
-              </div>
-            ))}
+            {g.refs.map(r => {
+              const Tag = r.url ? 'a' : 'div';
+              return (
+                <Tag class="card ref" href={r.url} target={r.url ? '_blank' : undefined}
+                     rel={r.url ? 'noopener noreferrer' : undefined}
+                     style="padding:1rem 1.25rem;display:block;text-decoration:none;">
+                  <div class="ref-t">{r.title}{r.url && <span class="ref-x" aria-hidden="true"> ↗</span>}</div>
+                  <div class="ref-n">{r.note}</div>
+                  {r.url && <div class="ref-u">{r.url.replace(/^https?:\/\//, '')}</div>}
+                </Tag>
+              );
+            })}
           </div>
         </div>
       ))}
 
       <div data-reveal style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
                   border:1px solid rgba(212,160,23,0.12);">
-        <p style="font-size:0.875rem;color:#64748b;margin:0;line-height:1.65;">
-          Full citations (authors, year, DOI/URL) will be added to each entry. The secondary substrates
-          section draws on <strong style="color:#94a3b8;">28 academic sources</strong> — the complete list is in the project Google Docs.
+        <p style="font-size:0.875rem;color:var(--hex-muted-2);margin:0;line-height:1.65;">
+          Entries with a <span style="color:#d4a017;">↗</span> link to a verified primary source. The
+          remaining entries name the work consulted but are pending full citation (author, year, DOI);
+          they are listed here rather than omitted so the research trail stays visible. The secondary
+          substrates work additionally draws on <strong style="color:#94a3b8;">28 academic sources</strong>
+          held with the project documentation.
         </p>
       </div>
     </div>
@@ -97,6 +135,13 @@ const groups = [
 </Layout>
 
 <style>
+  .ref-t { font-weight: 600; color: #e2e8f0; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .ref-n { font-size: 0.825rem; color: var(--hex-muted-2); }
+  .ref-u { font-size: 0.75rem; color: var(--hex-gold); margin-top: 0.4rem;
+           word-break: break-all; opacity: 0.85; }
+  .ref-x { color: var(--hex-gold); font-size: 0.8em; }
+  a.ref:hover .ref-u, a.ref:focus-visible .ref-u { opacity: 1; text-decoration: underline; }
+
   /* Opacity-only stagger so we never fight the .card hover-lift transform. */
   .refs-grid > .card { opacity: 0; transition: opacity .6s ease; }
   .refs-grid.is-in > .card { opacity: 1; }

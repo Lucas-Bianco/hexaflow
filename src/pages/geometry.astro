@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
 ---
 <Layout title="Geometry">
   <Nav slot="nav" />
@@ -44,23 +45,23 @@ import PageShell from '../components/PageShell.astro';
             <div class="section-label" style="margin-bottom:0.6rem;">Channel Geometry</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;">
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side-to-side</div>
+                <div style="font-size:0.7rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;">Side-to-side</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.167 in / 4.24 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Side length</div>
+                <div style="font-size:0.7rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;">Side length</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.100 in / 2.54 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel depth</div>
+                <div style="font-size:0.7rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;">Channel depth</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.050 in / 1.27 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel width</div>
+                <div style="font-size:0.7rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;">Channel width</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.48 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Gap between channels</div>
+                <div style="font-size:0.7rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;">Gap between channels</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.51 mm / 0.020 in</div>
               </div>
             </div>
@@ -92,9 +93,9 @@ import PageShell from '../components/PageShell.astro';
             />
             <div class="df-hex" data-layer="near" aria-hidden="true"></div>
           </figure>
-          <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+          <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
             <em>Moloch horridus</em> — thorny devil lizard. Its skin channels passively transport water via capillary action.
-            <span style="color:#475569;"> (Image: Wikimedia Commons)</span>
+            <span style="color:var(--hex-muted-2);"> (Image: Wikimedia Commons)</span>
           </div>
         </div>
 
@@ -103,20 +104,20 @@ import PageShell from '../components/PageShell.astro';
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/geometry-1.jpg" alt="TDC hex channel top-down view" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/geometry-1.jpg")} alt="TDC hex channel top-down view" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
               TDC hex channel — top view
             </div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/geometry-2.jpg" alt="TDC capillary channel close-up" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/geometry-2.jpg")} alt="TDC capillary channel close-up" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
               Capillary channel detail
             </div>
           </div>
@@ -141,66 +142,83 @@ import PageShell from '../components/PageShell.astro';
           { label:'Inversion Test',    value:'Passes',          desc:'System retains water at proper scale when fully inverted' },
         ].map((s, i) => (
           <div class={`card reveal-${i + 1}`}>
-            <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">{s.label}</div>
+            <div style="font-size:0.75rem;color:var(--hex-muted-2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">{s.label}</div>
             <div class="font-display" style="font-size:1.25rem;font-weight:700;color:#d4a017;margin-bottom:0.3rem;">{s.value}</div>
-            <div style="font-size:0.825rem;color:#64748b;line-height:1.5;">{s.desc}</div>
+            <div style="font-size:0.825rem;color:var(--hex-muted-2);line-height:1.5;">{s.desc}</div>
           </div>
         ))}
       </div>
     </div>
 
-    <!-- Hex diagram (SVG) -->
-    <section class="pin">
-      <header class="pin-head">
+    <!-- Hex diagram — scroll fills the channels -->
+    <section class="scrub geo-scrub" aria-label="Channel geometry diagram">
+      <div class="scrub-stage">
         <div class="section-label">Geometry</div>
-        <h2 class="font-display" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+        <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
           Channel Geometry Diagram
         </h2>
-      </header>
-      <div class="pin-body" data-reveal>
-        <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:2.5rem;">
-        <svg width="100%" viewBox="0 0 400 220" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
-          <!-- Hex grid pattern showing channel layout -->
-          <!-- Row 1 -->
-          <polygon points="60,20 90,37 90,70 60,87 30,70 30,37"   fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="120,20 150,37 150,70 120,87 90,70 90,37"  fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="180,20 210,37 210,70 180,87 150,70 150,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="240,20 270,37 270,70 240,87 210,70 210,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="300,20 330,37 330,70 300,87 270,70 270,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="360,20 390,37 390,70 360,87 330,70 330,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <!-- Row 2 (offset) -->
-          <polygon points="30,87 60,104 60,137 30,154 0,137 0,104"   fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="90,87 120,104 120,137 90,154 60,137 60,104"  fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2" stroke-dasharray="none"/>
-          <polygon points="150,87 180,104 180,137 150,154 120,137 120,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="210,87 240,104 240,137 210,154 180,137 180,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
-          <polygon points="270,87 300,104 300,137 270,154 240,137 240,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="330,87 360,104 360,137 330,154 300,137 300,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
-          <!-- Row 3 -->
-          <polygon points="60,154 90,171 90,204 60,220 30,204 30,171"  fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="120,154 150,171 150,204 120,220 90,204 90,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="180,154 210,171 210,204 180,220 150,204 150,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="240,154 270,171 270,204 240,220 210,204 210,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="300,154 330,171 330,204 300,220 270,204 270,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <!-- Spacing annotation -->
-          <line x1="90" y1="53" x2="120" y2="53" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="105" y="48" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="Inter,sans-serif">0.51mm</text>
-          <!-- Water flow arrows -->
-          <text x="90" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-          <text x="210" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-          <text x="330" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-        </svg>
-        <p style="font-size:0.8rem;color:#64748b;margin-top:1rem;text-align:center;max-width:400px;">
-          Top-down view of hexagonal channel layout. Highlighted cells show water distribution points.
-          Hexagons are spaced 0.51 mm apart with 0.48 mm channel width to optimize capillary flow.
+        <p class="geo-scrub-lede">
+          Scroll to fill the lattice — this is the distribution the capillary channels
+          perform passively, with no pump and no gravity.
         </p>
+
+        <div class="card geo-card">
+          <div class="geo-stack">
+            <!-- Base layer: empty channels -->
+            <svg class="geo-svg" width="100%" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img">
+              <title>Top-down view of the hexagonal capillary channel lattice</title>
+              <use href="#geo-hexes" class="geo-empty" />
+            </svg>
+            <!-- Water layer: identical lattice, revealed bottom-up by --p -->
+            <svg class="geo-svg geo-water" width="100%" viewBox="0 0 400 220"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <use href="#geo-hexes" class="geo-wet" />
+            </svg>
+          </div>
+
+          <div class="geo-readout">
+            {/* Fallback reads 100% so a no-JS visitor sees a saturated lattice
+                and a matching label, not a filled diagram reading 0%. */}
+            <span class="geo-pct font-display" data-scrub-pct>100%</span>
+            <span class="geo-cap">channel volume filled &middot; 10.12 mL at saturation</span>
+          </div>
         </div>
       </div>
+
+      <!-- Scroll length that the fill is scrubbed across -->
+      <div class="scrub-track" aria-hidden="true"></div>
     </section>
+
+    <!-- Shared lattice geometry, referenced by both layers above -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <g id="geo-hexes">
+          <polygon points="60,20 90,37 90,70 60,87 30,70 30,37"/>
+          <polygon points="120,20 150,37 150,70 120,87 90,70 90,37"/>
+          <polygon points="180,20 210,37 210,70 180,87 150,70 150,37"/>
+          <polygon points="240,20 270,37 270,70 240,87 210,70 210,37"/>
+          <polygon points="300,20 330,37 330,70 300,87 270,70 270,37"/>
+          <polygon points="360,20 390,37 390,70 360,87 330,70 330,37"/>
+          <polygon points="30,87 60,104 60,137 30,154 0,137 0,104"/>
+          <polygon points="90,87 120,104 120,137 90,154 60,137 60,104"/>
+          <polygon points="150,87 180,104 180,137 150,154 120,137 120,104"/>
+          <polygon points="210,87 240,104 240,137 210,154 180,137 180,104"/>
+          <polygon points="270,87 300,104 300,137 270,154 240,137 240,104"/>
+          <polygon points="330,87 360,104 360,137 330,154 300,137 300,104"/>
+          <polygon points="60,154 90,171 90,204 60,220 30,204 30,171"/>
+          <polygon points="120,154 150,171 150,204 120,220 90,204 90,171"/>
+          <polygon points="180,154 210,171 210,204 180,220 150,204 150,171"/>
+          <polygon points="240,154 270,171 270,204 240,220 210,204 210,171"/>
+          <polygon points="300,154 330,171 330,204 300,220 270,204 270,171"/>
+        </g>
+      </defs>
+    </svg>
+
 
     <!-- Source -->
     <div data-reveal style="margin-top:2rem;padding:1rem 1.25rem;border-radius:0.5rem;
                 background:rgba(212,160,23,0.04);border:1px solid rgba(212,160,23,0.12);">
-      <p style="font-size:0.825rem;color:#64748b;margin:0;">
+      <p style="font-size:0.825rem;color:var(--hex-muted-2);margin:0;">
         <strong style="color:#94a3b8;">Source:</strong> Skin morphology study of <em>Moloch horridus</em> — ResearchGate.
         Capillary channel geometry and polar adhesion principles adapted for SLA resin fabrication.
       </p>
@@ -210,3 +228,38 @@ import PageShell from '../components/PageShell.astro';
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  /* ── Scroll-scrubbed channel fill ─────────────────────────────────────
+     The section is tall; .scrub-stage pins inside it and --p (0→1) is written
+     by the shared scroll pass in Layout. Two identical lattices are stacked:
+     the lower one is empty outline, the upper is "wet" and revealed bottom-up
+     with clip-path, so scrolling literally fills the channels. */
+  .geo-scrub { min-height: 100svh; }
+  .scrub-track { height: 140vh; }
+  .geo-scrub-lede { color: var(--hex-muted); line-height: 1.7; margin: 0 0 1.5rem; max-width: 42rem; }
+  .geo-card { display: flex; flex-direction: column; align-items: center; padding: 2.5rem; }
+
+  .geo-stack { position: relative; width: 100%; max-width: 500px; }
+  .geo-svg { display: block; width: 100%; height: auto; }
+  .geo-water {
+    position: absolute; inset: 0;
+    /* reveal from the bottom as --p rises */
+    clip-path: inset(calc((1 - var(--p, 0)) * 100%) 0 0 0);
+  }
+  .geo-empty polygon { fill: rgba(212,160,23,0.05); stroke: rgba(212,160,23,0.35); stroke-width: 1.5; }
+  .geo-wet   polygon { fill: rgba(125,211,252,0.30); stroke: var(--hex-gold); stroke-width: 2; }
+
+  .geo-readout { display: flex; align-items: baseline; gap: 0.6rem; margin-top: 1.5rem;
+                 flex-wrap: wrap; justify-content: center; text-align: center; }
+  .geo-pct { font-size: 1.6rem; font-weight: 700; color: var(--hex-gold); line-height: 1;
+             font-variant-numeric: tabular-nums; }
+  .geo-cap { font-size: 0.8rem; color: var(--hex-muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Show the filled state and drop the extra scroll length entirely. */
+    .geo-scrub { min-height: 0; }
+    .scrub-track { display: none; }
+    .geo-water { clip-path: none; }
+  }
+</style>

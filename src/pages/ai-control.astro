@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
+import VideoFigure from '../components/VideoFigure.astro';
 ---
 <Layout title="AI & Control">
   <Nav slot="nav" />
@@ -53,7 +55,7 @@ import PageShell from '../components/PageShell.astro';
               <li>AI disengages during the drop window</li>
               <li>Constant pumping for a user-defined duration</li>
               <li>Driven by a <strong style="color:#e2e8f0;">100 mL/min (5000 RPM) pump</strong></li>
-              <li>Targets <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> over the 5.18s test window</li>
+              <li>Targets <strong style="color:#e2e8f0;">≈ 8.63 mL</strong> over the 5.18s test window</li>
               <li>Maximizes channel fill during the microgravity event</li>
             </ul>
           </div>
@@ -92,7 +94,7 @@ import PageShell from '../components/PageShell.astro';
           ].map((f, i) => (
             <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{f.title}</h3>
-              <p style="font-size:0.85rem;color:#64748b;margin:0;line-height:1.55;">{f.desc}</p>
+              <p style="font-size:0.85rem;color:var(--hex-muted-2);margin:0;line-height:1.55;">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -142,13 +144,25 @@ import PageShell from '../components/PageShell.astro';
             <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.35rem;">{s.pick}</h3>
               <p style="font-size:0.825rem;color:#fff;margin:0 0 0.4rem;line-height:1.5;">{s.role}</p>
-              <p style="font-size:0.8rem;color:#64748b;margin:0 0 0.35rem;line-height:1.5;">
+              <p style="font-size:0.8rem;color:var(--hex-muted-2);margin:0 0 0.35rem;line-height:1.5;">
                 Over <span style="color:#94a3b8;">{s.over}</span>
               </p>
-              <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.5;">{s.why}</p>
+              <p style="font-size:0.8rem;color:var(--hex-muted-2);margin:0;line-height:1.5;">{s.why}</p>
             </div>
           ))}
         </div>
+      </div>
+
+      <!-- Vision model demo -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Vision Model in Operation
+        </h2>
+        <VideoFigure
+          src="/video/ai-demo.mp4"
+          poster="/video/ai-demo-poster.jpg"
+          caption="The vision model running on the Raspberry Pi Zero 2W, reading the root zone and driving the pump."
+        />
       </div>
 
       <!-- Carrier board / hardware photos -->
@@ -160,26 +174,26 @@ import PageShell from '../components/PageShell.astro';
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-1.jpg" alt="Custom carrier board" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/ai-1.jpg")} alt="Custom carrier board" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Custom carrier board</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">Custom carrier board</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-2.jpg" alt="AI control electronics" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/ai-2.jpg")} alt="AI control electronics" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">AI control electronics</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">AI control electronics</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-3.jpg" alt="Raspberry Pi and pump wiring" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src={withBase("/images/ai-3.jpg")} alt="Raspberry Pi and pump wiring" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">RPi and pump wiring</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">RPi and pump wiring</div>
           </div>
         </div>
       </div>
@@ -203,7 +217,7 @@ import PageShell from '../components/PageShell.astro';
                       fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1.5"/>
                 <text x={s.x+10} y="58" text-anchor="middle" fill="#fff" font-size="10"
                       font-family="Space Grotesk,sans-serif" font-weight="600">{s.label}</text>
-                <text x={s.x+10} y="73" text-anchor="middle" fill="#64748b" font-size="8"
+                <text x={s.x+10} y="73" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                       font-family="Inter,sans-serif">{s.sub}</text>
               </>
             ))}
@@ -214,7 +228,7 @@ import PageShell from '../components/PageShell.astro';
             <!-- Loop back arrow -->
             <path d="M 390 82 Q 390 110 220 110 Q 50 110 50 82" fill="none"
                   stroke="rgba(212,160,23,0.4)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow2)"/>
-            <text x="220" y="108" text-anchor="middle" fill="#64748b" font-size="8"
+            <text x="220" y="108" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                   font-family="Inter,sans-serif">continuous feedback loop</text>
             <defs>
               <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">

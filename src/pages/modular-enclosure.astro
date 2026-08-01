@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
 ---
 <Layout title="Modular Enclosure">
   <Nav slot="nav" />
@@ -30,7 +31,7 @@ import PageShell from '../components/PageShell.astro';
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.9;margin:0;padding-left:1.1rem;">
               <li>TDS and pH sensors removed to save weight and space</li>
               <li>Larger, high-capacity pump installed</li>
-              <li>Target: <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> channel fill</li>
+              <li>Target: <strong style="color:#e2e8f0;">≈ 8.63 mL</strong> channel fill</li>
               <li>Fills channels as much as possible within the <strong style="color:#e2e8f0;">5.18s</strong> drop window</li>
               <li>Optimized for short-duration data collection</li>
             </ul>
@@ -68,21 +69,22 @@ import PageShell from '../components/PageShell.astro';
           ].map((f, i) => (
             <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">{f.title}</h3>
-              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{f.desc}</p>
+              <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">{f.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       <!-- Enclosure diagram (SVG) -->
-      <section class="pin">
-        <header class="pin-head">
-          <div class="section-label">Hardware</div>
-          <h2 class="font-display" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-            Enclosure Diagram
-          </h2>
-        </header>
-        <div class="pin-body" data-reveal>
+      {/* Not a pin: this is a static labelled schematic with no scroll
+          narrative, so pinning it bought ~650px of dead scroll and pushed the
+          diagram 24px out of line with its sibling cards. */}
+      <section data-reveal>
+        <div class="section-label">Hardware</div>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Enclosure Diagram
+        </h2>
+        <div>
         <div class="card" style="display:flex;justify-content:center;padding:2rem;">
           <svg width="100%" viewBox="0 0 380 260" style="max-width:480px;" xmlns="http://www.w3.org/2000/svg">
             <!-- Outer enclosure -->
@@ -93,23 +95,23 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
             <rect x="332" y="20" width="28" height="220" rx="8"
                   fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
-            <text x="34" y="135" fill="#64748b" font-size="8" font-family="Inter,sans-serif"
+            <text x="34" y="135" fill="var(--hex-muted-2)" font-size="8" font-family="Inter,sans-serif"
                   transform="rotate(-90,34,135)">Cable</text>
-            <text x="346" y="135" fill="#64748b" font-size="8" font-family="Inter,sans-serif"
+            <text x="346" y="135" fill="var(--hex-muted-2)" font-size="8" font-family="Inter,sans-serif"
                   transform="rotate(90,346,135)">Cable</text>
 
             <!-- Sliding shelf rails -->
             <line x1="48" y1="90" x2="332" y2="90" stroke="rgba(212,160,23,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
             <line x1="48" y1="160" x2="332" y2="160" stroke="rgba(212,160,23,0.4)" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <text x="190" y="86" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">shelf rail</text>
-            <text x="190" y="156" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">shelf rail</text>
+            <text x="190" y="86" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8" font-family="Inter,sans-serif">shelf rail</text>
+            <text x="190" y="156" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8" font-family="Inter,sans-serif">shelf rail</text>
 
             <!-- Electronics shelf -->
             <rect x="60" y="95" width="260" height="55" rx="4"
                   fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
             <text x="190" y="119" text-anchor="middle" fill="#94a3b8" font-size="10"
                   font-family="Space Grotesk,sans-serif" font-weight="600">Electronics + Carrier Board</text>
-            <text x="190" y="134" text-anchor="middle" fill="#64748b" font-size="8"
+            <text x="190" y="134" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                   font-family="Inter,sans-serif">RPi · USB hub · pump</text>
 
             <!-- Experiment module -->
@@ -117,7 +119,7 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="1.5"/>
             <text x="190" y="192" text-anchor="middle" fill="#fff" font-size="10"
                   font-family="Space Grotesk,sans-serif" font-weight="600">Experiment Module (TDC)</text>
-            <text x="190" y="207" text-anchor="middle" fill="#64748b" font-size="8"
+            <text x="190" y="207" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                   font-family="Inter,sans-serif">hex channels · plant clips · substrate</text>
 
             <!-- LED / Camera -->
@@ -125,7 +127,7 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(103,232,249,0.06)" stroke="rgba(103,232,249,0.3)" stroke-width="1"/>
             <text x="120" y="50" text-anchor="middle" fill="#93c5fd" font-size="9"
                   font-family="Space Grotesk,sans-serif" font-weight="600">Camera/LED</text>
-            <text x="120" y="65" text-anchor="middle" fill="#64748b" font-size="8"
+            <text x="120" y="65" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                   font-family="Inter,sans-serif">anti-glare strip</text>
 
             <!-- Reservoir -->
@@ -133,15 +135,15 @@ import PageShell from '../components/PageShell.astro';
                   fill="rgba(212,160,23,0.06)" stroke="rgba(212,160,23,0.25)" stroke-width="1"/>
             <text x="260" y="50" text-anchor="middle" fill="#94a3b8" font-size="9"
                   font-family="Space Grotesk,sans-serif" font-weight="600">Reservoir</text>
-            <text x="260" y="65" text-anchor="middle" fill="#64748b" font-size="8"
+            <text x="260" y="65" text-anchor="middle" fill="var(--hex-muted-2)" font-size="8"
                   font-family="Inter,sans-serif">VEX fittings · heat seal</text>
 
             <!-- Arrows/labels -->
-            <text x="190" y="252" text-anchor="middle" fill="#475569" font-size="9"
+            <text x="190" y="252" text-anchor="middle" fill="var(--hex-muted-2)" font-size="9"
                   font-family="Inter,sans-serif">← sliding shelf direction</text>
           </svg>
         </div>
-        <p style="font-size:0.8rem;color:#64748b;margin-top:0.75rem;text-align:center;">
+        <p style="font-size:0.8rem;color:var(--hex-muted-2);margin-top:0.75rem;text-align:center;">
           Enclosure diagram showing the shelf rails, hollow cable-management walls, electronics bay, and experiment module position.
         </p>
         </div>
@@ -151,10 +153,10 @@ import PageShell from '../components/PageShell.astro';
       <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" data-reveal>
         <figure class="depth-fig">
           <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-          <img class="df-img" data-layer="mid" src="/images/enclosure-1.jpg" alt="HexaFlow modular enclosure — full assembly" loading="lazy"/>
+          <img class="df-img" data-layer="mid" src={withBase("/images/enclosure-1.jpg")} alt="HexaFlow modular enclosure — full assembly" loading="lazy"/>
           <div class="df-hex" data-layer="near" aria-hidden="true"></div>
         </figure>
-        <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
+        <div style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">
           Modular enclosure — the sliding shelf system carrying electronics, lights, and the experiment module
         </div>
       </div>
@@ -214,25 +216,25 @@ import PageShell from '../components/PageShell.astro';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
           <div class="card">
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Door Screws</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               M3 16 mm <span style="color:#94a3b8;">→</span> M3 4 mm, seated in M3 thread inserts for a cleaner, lower-profile door.
             </p>
           </div>
           <div class="card">
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Walls</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               4 mm <span style="color:#94a3b8;">→</span> 2 mm walls, freeing internal volume without losing rigidity.
             </p>
           </div>
           <div class="card">
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Wire Holes</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               5 mm <span style="color:#94a3b8;">→</span> 8 mm wire holes, so cable routing no longer binds.
             </p>
           </div>
           <div class="card">
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.6rem;">Substrate Modules</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               M4×6 mm screws with M4 thread inserts — a stronger, repeatable mount for the substrate modules.
             </p>
           </div>
@@ -251,21 +253,21 @@ import PageShell from '../components/PageShell.astro';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
           <div class="card" style="border-color:rgba(212,160,23,0.35);">
             <div class="section-label" style="margin-bottom:0.5rem;">FDM Body</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               The enclosure body prints in FDM — economical, tough, and good enough for every
               non-critical surface.
             </p>
           </div>
           <div class="card" style="border-color:rgba(103,232,249,0.35);">
             <div class="section-label" style="margin-bottom:0.5rem;">SLA Hex Dome</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Only the critical hex dome is SLA-printed in resin — a polar material chosen specifically
               to drive capillary adhesion in the channels.
             </p>
           </div>
           <div class="card" style="border-color:rgba(248,113,113,0.35);">
             <div class="section-label" style="margin-bottom:0.5rem;">VOC Lesson</div>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               The team's new resin printer emitted VOCs that shriveled the test plants overnight —
               emissions and biology don't share a room.
             </p>

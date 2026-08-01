@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
 import PhotoGallery from '../components/PhotoGallery.astro';
 
 const decisionMatrix = [
@@ -108,7 +109,7 @@ const decisionMatrix = [
             </tbody>
           </table>
         </div>
-        <p style="font-size:0.8rem;color:#475569;margin-top:0.75rem;">
+        <p style="font-size:0.8rem;color:var(--hex-muted-2);margin-top:0.75rem;">
           ★ Highest scoring substrate. All four were selected for further testing.
         </p>
 
@@ -231,15 +232,15 @@ const decisionMatrix = [
 
       <!-- Works cited note -->
       <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(212,160,23,0.04);
-                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#64748b;" data-reveal>
+                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:var(--hex-muted-2);" data-reveal>
         <strong style="color:#94a3b8;">Works Cited:</strong> 28 academic and technical references covering
         plant nutrition, hydroponic systems, substrate properties, and space agriculture research from
         NASA and peer-reviewed journals.
-        <a href="/sources" style="color:#d4a017;text-decoration:none;margin-left:0.25rem;">View sources →</a>
+        <a href={withBase("/sources")} style="color:#d4a017;text-decoration:none;margin-left:0.25rem;">View sources →</a>
       </div>
 
       <!-- Link to substrate covers -->
-      <a href="/substrate-covers"
+      <a href={withBase("/substrate-covers")}
          style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;
                 border-radius:0.75rem;border:1px solid rgba(212,160,23,0.2);background:#0d1e35;
                 text-decoration:none;transition:border-color 0.15s;"
@@ -247,7 +248,7 @@ const decisionMatrix = [
          onmouseout="this.style.borderColor='rgba(212,160,23,0.2)'">
         <div>
           <div class="font-display" style="font-weight:700;color:#fff;">Substrate Covers</div>
-          <div style="font-size:0.85rem;color:#64748b;margin-top:0.2rem;">Covers and containment solutions for each substrate type</div>
+          <div style="font-size:0.85rem;color:var(--hex-muted-2);margin-top:0.2rem;">Covers and containment solutions for each substrate type</div>
         </div>
         <span style="color:#d4a017;font-size:1.25rem;">→</span>
       </a>

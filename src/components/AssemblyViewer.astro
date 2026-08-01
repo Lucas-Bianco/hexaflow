@@ -1,12 +1,6 @@
 ---
 import { parts, subsystems, subsystemColor } from '../data/parts.js';
 
-const partById = Object.fromEntries(parts.map(p => [p.id, p]));
-function breadcrumb(p) {
-  const chain = []; let cur = p;
-  while (cur) { chain.unshift(cur); cur = cur.parentAssembly ? partById[cur.parentAssembly] : null; }
-  return chain;
-}
 // Group parts by subsystem in declaration order, preserving the parts.js grouping.
 const groups = subsystems.map(s => ({
   ...s,
@@ -18,9 +12,9 @@ const groups = subsystems.map(s => ({
   <p class="av-intro" data-reveal>
     The full HexaFlow nanolab, exported from SolidWorks. <strong>Scroll</strong> through the parts
     on the right and the 3D model highlights each one as it enters view — the whole assembly stays in
-    frame so you keep context. <strong>Click a part</strong> in the model or in a card to focus it;
-    tick <strong>Isolate</strong> in the toolbar if you'd rather hide everything else. (Clicking the
-    model never yanks the page — that was the point.)
+    frame so you keep context. <strong>Click a part</strong> — in the model or the list — and the panel
+    on the right explains it. <strong>Double-click</strong> to isolate that part and hide everything
+    else. (Clicking the model never yanks the page — that was the point.)
   </p>
 
   <div class="av-scroll-stage" data-reveal>
@@ -50,6 +44,24 @@ const groups = subsystems.map(s => ({
     <!-- ── Parts (scroll through these; each drives the 3D viewer) ─────────── -->
     <div class="av-steps" id="hf-steps">
       <input class="av-search" id="hf-search" type="search" placeholder="Filter parts…" aria-label="Filter parts" />
+
+      <!-- Detail panel: explains whatever is currently selected. Populated by
+           JS from parts.js so there is a single source of truth. -->
+      <div class="av-detail" id="hf-detail" aria-live="polite">
+        <div class="av-detail-media" id="hf-detail-media" hidden></div>
+        <nav class="av-crumb" id="hf-detail-crumb" aria-label="Assembly path"></nav>
+        <span class="av-tag" id="hf-detail-tag"></span>
+        <h3 class="av-detail-h font-display" id="hf-detail-name">Select a part</h3>
+        <p class="av-detail-role" id="hf-detail-role"></p>
+        <p class="av-detail-desc" id="hf-detail-desc">
+          Click any part in the model or the list to read about it.
+          Double-click to isolate it and hide everything else.
+        </p>
+        <details class="av-files" id="hf-detail-files" hidden>
+          <summary class="av-files-sum" id="hf-detail-files-sum">⬇ Files</summary>
+          <div class="av-files-body" id="hf-detail-files-body"></div>
+        </details>
+      </div>
       {groups.map(g => (
         <div class="av-group" data-subsystem={g.id}>
           <div class="av-group-head" data-reveal>
@@ -58,53 +70,19 @@ const groups = subsystems.map(s => ({
             <span class="av-group-count">{g.items.length}</span>
           </div>
           <p class="av-group-blurb" data-reveal>{g.blurb}</p>
-          {g.items.map(p => {
-            const chain = breadcrumb(p);
-            const files = (p.nativeFiles || []).map(f => f.split('/').pop());
-            return (
-              <article class="av-step" data-part={p.id} style={`--accent:${subsystemColor[p.subsystem]}`}>
-                <div class="av-step-media">
-                  {p.image
-                    ? <figure class="depth-fig" data-reveal>
-                        <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-                        <img class="df-img" data-layer="mid" src={p.image} alt={p.name} loading="lazy" />
-                        <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-                      </figure>
-                    : <div class="av-step-noimg" aria-hidden="true"><span>⬡</span><p>No render — see native files</p></div>}
-                </div>
-                <div class="av-step-info">
-                  <nav class="av-crumb" aria-label="Assembly path">
-                    {chain.map((c, i) => (
-                      <span>
-                        <button data-part={c.id} class="av-crumb-btn">{c.name}</button>
-                        {i < chain.length - 1 && <span class="av-crumb-sep">›</span>}
-                      </span>
-                    ))}
-                  </nav>
-                  <span class="av-tag">{p.subsystem}</span>
-                  <button class="av-step-title" data-part={p.id}>
-                    <span class="av-step-idx">{p.id === 'nanolab-assembly' ? '◎' : '⬡'}</span>
-                    <span class="font-display">{p.name}</span>
-                  </button>
-                  <p class="av-step-role">{p.role}</p>
-                  <p class="av-step-desc">{p.description}</p>
-                  <details class="av-files">
-                    <summary class="av-files-sum">⬇ Files ({(p.drawingFile ? 1 : 0) + files.length})</summary>
-                    <div class="av-files-body">
-                      {p.drawingFile && (
-                        <a class="av-dl av-dl-drawing" href={encodeURI(p.drawingFile)} target="_blank" rel="noopener">
-                          Drawing ({p.drawingFile.split('.').pop().toUpperCase()})
-                        </a>
-                      )}
-                      {files.map(f => (
-                        <a class="av-dl" href={encodeURI('/cad-files/' + f)} download title={f}>⬇ {f}</a>
-                      ))}
-                    </div>
-                  </details>
-                </div>
-              </article>
-            );
-          })}
+          {g.items.map(p => (
+            /* Compact row. Full explanation lives in the detail panel above —
+               keeping the row to one line means the scroll→3D bridge steps
+               through parts quickly instead of one screen-height per part. */
+            <h3 class="av-step-h">
+              <button class="av-step" data-part={p.id}
+                      style={`--accent:${subsystemColor[p.subsystem]}`}>
+                <span class="av-step-idx" aria-hidden="true">{p.id === 'nanolab-assembly' ? '◎' : '⬡'}</span>
+                <span class="av-step-name font-display">{p.name}</span>
+                <span class="av-step-role">{p.role}</span>
+              </button>
+            </h3>
+          ))}
         </div>
       ))}
     </div>
@@ -114,6 +92,11 @@ const groups = subsystems.map(s => ({
 <script>
   import { initViewer } from '../scripts/assembly3d.js';
   import { parts, subsystemColor, model } from '../data/parts.js';
+  import { withBase, withBaseURI } from '../lib/base.js';
+
+  // The glTF is fetched at runtime, so Astro never sees this URL. Prefix it here;
+  // the .bin buffers and textures inside resolve relative to it and follow along.
+  const basedModel = { ...model, src: withBase(model.src) };
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -131,26 +114,105 @@ const groups = subsystems.map(s => ({
     $$('.av-crumb-btn').forEach(el => el.classList.toggle('is-active', el.dataset.part === id));
   }
 
+  // ── Detail panel ────────────────────────────────────────────────────────
+  const partById = Object.fromEntries(parts.map(p => [p.id, p]));
+  const chainOf = (p) => {
+    const chain = []; let cur = p;
+    while (cur) { chain.unshift(cur); cur = cur.parentAssembly ? partById[cur.parentAssembly] : null; }
+    return chain;
+  };
+
+  function renderDetail(id) {
+    const p = partById[id];
+    if (!p) return;
+    $('#hf-detail').style.setProperty('--accent', subsystemColor[p.subsystem] || 'var(--hex-gold)');
+    $('#hf-detail-name').textContent = p.name;
+    $('#hf-detail-role').textContent = p.role || '';
+    $('#hf-detail-desc').textContent = p.description || '';
+    $('#hf-detail-tag').textContent = p.subsystem || '';
+
+    // Media block is omitted entirely when a part has no render — no
+    // placeholder, and no reserved space for one.
+    const media = $('#hf-detail-media');
+    if (p.image) {
+      media.innerHTML =
+        `<img src="${withBase(p.image)}" alt="${p.name}" loading="lazy" decoding="async" />`;
+      media.hidden = false;
+    } else {
+      media.innerHTML = '';
+      media.hidden = true;
+    }
+
+    // Breadcrumb
+    const crumb = $('#hf-detail-crumb');
+    crumb.innerHTML = '';
+    chainOf(p).forEach((c, i, arr) => {
+      const b = document.createElement('button');
+      b.className = 'av-crumb-btn'; b.dataset.part = c.id; b.textContent = c.name;
+      b.addEventListener('click', () => selectFromClick(c.id));
+      crumb.appendChild(b);
+      if (i < arr.length - 1) {
+        const s = document.createElement('span');
+        s.className = 'av-crumb-sep'; s.textContent = '›';
+        crumb.appendChild(s);
+      }
+    });
+
+    // Files
+    const names = (p.nativeFiles || []).map(f => f.split('/').pop());
+    const count = (p.drawingFile ? 1 : 0) + names.length;
+    const files = $('#hf-detail-files');
+    if (count) {
+      $('#hf-detail-files-sum').textContent = `⬇ Files (${count})`;
+      const body = $('#hf-detail-files-body');
+      body.innerHTML = [
+        p.drawingFile
+          ? `<a class="av-dl av-dl-drawing" href="${withBaseURI(p.drawingFile)}" target="_blank" rel="noopener">Drawing (${p.drawingFile.split('.').pop().toUpperCase()})</a>`
+          : '',
+        ...names.map(f => `<a class="av-dl" href="${withBaseURI('/cad-files/' + f)}" download title="${f}">⬇ ${f}</a>`),
+      ].join('');
+      files.hidden = false;
+    } else {
+      files.hidden = true;
+    }
+  }
+
   function selectFromClick(id) {
     setActive(id);
+    renderDetail(id);
     if (viewer) viewer.select(id, { isolate: isolateMode });
   }
 
-  // Card titles + breadcrumbs focus a part in 3D without scrolling.
-  $$('.av-step-title, .av-crumb-btn').forEach(el =>
-    el.addEventListener('click', () => selectFromClick(el.dataset.part))
-  );
+  // Double-click isolates, regardless of the toolbar toggle, and syncs the
+  // checkbox so the UI never lies about the state the model is in.
+  function isolateFromDblClick(id) {
+    setActive(id);
+    renderDetail(id);
+    isolateMode = true;
+    const box = $('#hf-isolate');
+    if (box) box.checked = true;
+    viewer?.setIsolateMode(true);
+    viewer?.select(id, { isolate: true });
+  }
+
+  // Rows + breadcrumbs focus a part in 3D without scrolling the page.
+  $$('.av-step, .av-crumb-btn').forEach(el => {
+    el.addEventListener('click', () => selectFromClick(el.dataset.part));
+    el.addEventListener('dblclick', (e) => { e.preventDefault(); isolateFromDblClick(el.dataset.part); });
+  });
 
   // ── Search ─────────────────────────────────────────────────────────────
   $('#hf-search').addEventListener('input', (e) => {
     const q = e.target.value.trim().toLowerCase();
     $$('.av-step').forEach(step => {
-      const name = (step.querySelector('.font-display')?.textContent || '').toLowerCase();
+      const name = (step.querySelector('.av-step-name')?.textContent || '').toLowerCase();
       const role = (step.querySelector('.av-step-role')?.textContent || '').toLowerCase();
-      step.style.display = (!q || name.includes(q) || role.includes(q)) ? '' : 'none';
+      const hit = !q || name.includes(q) || role.includes(q);
+      // Hide the heading wrapper so no empty row is left behind.
+      (step.closest('.av-step-h') || step).style.display = hit ? '' : 'none';
     });
     $$('.av-group').forEach(g => {
-      g.style.display = $$('.av-step', g).some(s => s.style.display !== 'none') ? '' : 'none';
+      g.style.display = $$('.av-step-h', g).some(s => s.style.display !== 'none') ? '' : 'none';
     });
   });
 
@@ -158,16 +220,30 @@ const groups = subsystems.map(s => ({
   (async () => {
     try {
       viewer = await initViewer(document.getElementById('hf3d-stage'), {
-        parts, subsystemColor, model,
+        parts, subsystemColor, model: basedModel,
         // mesh click → update active card state ONLY. No scrollIntoView.
         // Empty-space click (id === null) returns to the overview card.
-        onSelect: (id) => setActive(id || 'nanolab-assembly'),
+        onSelect: (id) => {
+          const pick = id || 'nanolab-assembly';
+          setActive(pick);
+          renderDetail(pick);
+        },
       });
       $('#hf3d-loading').style.display = 'none';
       $('#hf3d-hint').style.opacity = '1';
       viewer.select('nanolab-assembly', { isolate: false });
       setActive('nanolab-assembly');
+      renderDetail('nanolab-assembly');
       bootScrollBridge();
+
+      // Double-click the 3D model to isolate whatever is currently picked.
+      // The preceding single click has already set the selection, so we just
+      // promote it to isolation here.
+      $('#hf3d-stage').addEventListener('dblclick', () => {
+        const active = $('.av-step.is-active');
+        const id = active?.dataset.part;
+        if (id && id !== 'nanolab-assembly') isolateFromDblClick(id);
+      });
     } catch (err) {
       console.error('HexaFlow 3D init failed:', err);
       $('#hf3d-loading').innerHTML =
@@ -200,6 +276,7 @@ const groups = subsystems.map(s => ({
       if (!id || id === currentScrollId) return;
       currentScrollId = id;
       setActive(id);
+      renderDetail(id);
       viewer?.select(id, { isolate: isolateMode });
     }, { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
     steps.forEach(s => io.observe(s));
@@ -279,40 +356,62 @@ const groups = subsystems.map(s => ({
   .hf3d-slider input[type=range] { accent-color: var(--hex-gold); width: 100px; }
 
   /* ── Steps ─────────────────────────────────────────────────────────────── */
-  .av-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .av-steps { display: flex; flex-direction: column; gap: .35rem; }
   .av-search { padding: .55rem .8rem; background: #060e1c;
     border: 1px solid rgba(212,160,23,.2); border-radius: .5rem; color: #f0f4ff;
     font: 500 .85rem 'Inter', sans-serif; }
   .av-search:focus { outline: none; border-color: rgba(212,160,23,.5); }
-  .av-group { display: flex; flex-direction: column; gap: .4rem; }
+  .av-group { display: flex; flex-direction: column; gap: .1rem; }
   .av-group-head { display: flex; align-items: center; gap: .5rem; padding-top: 1rem; }
   .av-dot { width: .6rem; height: .6rem; border-radius: 50%; }
   .av-group-name { font: 700 .72rem 'Space Grotesk', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: .08em; }
   .av-group-count { margin-left: auto; font-size: .68rem; color: var(--hex-muted-2); }
   .av-group-blurb { font-size: .72rem; color: var(--hex-muted-2); margin: 0 0 .5rem; line-height: 1.5; max-width: 32rem; }
 
-  .av-step { display: grid; gap: 1.25rem; background: var(--hex-card); border: 1px solid var(--hex-line);
-    border-radius: .9rem; padding: 1.4rem; min-height: 62vh;
-    transition: border-color .25s var(--ease-out-cine), box-shadow .25s var(--ease-out-cine), transform .25s var(--ease-out-cine); }
-  @media (min-width: 620px) { .av-step { grid-template-columns: 220px 1fr; align-items: start; } }
-  .av-step.is-active {
-    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), 0 14px 40px -18px rgba(0,0,0,.7);
-    transform: translateY(-2px);
+  /* ── Compact part rows ────────────────────────────────────────────────
+     One line each. The explanation now lives in the sticky detail panel, so
+     the row only has to be a target — which also means the scroll→3D bridge
+     advances a part every ~44px instead of every screen-height. */
+  .av-step-h { margin: 0; }
+  .av-step {
+    width: 100%; display: grid; grid-template-columns: auto auto 1fr;
+    align-items: baseline; gap: .5rem; text-align: left;
+    background: none; border: 0; border-left: 2px solid transparent;
+    padding: .4rem .5rem .4rem .6rem; cursor: pointer; border-radius: .35rem;
+    color: var(--hex-text); font: inherit;
+    transition: background .15s ease, border-color .15s ease;
   }
+  .av-step:hover { background: rgba(212,160,23,.06); }
+  .av-step.is-active { background: rgba(212,160,23,.1); border-left-color: var(--accent); }
+  .av-step-idx { font-size: .85rem; color: var(--accent); }
+  .av-step-name { font-size: .9rem; font-weight: 600; white-space: nowrap; }
+  .av-step-role {
+    font-size: .76rem; color: var(--hex-muted-2); margin: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+  }
+  .av-step:focus-visible { outline: 2px solid var(--hex-gold); outline-offset: 2px; }
 
-  .av-step-media { display: flex; }
-  .av-step-media .depth-fig { width: 100%; }
-  .av-step-media .df-img { border-radius: .6rem; }
-  .av-step-noimg { aspect-ratio: 4/3; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: .5rem; background: #060e1c; border: 1px solid var(--hex-line); border-radius: .6rem; color: var(--hex-muted-2); }
-  .av-step-noimg span { font-size: 3rem; color: rgba(212,160,23,.3); }
-  .av-step-noimg p { font-size: .75rem; margin: 0; }
+  /* ── Detail panel ─────────────────────────────────────────────────────
+     Sticky so the explanation stays readable while the list scrolls under it. */
+  .av-detail {
+    position: sticky; top: var(--sticky-offset); z-index: 2;
+    background: var(--hex-card); border: 1px solid var(--hex-line);
+    border-left: 3px solid var(--accent, var(--hex-gold));
+    border-radius: .75rem; padding: 1.1rem 1.25rem; margin-bottom: .5rem;
+  }
+  .av-detail-media { margin: -0.2rem 0 .85rem; }
+  .av-detail-media img {
+    width: 100%; max-height: 190px; object-fit: cover;
+    border-radius: .55rem; border: 1px solid var(--hex-line); display: block;
+  }
+  .av-detail-h { font-size: 1.05rem; font-weight: 700; color: var(--hex-text); margin: .15rem 0 .3rem; }
+  .av-detail-role { font: 600 .85rem 'Inter', sans-serif; color: var(--hex-gold); margin: 0 0 .5rem; }
+  .av-detail-desc { color: var(--hex-muted); line-height: 1.6; font-size: .86rem; margin: 0 0 .7rem; }
 
   .av-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; margin-bottom: .5rem; }
   .av-crumb-btn { background: none; border: 0; color: #7090b8; font: 600 .78rem 'Inter', sans-serif; padding: 0; cursor: pointer; }
   .av-crumb-btn:hover, .av-crumb-btn.is-active { color: var(--hex-gold); }
-  .av-crumb-sep { color: #475569; margin: 0 .15rem; }
+  .av-crumb-sep { color: var(--hex-muted-2); margin: 0 .15rem; }
   .av-tag { display: inline-block; font: 600 .68rem 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: .08em;
     color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);

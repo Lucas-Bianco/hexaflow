@@ -1,0 +1,211 @@
+---
+// Cinematic scroll hero — GSAP ScrollTrigger driving a canvas image sequence.
+//
+// WHY A CANVAS SEQUENCE, NOT A <video>:
+// Scrubbing a <video> by currentTime is unreliable — browsers decode keyframes
+// lazily, so fast scrolls stall or snap. Drawing pre-decoded JPEGs to a canvas
+// is frame-accurate at any scroll speed. It is what Apple-style product pages do.
+//
+// FRAMES: public/seq/drop/f001..f090.jpg — a 9-second macro pan across the real
+// TDC hex lattice with dyed water beading in the channels (drop-test footage,
+// t=54-63s), 10fps, 608x1080.
+import { withBase } from '../lib/base.js';
+
+interface Props {
+  frames?: number;
+  dir?: string;
+}
+const { frames = 90, dir = '/seq/drop' } = Astro.props;
+
+// Frame 1 is rendered as a real <img> so the hero has something on first paint
+// and something for no-JS / reduced-motion visitors.
+const poster = withBase(`${dir}/f001.jpg`);
+---
+
+<section class="cin" data-cin data-frames={frames} data-dir={withBase(dir)}>
+  <div class="cin-pin">
+    <div class="cin-media">
+      <img class="cin-poster" src={poster} alt="" width="608" height="1080"
+           decoding="async" fetchpriority="high" />
+      <canvas class="cin-canvas" data-cin-canvas aria-hidden="true"></canvas>
+      <div class="cin-scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="cin-copy">
+      <slot />
+    </div>
+
+    <div class="cin-cue" data-cin-cue aria-hidden="true">
+      <span>Scroll</span><span class="cin-cue-line"></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cin { position: relative; height: 320svh; }
+  .cin-pin {
+    position: sticky; top: 0; height: 100svh;
+    display: grid; place-items: center; overflow: clip; isolation: isolate;
+  }
+
+  .cin-media { position: absolute; inset: 0; z-index: -2; }
+  .cin-poster, .cin-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  /* Canvas covers the poster once the sequence is ready. */
+  .cin-canvas { opacity: 0; transition: opacity .3s ease; }
+  .cin-canvas.is-ready { opacity: 1; }
+
+  /* Two-layer scrim: the footage is shot on snow, so a flat overlay is not
+     enough to hold AA contrast for the headline across every frame. */
+  .cin-scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(6,14,28,.72) 0%, rgba(6,14,28,.42) 38%, rgba(6,14,28,.94) 100%),
+      radial-gradient(ellipse 78% 62% at 50% 44%, rgba(6,14,28,.08) 24%, rgba(6,14,28,.86) 100%);
+  }
+
+  .cin-copy { position: relative; text-align: center; padding: 0 var(--wrap-pad); max-width: 58rem; }
+
+  .cin-cue {
+    position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--hex-muted);
+  }
+  .cin-cue-line { width: 1px; height: 32px; background: linear-gradient(var(--hex-gold), transparent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* No pin, no scrub, no extra scroll length — just a still hero. */
+    .cin { height: auto; }
+    .cin-pin { position: static; height: auto; min-height: 88svh; }
+    .cin-canvas { display: none; }
+  }
+</style>
+
+<script>
+  import { withBase } from '../lib/base.js';
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  for (const root of document.querySelectorAll('[data-cin]')) {
+    if (reduce) continue; // poster <img> already shows; nothing to drive
+
+    const canvas = root.querySelector('[data-cin-canvas]');
+    const poster = root.querySelector('.cin-poster');
+    const total  = parseInt(root.dataset.frames, 10) || 90;
+    const dir    = root.dataset.dir;
+    const ctx    = canvas.getContext('2d', { alpha: false });
+
+    const images = new Array(total);
+    let loaded = 0;
+    let frame = 0;      // current frame index (0-based)
+    let drawn = -1;     // last frame actually painted
+    let queued = false;
+
+    const src = (i) => `${dir}/f${String(i + 1).padStart(3, '0')}.jpg`;
+
+    // Size the canvas to the element box * DPR, capped at 2 so phones with
+    // DPR 3 don't pay for 9x the pixels.
+    function sizeCanvas() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      canvas.width  = Math.round(r.width  * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      drawn = -1;
+      paint();
+    }
+
+    // object-fit: cover, done manually because canvas has no such property.
+    function paint() {
+      const img = images[frame];
+      if (!img || !img.complete || !img.naturalWidth) return;
+      if (frame === drawn) return;
+      drawn = frame;
+
+      const cw = canvas.width, ch = canvas.height;
+      const scale = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const w = img.naturalWidth * scale, h = img.naturalHeight * scale;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    }
+
+    function queuePaint() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; paint(); });
+    }
+
+    // Progressive load: frame 1 first so the canvas can take over immediately,
+    // then the rest in order. Scrubbing before load completes simply holds the
+    // nearest already-decoded frame rather than blanking.
+    function load(i) {
+      return new Promise((res) => {
+        const im = new Image();
+        im.decoding = 'async';
+        im.onload = im.onerror = () => { loaded++; res(im); };
+        im.src = src(i);
+        images[i] = im;
+      });
+    }
+
+    (async () => {
+      await load(0);
+      canvas.classList.add('is-ready');
+      if (poster) poster.style.opacity = '0';
+      sizeCanvas();
+      // Remaining frames, small concurrency so we never saturate the connection.
+      let next = 1;
+      const worker = async () => { while (next < total) await load(next++); };
+      await Promise.all([worker(), worker(), worker(), worker()]);
+      paint();
+    })();
+
+    addEventListener('resize', sizeCanvas);
+
+    // ── GSAP ScrollTrigger ────────────────────────────────────────────────
+    (async () => {
+      const { gsap } = await import('gsap');
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+
+      // The site drives scrolling through Lenis. Without this, ScrollTrigger
+      // reads a scroll position Lenis has already moved past and the scrub
+      // lags a frame behind the page.
+      const lenis = window.__lenis;
+      if (lenis) {
+        lenis.on('scroll', ScrollTrigger.update);
+        ScrollTrigger.defaults({ scroller: document.body });
+      }
+
+      const state = { f: 0 };
+      gsap.to(state, {
+        f: total - 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.6,          // slight smoothing; 0 feels twitchy on trackpads
+          invalidateOnRefresh: true,
+        },
+        onUpdate: () => {
+          const i = Math.min(total - 1, Math.max(0, Math.round(state.f)));
+          if (i !== frame) { frame = i; queuePaint(); }
+        },
+      });
+
+      // Copy lifts and fades as the sequence plays out; cue fades immediately.
+      gsap.to(root.querySelector('.cin-copy'), {
+        yPercent: -18, opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: root, start: 'top top', end: '55% bottom', scrub: 0.6 },
+      });
+      gsap.to(root.querySelector('[data-cin-cue]'), {
+        opacity: 0, ease: 'none',
+        scrollTrigger: { trigger: root, start: 'top top', end: '12% bottom', scrub: true },
+      });
+
+      ScrollTrigger.refresh();
+    })();
+  }
+</script>

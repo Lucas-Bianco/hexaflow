@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/base.js';
+
 const cols = [
   {
     head: 'Science',
@@ -35,7 +37,7 @@ const cols = [
   <div class="hf-foot-grid">
     <!-- Brand -->
     <div class="hf-foot-brand">
-      <a href="/" class="hf-foot-logo" aria-label="HexaFlow home">
+      <a href={withBase('/')} class="hf-foot-logo" aria-label="HexaFlow home">
         <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true">
           <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
                    fill="rgba(212,160,23,0.12)" stroke="var(--hex-gold)" stroke-width="5"/>
@@ -57,7 +59,7 @@ const cols = [
           <div class="section-label hf-foot-head">{col.head}</div>
           <ul class="hf-foot-links">
             {col.links.map(l => (
-              <li><a href={l.href}>{l.label}</a></li>
+              <li><a href={withBase(l.href)}>{l.label}</a></li>
             ))}
           </ul>
         </div>
@@ -90,5 +92,5 @@ const cols = [
     transition: color .15s; }
   .hf-foot-links a:hover { color: var(--hex-gold); }
   .hf-foot-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding: 1.1rem 1.5rem;
-    text-align: center; font-size: 0.8rem; color: #475569; }
+    text-align: center; font-size: 0.8rem; color: var(--hex-muted-2); }
 </style>

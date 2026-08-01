@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
 ---
 <Layout title="Aeroponics">
   <Nav slot="nav" />
@@ -80,7 +81,7 @@ import PageShell from '../components/PageShell.astro';
             <div class={`card reveal-${i + 1}`}>
               <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{a.name}</h3>
               <p style="font-size:0.825rem;color:#e2e8f0;margin:0 0 0.5rem;line-height:1.55;">{a.spec}</p>
-              <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.55;">{a.why}</p>
+              <p style="font-size:0.8rem;color:var(--hex-muted-2);margin:0;line-height:1.55;">{a.why}</p>
             </div>
           ))}
         </div>
@@ -101,7 +102,7 @@ import PageShell from '../components/PageShell.astro';
             <div class={`card reveal-${i + 1}`}>
               <div class="font-display" style="font-size:1.5rem;font-weight:700;color:#d4a017;margin-bottom:0.25rem;">{s.stat}</div>
               <div style="font-weight:600;color:#fff;font-size:0.9rem;margin-bottom:0.35rem;">{s.label}</div>
-              <div style="font-size:0.825rem;color:#64748b;">{s.desc}</div>
+              <div style="font-size:0.825rem;color:var(--hex-muted-2);">{s.desc}</div>
             </div>
           ))}
         </div>
@@ -116,34 +117,34 @@ import PageShell from '../components/PageShell.astro';
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
             <figure class="depth-fig" data-reveal>
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/aeroponics-1.jpg" alt="Plant clips securing kale in TDC" loading="lazy" />
+              <img class="df-img" data-layer="mid" src={withBase("/images/aeroponics-1.jpg")} alt="Plant clips securing kale in TDC" loading="lazy" />
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Plant clips securing kale in the TDC</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">Plant clips securing kale in the TDC</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
             <figure class="depth-fig" data-reveal>
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/aeroponics-2.jpg" alt="Aeroponic root system" loading="lazy" />
+              <img class="df-img" data-layer="mid" src={withBase("/images/aeroponics-2.jpg")} alt="Aeroponic root system" loading="lazy" />
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Aeroponic root system</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">Aeroponic root system</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
             <figure class="depth-fig" data-reveal>
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/aeroponics-3.jpg" alt="Reservoir and VEX fittings" loading="lazy" />
+              <img class="df-img" data-layer="mid" src={withBase("/images/aeroponics-3.jpg")} alt="Reservoir and VEX fittings" loading="lazy" />
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Reservoir and VEX fittings</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">Reservoir and VEX fittings</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
             <figure class="depth-fig" data-reveal>
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/aeroponics-4.jpg" alt="Inversion test — kale retained" loading="lazy" />
+              <img class="df-img" data-layer="mid" src={withBase("/images/aeroponics-4.jpg")} alt="Inversion test — kale retained" loading="lazy" />
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Inversion test — kale fully retained</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:var(--hex-muted-2);">Inversion test — kale fully retained</div>
           </div>
         </div>
       </div>
@@ -188,7 +189,7 @@ import PageShell from '../components/PageShell.astro';
             <div class={`card reveal-${i + 1}`}>
               <div class="section-label" style="margin-bottom:0.4rem;">{p.org}</div>
               <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">{p.program}</h3>
-              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{p.desc}</p>
+              <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">{p.desc}</p>
             </div>
           ))}
         </div>
@@ -198,11 +199,11 @@ import PageShell from '../components/PageShell.astro';
       <div style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
                   border:1px solid rgba(212,160,23,0.12);" data-reveal>
         <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.5rem;">Works Cited</div>
-        <div style="font-size:0.825rem;color:#64748b;line-height:1.8;">
+        <div style="font-size:0.825rem;color:var(--hex-muted-2);line-height:1.8;">
           LettUs Grow · Atlas Scientific · Food Gardening Network · NASA Science ·
           Agrotonomy · NoSoilSolutions · Greenhouse Canada · NASA XROOTS Program Documentation
         </div>
-        <a href="/sources" style="font-size:0.825rem;color:#d4a017;text-decoration:none;margin-top:0.5rem;display:inline-block;">
+        <a href={withBase("/sources")} style="font-size:0.825rem;color:#d4a017;text-decoration:none;margin-top:0.5rem;display:inline-block;">
           View full sources list →
         </a>
       </div>

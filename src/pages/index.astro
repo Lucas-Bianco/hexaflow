@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { withBase } from '../lib/base.js';
+import CinematicHero from '../components/CinematicHero.astro';
+import StackedCards from '../components/StackedCards.astro';
 
 const team = [
   { name: 'Aidan',   role: 'Project Manager & Hardware Lead'      },
@@ -11,12 +14,43 @@ const team = [
   { name: 'Lucas',   role: 'Web Development Lead'                   },
 ];
 
+// Measured results lead. `n`/`dp` drive the scroll count-up; `suffix` is static
+// so the unit never animates. Sourced from Capillary Physical Tests (Suite B,
+// 9 drops) and Volume of hexagon grooves.
 const stats = [
-  { v: '5',        u: 'Team Members'     },
-  { v: '5.18 s',   u: 'Test Window'      },
-  { v: '10.12 mL', u: 'Channel Capacity' },
-  { v: '0.48 mm',  u: 'Channel Width'    },
+  { n: 14.7,  dp: 1, suffix: ' mm', u: 'Mean Capillary Rise', note: 'measured, 9 drops' },
+  { n: 9,     dp: 0, suffix: '',    u: 'Free-Fall Drop Tests', note: 'Suite B' },
+  { n: 10.12, dp: 2, suffix: ' mL', u: 'Channel Capacity',    note: 'fully saturated' },
+  { n: 0.48,  dp: 2, suffix: ' mm', u: 'Channel Width',       note: '0.020 in gap' },
 ];
+
+// Horizontal build story. Every claim here is one the NASA HUNCH document
+// review verified against the team's own records — no rounding, no inference.
+const journey = [
+  { t: 'The pivot',
+    d: 'Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic.',
+    img: '/images/substrate-1.jpg', alt: 'Substrate samples under test' },
+  { t: 'The lizard',
+    d: 'The thorny devil moves water across its skin through grooved channels, against gravity, with no pump. Sabrina found it. It became a hexagonal capillary lattice 0.48 mm across.',
+    img: '/images/geometry-1.jpg', alt: 'Hexagonal capillary channel geometry' },
+  { t: 'PDR',
+    d: 'NASA’s reviewer called the hex geometry "terrific." Peer teams were blunter — they warned that wicking may not behave the same way in microgravity. Both notes shaped the next six months.',
+    img: '/images/geometry-2.jpg', alt: 'Capillary geometry detail' },
+  { t: 'The matrix',
+    d: 'On 15 December four substrates were scored on feasibility in microgravity, containment and growth. Rockwool took it at 13; clay pebbles followed at 12.',
+    img: '/images/substrate-5.jpg', alt: 'Substrate decision matrix testing' },
+  { t: 'Fifteen drops',
+    d: 'Two suites from 14 feet. The first six drops averaged about 9.9 mm of capillary movement. After the module was revised, the next nine averaged 14.7 mm — a 48% improvement.',
+    img: '/images/drop-test-1.jpg', alt: 'Drop test in progress' },
+  { t: 'What broke',
+    d: 'The kale kept dying. The cause turned out to be the team’s own new resin printer, running unventilated in the same room. Both plants shrivelled before anyone connected the two.',
+    img: '/images/aeroponics-1.jpg', alt: 'Aeroponic plant growth testing' },
+];
+
+const deck = journey.map((j, i) => ({
+  k: String(i + 1).padStart(2, '0'),
+  title: j.t, body: j.d, img: j.img, alt: j.alt,
+}));
 
 const features = [
   { title: 'Hexagonal Geometry', href: '/geometry', k: '01',
@@ -41,53 +75,39 @@ const features = [
     <div class="bg-world-layer" data-world="substrate" style="background:var(--world-substrate)"></div>
   </div>
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="hero" data-chapter="tdc">
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-glow" aria-hidden="true"></div>
-
-    <div class="hero-inner">
-      <div class="hero-mark reveal reveal-1">
-        <svg width="84" height="84" viewBox="0 0 100 100" aria-hidden="true">
-          <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
-                   fill="rgba(212,160,23,0.08)" stroke="var(--hex-gold)" stroke-width="3.5"/>
-          <polygon points="50,20 80,36 80,64 50,80 20,64 20,36"
-                   fill="none" stroke="rgba(212,160,23,0.35)" stroke-width="2"/>
-          <text x="50" y="66" text-anchor="middle" fill="var(--hex-gold)"
-                font-size="42" font-family="Space Grotesk, sans-serif" font-weight="700">H</text>
-        </svg>
-      </div>
-
-      <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · Engineering</span>
-
-      <h1 class="hero-title kinetic" data-kinetic="char">HexaFlow</h1>
-
-      <p class="hero-sub reveal reveal-3">Modular Capillary Action Nanolab</p>
-
-      <p class="hero-lede reveal reveal-3">
-        Borrowing the thorny devil's capillary skin, HexaFlow pairs AI vision
-        with SLA-printed hex channels to water plants on demand — a closed-loop
-        nanolab built around a 5.18-second test window.
-      </p>
-
-      <div class="hero-cta reveal reveal-4">
-        <a class="btn btn-primary" href="/assembly">Explore the Assembly →</a>
-        <a class="btn btn-ghost" href="#team">Meet the Team</a>
-      </div>
+  <!-- ── Cinematic hero: scroll scrubs a 90-frame macro pan of the lattice ── -->
+  <CinematicHero>
+    <div class="hero-mark reveal reveal-1">
+      <img src={withBase('/images/logo-gold.png')} width="512" height="458"
+           alt="HexaFlow logo — a cluster of hexagonal capillary channels"
+           class="hero-logo" decoding="async" fetchpriority="high" />
     </div>
 
-    <div class="hero-scroll reveal reveal-5" aria-hidden="true">
-      <span>Scroll</span>
-      <span class="hero-scroll-line"></span>
+    <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · NASA HUNCH</span>
+    <h1 class="hero-title kinetic" data-kinetic="char">HexaFlow</h1>
+    <p class="hero-sub reveal reveal-3">Water that climbs in free-fall</p>
+    <p class="hero-lede reveal reveal-3">
+      Hexagonal capillary channels copied from the thorny devil lizard, carrying
+      water to plant roots where gravity can't help. Nine free-fall drops,
+      14.7 mm of measured capillary movement, inside a 2U nanolab.
+    </p>
+    <div class="hero-cta reveal reveal-4">
+      <a class="btn btn-primary" href={withBase('/assembly')}>Explore the Assembly →</a>
+      <a class="btn btn-ghost" href={withBase('/drop-testing')}>See the Results</a>
     </div>
-  </section>
+  </CinematicHero>
 
-  <!-- ── Stats ─────────────────────────────────────────────────────────── -->
-  <section class="stats" aria-label="Key figures" data-reveal>
+  <!-- ── Stats: count up on entry ──────────────────────────────────────── -->
+  <section class="stats vel" aria-label="Key figures" data-reveal>
     {stats.map(s => (
       <div class="stat">
-        <span class="stat-v font-display">{s.v}</span>
+        <span class="stat-v font-display">
+          {/* Real value is the rendered fallback — if JS or rAF never runs
+              (background tab, no-JS), the correct figure is still shown. */}
+          <span data-count={s.n} data-decimals={s.dp}>{s.n.toFixed(s.dp)}</span>{s.suffix}
+        </span>
         <span class="stat-u">{s.u}</span>
+        <span class="stat-n">{s.note}</span>
       </div>
     ))}
   </section>
@@ -134,7 +154,7 @@ const features = [
       </div>
       <div class="features-grid" data-reveal>
         {features.map(f => (
-          <a class="card feat" href={f.href}>
+          <a class="card feat" href={withBase(f.href)}>
             <span class="feat-k font-display">{f.k}</span>
             <h3 class="font-display feat-title">{f.title}</h3>
             <p class="feat-desc">{f.desc}</p>
@@ -145,6 +165,9 @@ const features = [
     </div>
   </section>
 
+  <!-- ── Stacked build story ───────────────────────────────────────────── -->
+  <StackedCards cards={deck} label="The Build" heading="From a lizard to a nanolab." />
+
   <!-- ── Team ──────────────────────────────────────────────────────────── -->
   <section id="team" class="wrap team">
     <div class="team-head" data-reveal>
@@ -152,6 +175,14 @@ const features = [
       <h2 class="font-display team-h">Our Team</h2>
       <p class="team-sub">Tri-County RVTHS · Franklin, Massachusetts</p>
     </div>
+
+    <figure class="team-photo depth-fig" data-reveal>
+      <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+      <img class="df-img" data-layer="mid" src={withBase('/images/home-team.jpg')}
+           width="2047" height="1196" loading="lazy" decoding="async"
+           alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board" />
+    </figure>
+
     <div class="team-grid" data-reveal>
       {team.map(m => (
         <div class="card member">
@@ -170,19 +201,13 @@ const features = [
   /* ── Hero ───────────────────────────────────────────────────────────── */
   .hero { position: relative; min-height: 92vh; display: flex; align-items: center;
           justify-content: center; overflow: hidden; padding: 6rem 1.5rem 4rem; }
-  .hero-grid {
-    position: absolute; inset: 0; opacity: 0.18;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 54,76 54,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 2,76 2,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3C/svg%3E");
-    background-size: 56px 97px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
-            mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
-  }
-  .hero-glow { position: absolute; top: 28%; left: 50%; transform: translateX(-50%);
-    width: 720px; height: 460px; max-width: 90vw; border-radius: 50%;
-    background: radial-gradient(ellipse, rgba(212,160,23,0.1), transparent 70%);
-    pointer-events: none; filter: blur(8px); }
   .hero-inner { position: relative; text-align: center; max-width: 52rem; }
   .hero-mark { display: flex; justify-content: center; margin-bottom: 1.75rem; }
+  /* The real team mark (recoloured to brand gold from the source artwork's alpha).
+     Sized so the honeycomb cells stay individually legible — below ~110px the
+     0.8px strokes alias into a solid blob. */
+  .hero-logo { width: clamp(112px, 16vw, 168px); height: auto;
+    filter: drop-shadow(0 0 28px rgba(212,160,23,0.28)); }
   .hero-eyebrow {
     display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--hex-gold);
@@ -225,6 +250,10 @@ const features = [
   .stat-v { display: block; font-size: 1.95rem; font-weight: 700; color: var(--hex-gold); line-height: 1; }
   .stat-u { display: block; font-size: 0.72rem; color: var(--hex-muted);
     text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.45rem; }
+  /* Provenance under each figure — a reviewer should see at a glance which
+     numbers were measured and which are design targets. */
+  .stat-n { display: block; font-size: 0.68rem; color: var(--hex-muted-2);
+    margin-top: 0.3rem; font-style: italic; }
   @media (min-width: 640px) {
     .stats { grid-template-columns: repeat(4, 1fr); }
     .stat { border-bottom: 0; }
@@ -270,6 +299,9 @@ const features = [
   .team-head .section-label { justify-content: center; }
   .team-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.5rem; }
   .team-sub { color: var(--hex-muted); margin: 0; }
+  .team-photo { margin: 0 0 2.5rem; }
+  .team-photo .df-img { width: 100%; height: auto; display: block;
+    border-radius: 0.85rem; border: 1px solid var(--hex-line); }
   .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
   .member { text-align: center; }
   .member-avatar { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 0.9rem;

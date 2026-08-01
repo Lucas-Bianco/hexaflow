@@ -25,9 +25,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-        # Set HF_BASE=/hexaflow only after doing the path refactor in README "Deploy".
+        # Project page at lucas-bianco.github.io/hexaflow/. Every runtime-built URL
+        # goes through `withBase()` in src/lib/base.js, so this is safe to change:
+        # set HF_BASE=/ for a custom domain or a root <user>.github.io repo.
         env:
-          HF_BASE: /
+          HF_BASE: /hexaflow
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

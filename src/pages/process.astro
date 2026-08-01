@@ -8,7 +8,7 @@ const timeline = [
   { date: 'Sept 2025', tag: 'Problem & Constraints', title: 'Define the box we had to build inside',
     body: 'NASA HUNCH gave us the rules: a 2U nanolab (20×10×10 cm), 5 V USB-A power, a $100 budget, and a water supply that has to be entirely mechanical — no pumps-for-everything. The problem was bigger than "grow a plant in space": study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Condensation couldn\'t touch the sensors, everything had to be modular, and it needed a web interface.' },
   { date: 'Sept–Oct 2025', tag: 'Research & Prior Art', title: 'Read everything that came before',
-    body: 'We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan\'s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and four patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our "D.A.A.N.s").' },
+    body: 'We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan\'s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and three patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our "D.A.A.N.s").' },
   { date: 'Oct 22, 2025', tag: 'The Pivot', title: 'From hydroponics to a thorny devil',
     body: 'Hydroponics looked promising until we realized it might make the project\'s goal obsolete. Then Sabrina found the thorny devil lizard (Moloch horridus) on asknature.org — its grooved skin moves water by capillary action, no pump needed. Nate prototyped the "Moloch Horridus Water System" in SolidWorks in two sizes. It worked "miraculously well," so we renamed the core the TDC — Thorny-Devil Capillary.' },
   { date: 'Nov 18–19, 2025', tag: 'PDR', title: 'NASA liked the hex. Then pushed us.',
@@ -92,8 +92,9 @@ const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Gree
       <!-- Experts consulted -->
       <section class="pj-block" data-reveal>
         <div class="section-label">Who we asked</div>
-        <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Experts we consulted</h2>
-        <p class="pj-lede">We didn't guess. We emailed the people who had done pieces of this before.</p>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Experts we contacted</h2>
+        <p class="pj-lede">We didn't guess. We emailed the people who had done pieces of this before —
+          not all of them wrote back, but the ones who did shaped the design.</p>
         <ul class="pj-experts">
           {experts.map(e => <li>{e}</li>)}
         </ul>

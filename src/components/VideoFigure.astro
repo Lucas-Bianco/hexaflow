@@ -1,0 +1,47 @@
+---
+// Reusable inline video figure.
+//
+// Deliberately NOT autoplay/loop: these clips are evidence, not decoration, and an
+// autoplaying loop cannot be switched off from CSS for prefers-reduced-motion users.
+// `preload="none"` keeps the payload off the initial page load — the poster carries
+// the visual weight until the visitor asks for the video.
+//
+// Sources are phone-shot portrait in most cases, so the video is height-capped rather
+// than width-filled; `maxHeight` lets landscape clips opt out.
+import { withBase } from '../lib/base.js';
+
+interface Props {
+  src: string;          // root-absolute, e.g. '/video/drop-test.mp4'
+  poster?: string;      // root-absolute
+  caption?: string;
+  maxHeight?: string;   // CSS length, default '70vh'
+}
+
+const { src, poster, caption, maxHeight = '70vh' } = Astro.props;
+---
+
+<figure class="vfig" style={`--vfig-max:${maxHeight}`}>
+  <video controls playsinline preload="none"
+         poster={poster ? withBase(poster) : undefined}
+         src={withBase(src)}>
+    Your browser cannot play this video.
+    <a href={withBase(src)}>Download the clip</a>.
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .vfig { margin: 0; }
+  .vfig video {
+    display: block; margin: 0 auto;
+    max-height: var(--vfig-max, 70vh);
+    max-width: 100%; width: auto;
+    border-radius: 0.75rem;
+    border: 1px solid var(--hex-line);
+    background: var(--hex-void);
+  }
+  .vfig figcaption {
+    margin-top: 0.75rem; text-align: center;
+    font-size: 0.82rem; color: var(--hex-muted); line-height: 1.6;
+  }
+</style>

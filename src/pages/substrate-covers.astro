@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import { withBase } from '../lib/base.js';
 import PhotoGallery from '../components/PhotoGallery.astro';
 ---
 <Layout title="Substrate Covers">
@@ -67,7 +68,7 @@ import PhotoGallery from '../components/PhotoGallery.astro';
               <div style={`font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;
                            color:${c.color};margin-bottom:0.35rem;`}>{c.substrate}</div>
               <h3 class="font-display" style="font-size:1rem;font-weight:700;color:#fff;margin:0 0 0.6rem;">{c.cover}</h3>
-              <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">{c.desc}</p>
+              <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">{c.desc}</p>
             </div>
           ))}
         </div>
@@ -98,35 +99,35 @@ import PhotoGallery from '../components/PhotoGallery.astro';
           <div class="card reveal-1">
             <div class="section-label" style="margin-bottom:0.5rem;">Attempt 1</div>
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">3D-Printed Filament Grate</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Too flexible — pebbles escaped through the gaps.
             </p>
           </div>
           <div class="card reveal-2">
             <div class="section-label" style="margin-bottom:0.5rem;">Attempt 2</div>
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">Plexiglass Grate</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Same result — the pebbles still slipped past.
             </p>
           </div>
           <div class="card reveal-3">
             <div class="section-label" style="margin-bottom:0.5rem;">Attempt 3</div>
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">Hard Cork</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Broke when popped out of the mold.
             </p>
           </div>
           <div class="card reveal-4">
             <div class="section-label" style="margin-bottom:0.5rem;">Attempt 4</div>
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.5rem;">"Less Grates, More Space" Wood Prototype</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Worked — proving the concept needed fewer bars and a wider opening.
             </p>
           </div>
           <div class="card reveal-5" style="border-color:rgba(74,222,128,0.35);">
             <div class="section-label" style="margin-bottom:0.5rem;">Final — Horizontal-Grate Redesign</div>
             <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#4ade80;margin:0 0 0.5rem;">Horizontal Grate</h3>
-            <p style="font-size:0.85rem;color:#64748b;line-height:1.6;margin:0;">
+            <p style="font-size:0.85rem;color:var(--hex-muted-2);line-height:1.6;margin:0;">
               Prompted by their advisor <strong style="color:#e2e8f0;">Mrs. Magas</strong>, the team
               redesigned the grate to run horizontal — the geometry that finally held.
             </p>
@@ -169,7 +170,7 @@ import PhotoGallery from '../components/PhotoGallery.astro';
       </div>
 
       <!-- Back link -->
-      <a href="/secondary-substrates"
+      <a href={withBase("/secondary-substrates")}
          style="display:inline-flex;align-items:center;gap:0.5rem;font-size:0.875rem;
                 color:#d4a017;text-decoration:none;"
          onmouseover="this.style.opacity='0.75'"

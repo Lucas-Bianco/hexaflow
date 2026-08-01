@@ -58,22 +58,38 @@ The 3D tab in the viewer will pick it up automatically — no code change.
 ## Deploy to GitHub Pages
 
 A workflow is included at `.github/workflows/deploy.yml`. On push to `main`, it builds `dist/`
-and publishes to GitHub Pages.
+and publishes to GitHub Pages. It deploys with `HF_BASE=/hexaflow`, for a project page at
+**`lucas-bianco.github.io/hexaflow/`**.
 
-This v1 ships with `base: '/'`, so it works immediately for **local preview, ngrok, a custom
-domain, or a root `<user>.github.io` repo**. The included workflow deploys with `HF_BASE=/`.
+### Base paths
 
-### Want a project page at `<user>.github.io/hexaflow/` instead?
+The base is configurable and the site is base-path clean — both targets build correctly:
 
-That needs `base: '/hexaflow'` **and** an absolute-path refactor (the existing pages use
-hardcoded `/geometry`, `/images/...` links that Astro does not auto-prefix for dynamic URLs).
-To enable it: set `HF_BASE=/hexaflow` in the workflow + `astro.config.mjs`, then prefix
-root-absolute URLs with `import.meta.env.BASE_URL` in `Nav.astro`, the page templates, and
-`src/data/parts.js` (image / cad-files / models paths), and use that base in the 3D loader.
-Say the word and I'll do that refactor as a follow-up.
+| Target | Setting |
+|---|---|
+| `lucas-bianco.github.io/hexaflow/` (current) | `HF_BASE=/hexaflow` |
+| Custom domain, root `<user>.github.io`, ngrok, local preview | `HF_BASE=/` (the default) |
 
-For the simple path: deploy this repo as a custom domain or enable it on a root
-`<user>.github.io` site, and it works with no changes.
+**How it works.** Astro only rewrites URLs it can see statically. Every URL this site builds
+at runtime — nav links, the `parts.js` image/CAD/model paths, the glTF the 3D viewer fetches —
+is a plain string that Astro leaves alone, so under a subpath they would all 404. Those go
+through `withBase()` from [`src/lib/base.js`](src/lib/base.js) at the point of use, which reads
+`import.meta.env.BASE_URL`.
+
+**If you add a URL,** route it through `withBase()` (or `withBaseURI()` if the filename has
+spaces, as the CAD files do). Verify with:
+
+```bash
+HF_BASE=/hexaflow npm run build
+# then confirm nothing root-absolute escaped the prefix:
+grep -rhoE '(href|src)="/[^"]*"' dist --include=*.html | sed 's/.*="//;s/"$//' | grep -v '^/hexaflow/' | sort -u
+```
+
+That last command must print nothing.
+
+> **Git Bash gotcha:** `HF_BASE=/hexaflow` gets mangled into `C:/Program Files/Git/hexaflow`
+> by MSYS path translation. Use PowerShell (`$env:HF_BASE='/hexaflow'; npm run build`) or
+> prefix with `MSYS_NO_PATHCONV=1`. CI runs on Ubuntu and is unaffected.
 
 ## Quick public share (ngrok)
 

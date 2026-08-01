@@ -1,0 +1,202 @@
+---
+// Stacked, overlapping scroll cards with 3D tilt on hover.
+//
+// Each card pins in turn; the next slides over it while the one beneath scales
+// down and dims, so the stack reads as depth rather than a list. Scale/opacity
+// are driven by GSAP ScrollTrigger; the tilt is pointer-driven and independent.
+//
+// Perf: every animated property is transform or opacity — no layout, no paint
+// of box geometry. `will-change` is toggled on pointer enter and cleared on
+// leave so we never leave dozens of promoted layers alive.
+import { withBase } from '../lib/base.js';
+
+interface Card {
+  k: string;
+  title: string;
+  body: string;
+  img?: string;
+  alt?: string;
+}
+interface Props {
+  cards: Card[];
+  label?: string;
+  heading?: string;
+}
+const { cards, label, heading } = Astro.props;
+---
+
+<section class="stk" data-stk>
+  {(label || heading) && (
+    <header class="stk-head" data-reveal>
+      {label && <div class="section-label">{label}</div>}
+      {heading && <h2 class="font-display stk-h">{heading}</h2>}
+    </header>
+  )}
+
+  <div class="stk-list">
+    {cards.map((c, i) => (
+      <article class="stk-card" data-stk-card style={`--i:${i}`}>
+        {/* Two elements on purpose: GSAP writes an inline `transform` for the
+            scale tween, which would override the stylesheet rule the tilt
+            depends on. Scale lives out here, tilt lives on .stk-inner. */}
+        <div class="stk-scale" data-stk-scale>
+        <div class="stk-inner" data-stk-tilt>
+          <span class="stk-k font-display">{c.k}</span>
+          <div class="stk-body">
+            <h3 class="font-display stk-t">{c.title}</h3>
+            <p class="stk-p">{c.body}</p>
+          </div>
+          {c.img && (
+            <img class="stk-img" src={withBase(c.img)} alt={c.alt || ''}
+                 width="1200" height="900" loading="lazy" decoding="async" />
+          )}
+          <div class="stk-sheen" aria-hidden="true"></div>
+        </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .stk { position: relative; padding: 0 0 var(--space-section); }
+  .stk-head { max-width: var(--wrap-max); margin: 0 auto var(--space-section);
+              padding: 0 var(--wrap-pad); text-align: center; }
+  .stk-head .section-label { justify-content: center; }
+  .stk-h { font-size: var(--t-h2); font-weight: 700; color: var(--hex-text); margin: .6rem 0 0; }
+
+  .stk-list { max-width: var(--wrap-max); margin: 0 auto; padding: 0 var(--wrap-pad); }
+
+  .stk-card {
+    position: sticky;
+    /* Each card parks slightly lower than the one before, so the stack's
+       edges fan out and you can see how deep it goes. */
+    top: calc(var(--sticky-offset) + var(--i) * 0.85rem);
+    margin-bottom: 2.5rem;
+  }
+  /* GSAP's element. Nothing else may set transform here. */
+  .stk-scale { transform-origin: 50% 15%; }
+
+  .stk-inner {
+    position: relative;
+    display: grid; gap: 1.5rem;
+    background: linear-gradient(158deg, var(--hex-card-2), var(--hex-card));
+    border: 1px solid var(--hex-line);
+    border-radius: 1rem;
+    padding: 2rem;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    /* --rx/--ry are written by the pointer handler */
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform .35s var(--ease-soft), border-color .25s ease;
+  }
+  .stk-inner:hover { border-color: var(--hex-line-2); }
+  /* While the pointer is inside, follow it immediately; the transition above
+     only smooths the return to rest. */
+  .stk-inner.is-tilting { transition: border-color .25s ease; }
+
+  @media (min-width: 760px) {
+    .stk-inner { grid-template-columns: 1fr 1fr; align-items: center; gap: 2.25rem; }
+  }
+
+  .stk-k { position: absolute; top: 1.1rem; right: 1.4rem;
+           font-size: .8rem; font-weight: 700; color: rgba(212,160,23,.45); letter-spacing: .06em; }
+  .stk-t { font-size: clamp(1.25rem, 2.4vw, 1.9rem); font-weight: 700;
+           color: var(--hex-text); margin: 0 0 .7rem; line-height: 1.12; }
+  .stk-p { color: var(--hex-muted); line-height: 1.75; margin: 0; font-size: .95rem; }
+  .stk-img { width: 100%; height: 100%; max-height: 320px; object-fit: cover;
+             border-radius: .7rem; border: 1px solid var(--hex-line); display: block; }
+
+  /* Specular sweep that tracks the pointer, so the tilt reads as a physical
+     surface rather than a skew. */
+  .stk-sheen {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    transition: opacity .3s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(212,160,23,.16), transparent 62%);
+  }
+  .stk-inner:hover .stk-sheen { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Unstack entirely: no pinning, no tilt, no sheen. */
+    .stk-card { position: static; top: auto; }
+    .stk-inner { transform: none !important; transition: none; }
+    .stk-sheen { display: none; }
+  }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── 3D tilt ──────────────────────────────────────────────────────────────
+  // Pointer position -> rotateX/rotateY, coalesced onto one frame. Uses a
+  // cached rect so we never call getBoundingClientRect during pointermove.
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const MAX = 7; // degrees — past ~8 the text edges start to shimmer
+    for (const el of document.querySelectorAll('[data-stk-tilt]')) {
+      let rect = null, raf = 0, px = 0, py = 0;
+
+      const apply = () => {
+        raf = 0;
+        if (!rect) return;
+        const x = (px - rect.left) / rect.width;
+        const y = (py - rect.top) / rect.height;
+        el.style.setProperty('--ry', ((x - 0.5) * 2 * MAX).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', ((0.5 - y) * 2 * MAX).toFixed(2) + 'deg');
+        el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+      };
+
+      el.addEventListener('pointerenter', () => {
+        rect = el.getBoundingClientRect();
+        el.style.willChange = 'transform';
+        el.classList.add('is-tilting');
+      });
+      el.addEventListener('pointermove', (e) => {
+        px = e.clientX; py = e.clientY;
+        if (!raf) raf = requestAnimationFrame(apply);
+      });
+      el.addEventListener('pointerleave', () => {
+        el.classList.remove('is-tilting');
+        el.style.setProperty('--rx', '0deg');
+        el.style.setProperty('--ry', '0deg');
+        // Drop the promoted layer once the return transition has finished.
+        setTimeout(() => { el.style.willChange = 'auto'; }, 400);
+        rect = null;
+      });
+    }
+  }
+
+  // ── Stack depth on scroll ────────────────────────────────────────────────
+  if (!reduce) {
+    (async () => {
+      const cards = document.querySelectorAll('[data-stk-card]');
+      if (!cards.length) return;
+
+      const { gsap } = await import('gsap');
+      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
+      gsap.registerPlugin(ScrollTrigger);
+      if (window.__lenis) window.__lenis.on('scroll', ScrollTrigger.update);
+
+      cards.forEach((card, i) => {
+        if (i === cards.length - 1) return; // top of the stack never recedes
+        const scaler = card.querySelector('[data-stk-scale]');
+        gsap.to(scaler, {
+          scale: 0.9,
+          opacity: 0.45,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top ' + (80 + i * 14),   // once it has parked
+            end: 'bottom top',
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+          },
+        });
+      });
+
+      ScrollTrigger.refresh();
+    })();
+  }
+</script>

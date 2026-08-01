@@ -49,6 +49,13 @@ npm run build      # → dist/   (must stay green: 16 pages, 0 errors)
   center). **Mesh/click selection never calls `scrollIntoView`** (the isolate fix: clicking
   the 3D model to isolate must not yank the page). Per-part downloads are collapsed behind
   a `⬇ Files (N)` disclosure. Isolate is a toolbar toggle respected by clicks + scroll.
+- **`src/lib/base.js`** — `withBase()` / `withBaseURI()` / `stripBase()`. The site deploys to a
+  **subpath** (`lucas-bianco.github.io/hexaflow/`), and Astro only rewrites URLs it sees
+  statically. **Any URL built at runtime — nav hrefs, `parts.js` image/CAD/model paths, the glTF
+  the 3D viewer fetches — must go through `withBase()`, or it 404s in production.** Use
+  `withBaseURI()` when the filename has spaces (the CAD files do). `parts.js` deliberately keeps
+  bare `/images/...` literals; prefixing happens at consumption. Verify with the grep in README
+  "Deploy" — it must print nothing.
 - **`src/components/PhotoGallery.astro`** — reusable **slideshow scroller + click-to-
   fullscreen lightbox** (prev/next, dots, counter, caption, ESC/arrow keys). Used on
   Secondary Substrates, Substrate Covers, Full Project Photos. To add a gallery:
@@ -86,16 +93,25 @@ npm run build      # → dist/   (must stay green: 16 pages, 0 errors)
 
 ## 5. Open items that need a human decision (don't guess)
 
-- **Channel dimension:** the docs mostly say **0.48 mm** channel / **0.51 mm** gap, but a
-  pump-offset spreadsheet has a 1.524 mm figure (÷2 = 0.762). The site was corrected to
-  0.48 mm. Confirm the canonical value with Lucas before locking it.
+- ~~**Channel dimension**~~ — **RESOLVED 2026-08-01, do not re-litigate.** 0.48 mm is correct.
+  The 1.524 mm figure in `HexaFlow_Pump_Offsets.xlsx` is the **bore of the 3/32" barbed pipe
+  fitting** (1.524 mm = 0.060 in exactly), not a channel. Proof: the sheet computes
+  66.675 mm × π × (0.762 mm)² = 121.62 mm³, matching its own `D8` — so 0.762 is just half of
+  1.524 used as a radius in πr²L. Its purpose is pump lead-time (dead volume in the line →
+  0.665 s, validated against 51 measured pump starts averaging 0.755 s). Channel geometry of
+  record is `Capilary Tests\Hexagon capillary dimesions.docx` (0.167 in side-to-side, 0.100 in
+  side length, 0.050 in depth, **0.020 in gap**) plus "the water channels are 0.48mm across"
+  in `Commentary Chart For Desision Matrix Document.docx`.
+  **Caveat:** no document ever writes "0.51 mm" — that is the site's own conversion of
+  0.020 in. Presenting 0.48 mm width *and* 0.51 mm gap as two independently measured
+  quantities is an inference, not a documented fact. They are two near-identical numbers
+  from two documents describing the same fine feature.
 - **Team role labels** ("Project Manager & Hardware Lead", etc.) aren't written as those
   exact titles in the docs (activities match). They're Lucas's framing; left as-is.
-- **GitHub Pages deploy** needs the **base-path refactor** for a project page at
-  `lucas-bianco.github.io/hexaflow/` — set `HF_BASE=/hexaflow` + prefix root-absolute URLs
-  in `Nav.astro`, page templates, `parts.js`, and the 3D loader. The README's "Deploy"
-  section documents this. For a root `<user>.github.io` repo or custom domain, it works
-  as-is with `base: '/'`.
+- ~~**GitHub Pages deploy** needs the base-path refactor~~ — **DONE (2026-07-31).** Lucas
+  chose `lucas-bianco.github.io/hexaflow/`. `src/lib/base.js` now handles it, the workflow
+  builds with `HF_BASE=/hexaflow`, and both the subpath and root builds verify clean (946
+  URLs prefixed, 0 missed). See §3 and README "Deploy" for the rule when adding URLs.
 
 ## 6. Suggested improvements (good next steps)
 

@@ -4,6 +4,7 @@ interface Props {
   description?: string;
 }
 const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } = Astro.props;
+import { withBase } from '../lib/base.js';
 ---
 <!doctype html>
 <html lang="en">
@@ -13,7 +14,7 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     <title>{title} | HexaFlow</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#060e1c" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -47,7 +48,9 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     /* ── Text ─────────────────────────────────────────────────────────── */
     --hex-text:      #f0f4ff;
     --hex-muted:     #94a3b8;
-    --hex-muted-2:   #64748b;
+    /* Raised from var(--hex-muted-2) (3.52:1 on --hex-card, below AA) to 5.9:1. Used at
+       0.78-0.875rem, which counts as normal text and needs 4.5:1. */
+    --hex-muted-2:   #8b9bb4;
 
     /* ── Gold ramp (was a single value) ────────────────────────────────── */
     --hex-gold:      #d4a017;
@@ -167,8 +170,12 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     transition: opacity var(--dur-reveal) var(--ease-soft), transform var(--dur-reveal) var(--ease-soft);
     will-change: opacity, transform;
   }
+  /* Clearing `will-change` once the reveal has played is not just a memory hint:
+     `will-change: transform` makes the element a containing block, which captures
+     any `position: fixed` descendant (the PhotoGallery lightbox) and traps it
+     inside the section instead of the viewport. */
   .reveal.is-in,
-  [data-reveal].is-in { opacity: 1; transform: none; }
+  [data-reveal].is-in { opacity: 1; transform: none; will-change: auto; }
 
   .reveal-1 { transition-delay: .06s; }
   .reveal-2 { transition-delay: .12s; }
@@ -214,6 +221,25 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
   }
   .pin-body { padding: 0 var(--wrap-pad) var(--space-section); max-width: var(--wrap-max); margin: 0 auto; }
 
+  /* `pin` supplies its own wrap so it can be used at page top level. Inside
+     PageShell, `.ps-content` has already applied the same max-width and
+     padding — applying them twice pushed pinned content 24px inboard of its
+     sibling cards. Neutralise the inner copy. */
+  .ps-content .pin-head,
+  .ps-content .pin-body { max-width: none; margin: 0; padding-left: 0; padding-right: 0; }
+
+  /* A pin is only worth its scroll length if the body is taller than a screen.
+     Let short bodies collapse instead of forcing 220vh of dead scroll. */
+  .pin.pin-auto { min-height: 0; }
+
+  /* ── Scrub: progress 0→1 while the element crosses the viewport ────────
+     Same signal shape as .cine, but for arbitrary scroll-linked art. JS writes
+     --p; CSS decides what it means. */
+  .scrub { position: relative; }
+  .scrub-stage { position: sticky; top: var(--sticky-offset);
+                 min-height: calc(100svh - var(--sticky-offset));
+                 display: flex; flex-direction: column; justify-content: center; }
+
   /* ── DepthFigure: layered parallax image ─────────────────────────────── */
   .depth-fig { position: relative; border-radius: 0.85rem; overflow: hidden;
     border: 1px solid var(--hex-line); background: var(--hex-surface); }
@@ -257,12 +283,82 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     @keyframes parallax-bg   { from { transform: translateY(calc(var(--parallax-bg)   * -1)); } to { transform: translateY(var(--parallax-bg)); } }
   }
 
+  /* ══ Scroll primitives ═══════════════════════════════════════════════════
+     All four consume the existing --scroll-vel / --scroll-y signals or the
+     existing IntersectionObserver. Every one is neutralised in the
+     prefers-reduced-motion block below. */
+
+  /* ── 1. Cinematic video hero ────────────────────────────────────────────
+     A pinned full-bleed clip that the page content scrolls over. The scrim is
+     two stacked gradients so the headline keeps contrast against bright frames
+     (the drop-test footage is shot on snow). */
+  .cine { position: relative; min-height: 100svh; display: grid; place-items: center;
+          overflow: clip; isolation: isolate; }
+  .cine-media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .cine-media video, .cine-media img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    /* scale/fade are driven by --cine-p (0→1) set per-section by JS */
+    transform: scale(calc(1.14 - 0.14 * var(--cine-p, 0)));
+    filter: saturate(0.75) contrast(1.05);
+  }
+  .cine-media::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(6,14,28,0.55) 0%, rgba(6,14,28,0.2) 35%, rgba(6,14,28,0.92) 100%),
+      radial-gradient(ellipse 70% 60% at 50% 45%, transparent 30%, rgba(6,14,28,0.75) 100%);
+  }
+  .cine-inner { position: relative; text-align: center; padding: 0 var(--wrap-pad); max-width: 56rem; }
+
+  /* ── 2. Horizontal track driven by vertical scroll ──────────────────────
+     The section is tall; its inner viewport pins and the rail translates on X.
+     --hs-p (0→1) is written by JS from the section's scroll progress. */
+  .hs { position: relative; }
+  .hs-vp { position: sticky; top: 0; height: 100svh; display: flex; align-items: center;
+           overflow: hidden; }
+  .hs-rail { display: flex; gap: 1.5rem; padding-inline: max(var(--wrap-pad), 8vw);
+             will-change: transform;
+             transform: translate3d(calc(var(--hs-x, 0px) * -1), 0, 0); }
+  .hs-item { flex: 0 0 auto; width: min(78vw, 30rem); }
+
+  /* ── 3. Sticky stacked cards ────────────────────────────────────────────
+     Each card pins in turn and the next slides over it. Depth comes from the
+     index, set inline as --i. */
+  .stack { display: grid; gap: 0; }
+  .stack-card { position: sticky; top: calc(var(--sticky-offset) + 1rem);
+                transform: translateY(calc(var(--i, 0) * 0.6rem)); }
+
+  /* ── 4. Scroll-velocity skew ────────────────────────────────────────────
+     Reuses the --scroll-vel signal the progress bar already computes. */
+  .vel { transform: skewY(calc(var(--scroll-vel, 0) * 0.35deg)); transition: transform .18s var(--ease-soft); }
+
+  /* Count-up numbers land via JS; reserve the space so nothing reflows. */
+  [data-count] { font-variant-numeric: tabular-nums; }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .reveal, [data-reveal], .kinetic-unit { opacity: 1 !important; transform: none !important; transition: none !important; }
     .hf-progress-fill { transition: none; }
     [data-nav].nav-hidden { transform: none !important; }
     * { transition: none !important; }
+    /* Transitions were already covered above; these are *animations*, which the
+       transition rules never touched. The scroll-timeline parallax on [data-layer]
+       is the largest motion effect on the site, so it has to be named explicitly. */
+    [data-layer], .hero-scroll-line, .hf-progress-fill,
+    .hex, .bg-world-layer { animation: none !important; }
+
+    /* Scroll primitives: keep the content, drop the motion. The horizontal
+       track becomes an ordinary wrapping grid and the stacks stop pinning,
+       so nothing is unreachable without scroll-driven movement. */
+    .vel { transform: none !important; }
+    .cine-media video, .cine-media img { transform: none !important; }
+    .cine { min-height: auto; padding: 4rem 0; }
+    .hs-vp { position: static; height: auto; overflow: visible; }
+    .hs-rail { transform: none !important; flex-wrap: wrap; padding-inline: var(--wrap-pad); }
+    .hs-item { width: 100%; }
+    .stack-card { position: static; transform: none !important; }
+    /* Scrub art must show its finished state, not a frozen empty frame. */
+    .scrub { --p: 1 !important; }
+    .scrub-stage { position: static; min-height: 0; }
   }
 </style>
 
@@ -394,5 +490,117 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
       { threshold: 0.35 }
     );
     chapters.forEach((c) => chapObserver.observe(c));
+  }
+
+  // ── Scroll primitives ───────────────────────────────────────────────────
+  // One shared rAF pass drives .cine and .hs so we never stack a listener per
+  // effect. Everything is skipped wholesale under reduced motion.
+  if (!reduce) {
+    const cines = [...document.querySelectorAll('.cine')];
+    const tracks = [...document.querySelectorAll('.hs')];
+    const scrubs = [...document.querySelectorAll('.scrub')];
+
+    // clamp helper
+    const cl = (n, a, b) => Math.max(a, Math.min(b, n));
+
+    // Recomputes both primitives from current layout. Deliberately NOT an
+    // unconditional rAF loop: that keeps a frame of work alive forever on a
+    // page that is static most of the time, and stalls outright in a
+    // background tab. Lenis already emits scroll; we coalesce onto one frame.
+    function updateScrollFx() {
+      const vh = window.innerHeight;
+
+      // .cine — progress 0→1 as the section crosses the viewport
+      for (const el of cines) {
+        const r = el.getBoundingClientRect();
+        const p = cl(1 - (r.bottom / (vh + r.height)), 0, 1);
+        el.style.setProperty('--cine-p', p.toFixed(4));
+      }
+
+      // .hs — map the section's scrolled distance onto the rail's overflow
+      for (const el of tracks) {
+        const rail = el.querySelector('.hs-rail');
+        if (!rail) continue;
+        const r = el.getBoundingClientRect();
+        const travel = Math.max(0, rail.scrollWidth - window.innerWidth);
+        // section is `height`; the pinned viewport consumes one screen of it
+        const span = Math.max(1, el.offsetHeight - vh);
+        const p = cl(-r.top / span, 0, 1);
+        el.style.setProperty('--hs-p', p.toFixed(4));
+        rail.style.setProperty('--hs-x', (p * travel).toFixed(1) + 'px');
+      }
+
+      // .scrub — 0→1 across the element's own scrollable span
+      for (const el of scrubs) {
+        const r = el.getBoundingClientRect();
+        const span = Math.max(1, el.offsetHeight - vh);
+        const p = cl(-r.top / span, 0, 1);
+        el.style.setProperty('--p', p.toFixed(4));
+        // Optional numeric readout: <span data-scrub-pct>
+        const pct = el.querySelector('[data-scrub-pct]');
+        if (pct) pct.textContent = Math.round(p * 100) + '%';
+      }
+    }
+
+    // Coalesce bursts of scroll events onto a single frame.
+    let fxQueued = false;
+    function queueScrollFx() {
+      if (fxQueued) return;
+      fxQueued = true;
+      requestAnimationFrame(() => { fxQueued = false; updateScrollFx(); });
+    }
+
+    if (cines.length || tracks.length || scrubs.length) {
+      if (lenis) lenis.on('scroll', queueScrollFx);
+      else window.addEventListener('scroll', queueScrollFx, { passive: true });
+      window.addEventListener('resize', queueScrollFx);
+      // Expose for tests and for the resize path below.
+      window.__hfScrollFx = updateScrollFx;
+      updateScrollFx();
+    }
+
+    // Give each .hs enough page height to scroll its rail through.
+    const sizeTracks = () => {
+      for (const el of tracks) {
+        const rail = el.querySelector('.hs-rail');
+        if (!rail) continue;
+        const travel = Math.max(0, rail.scrollWidth - window.innerWidth);
+        el.style.height = (window.innerHeight + travel) + 'px';
+      }
+    };
+    sizeTracks();
+    window.addEventListener('resize', () => { sizeTracks(); updateScrollFx(); });
+    // Rail width depends on images/fonts settling.
+    window.addEventListener('load', () => { sizeTracks(); updateScrollFx(); });
+
+    // ── Count-up numbers ──────────────────────────────────────────────────
+    // <span data-count="14.7" data-decimals="1">14.7</span>
+    const counters = document.querySelectorAll('[data-count]');
+    if (counters.length) {
+      const cio = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const el = e.target;
+          cio.unobserve(el);
+          const to = parseFloat(el.dataset.count);
+          const dp = parseInt(el.dataset.decimals || '0', 10);
+          const dur = 1100;
+          // The markup already renders the true value; only zero it once we
+          // know we can actually animate back up to it.
+          el.textContent = (0).toFixed(dp);
+          const t0 = performance.now();
+          const tick = (t) => {
+            const k = cl((t - t0) / dur, 0, 1);
+            // easeOutExpo — fast start, long settle
+            const e2 = k === 1 ? 1 : 1 - Math.pow(2, -10 * k);
+            el.textContent = (to * e2).toFixed(dp);
+            if (k < 1) requestAnimationFrame(tick);
+            else el.textContent = to.toFixed(dp);
+          };
+          requestAnimationFrame(tick);
+        });
+      }, { threshold: 0.6 });
+      counters.forEach((c) => cio.observe(c));
+    }
   }
 </script>

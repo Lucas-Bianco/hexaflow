@@ -1,4 +1,6 @@
 ---
+import { withBase, stripBase } from '../lib/base.js';
+
 const navLinks = [
   { href: '/',                     label: 'Home' },
   { href: '/assembly',             label: 'Assembly Viewer', emphasize: true },
@@ -18,12 +20,14 @@ const navLinks = [
   { href: '/sources',              label: 'Misc. Sources' },
 ];
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Compare against bare routes: under `base: '/hexaflow'` the runtime pathname
+// carries the prefix but `navLinks` hrefs do not.
+const path = stripBase(Astro.url.pathname).replace(/\/$/, '') || '/';
 ---
 
 <nav class="hf-nav" data-nav>
   <!-- Logo -->
-  <a href="/" class="hf-logo" aria-label="HexaFlow home">
+  <a href={withBase('/')} class="hf-logo" aria-label="HexaFlow home">
     <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true">
       <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
                fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="5"/>
@@ -38,7 +42,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
     {navLinks.map(link => {
       const active = path === link.href || (link.href !== '/' && path.startsWith(link.href));
       return (
-        <a href={link.href} class={`hf-link${active ? ' is-active' : ''}${link.emphasize ? ' is-emph' : ''}`}>
+        <a href={withBase(link.href)} class={`hf-link${active ? ' is-active' : ''}${link.emphasize ? ' is-emph' : ''}`}>
           {link.label}
         </a>
       );
@@ -56,7 +60,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
   {navLinks.map(link => {
     const active = path === link.href || (link.href !== '/' && path.startsWith(link.href));
     return (
-      <a href={link.href} class={`hf-mobile-link${active ? ' is-active' : ''}`}>
+      <a href={withBase(link.href)} class={`hf-mobile-link${active ? ' is-active' : ''}`}>
         {link.label}
       </a>
     );

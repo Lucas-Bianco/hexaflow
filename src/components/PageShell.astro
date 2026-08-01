@@ -18,7 +18,9 @@ const { title, subtitle, badge } = Astro.props;
 </div>
 
 <!-- Page content -->
-<div class="ps-content" data-reveal>
+<!-- No `data-reveal` here: the children reveal individually, and a reveal wrapper
+     would become a containing block that traps the PhotoGallery lightbox. -->
+<div class="ps-content">
   <slot />
 </div>
 

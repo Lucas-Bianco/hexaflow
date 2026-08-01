@@ -1,6 +1,10 @@
 ---
 // Reusable slideshow photo scroller + click-to-fullscreen lightbox.
 // Usage: <PhotoGallery photos={[{ src, caption }]} />
+// Callers pass root-absolute `src` values ('/images/…'); base-prefixing happens
+// here so no gallery page has to know about it.
+import { withBase } from '../lib/base.js';
+
 interface Photo { src: string; caption?: string; }
 const { photos }: { photos: Photo[] } = Astro.props;
 ---
@@ -12,7 +16,7 @@ const { photos }: { photos: Photo[] } = Astro.props;
       <div class="pg-track" data-pg-track>
         {photos.map((p, i) => (
           <div class="pg-slide" data-cap={p.caption || ''} data-index={i}>
-            <img class="pg-img" src={p.src} alt={p.caption || `Photo ${i + 1}`}
+            <img class="pg-img" src={withBase(p.src)} alt={p.caption || `Photo ${i + 1}`}
                  loading={i < 2 ? 'eager' : 'lazy'} draggable="false" />
           </div>
         ))}
