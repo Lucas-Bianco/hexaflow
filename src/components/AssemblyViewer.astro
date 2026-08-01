@@ -104,6 +104,12 @@ const groups = subsystems.map(s => ({
   let viewer = null;
   let isolateMode = false;     // mirrors the toolbar checkbox
   let currentScrollId = null;  // dedupes the scroll→3D bridge
+  // A deliberate pick (row, breadcrumb, or mesh) owns the selection briefly.
+  // Without this the bridge overwrote it on the very next IntersectionObserver
+  // callback — and populating the panel resizes it, which reflows the list and
+  // fires that callback, so a click could undo itself with no scrolling at all.
+  let claimUntil = 0;
+  const claim = (id) => { currentScrollId = id; claimUntil = performance.now() + 700; };
 
   // ── Selection visuals (DOM only — NEVER scrolls the page) ──────────────
   // This is the core of the isolate fix: highlighting a part updates the
@@ -122,9 +128,16 @@ const groups = subsystems.map(s => ({
     return chain;
   };
 
+  // Rendering the panel rebuilds the breadcrumb and re-points the <img>, so
+  // repeating it for the part that is already shown makes the image blink.
+  // It used to run twice per selection: once here, then again when
+  // viewer.select() fired its own onSelect callback back at us.
+  let renderedId = null;
+
   function renderDetail(id) {
     const p = partById[id];
-    if (!p) return;
+    if (!p || id === renderedId) return;
+    renderedId = id;
     $('#hf-detail').style.setProperty('--accent', subsystemColor[p.subsystem] || 'var(--hex-gold)');
     $('#hf-detail-name').textContent = p.name;
     $('#hf-detail-role').textContent = p.role || '';
@@ -178,6 +191,7 @@ const groups = subsystems.map(s => ({
   }
 
   function selectFromClick(id) {
+    claim(id);
     setActive(id);
     renderDetail(id);
     if (viewer) viewer.select(id, { isolate: isolateMode });
@@ -186,6 +200,7 @@ const groups = subsystems.map(s => ({
   // Double-click isolates, regardless of the toolbar toggle, and syncs the
   // checkbox so the UI never lies about the state the model is in.
   function isolateFromDblClick(id) {
+    claim(id);
     setActive(id);
     renderDetail(id);
     isolateMode = true;
@@ -225,6 +240,9 @@ const groups = subsystems.map(s => ({
         // Empty-space click (id === null) returns to the overview card.
         onSelect: (id) => {
           const pick = id || 'nanolab-assembly';
+          // Picking in the model is a deliberate choice too — claim it so the
+          // scroll bridge does not overwrite it on the next scroll event.
+          claim(pick);
           setActive(pick);
           renderDetail(pick);
         },
@@ -252,34 +270,99 @@ const groups = subsystems.map(s => ({
   })();
 
   // ── Scroll → 3D bridge ──────────────────────────────────────────────────
-  // As each .av-step crosses the viewport center, highlight it in the 3D
-  // viewer. One-way (scroll → 3D); never scrolls the page. Respects the
-  // Isolate toolbar toggle so users who opted into isolation keep it while
-  // scrolling.
+  // As each .av-step crosses an anchor line just below the sticky detail
+  // panel, highlight it in the 3D viewer. One-way (scroll → 3D); never scrolls
+  // the page. Respects the Isolate toolbar toggle so users who opted into
+  // isolation keep it while scrolling.
   function bootScrollBridge() {
     const steps = $$('.av-step');
     if (!steps.length) return;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const io = new IntersectionObserver((entries) => {
-      // Among intersecting steps, pick the one closest to viewport center.
-      const visible = entries
-        .filter(e => e.isIntersecting && e.target.style.display !== 'none')
-        .sort((a, b) => {
-          const ca = a.boundingClientRect.top + a.boundingClientRect.height / 2 - innerHeight / 2;
-          const cb = b.boundingClientRect.top + b.boundingClientRect.height / 2 - innerHeight / 2;
-          return Math.abs(ca) - Math.abs(cb);
-        });
-      if (!visible[0]) return;
-      const id = visible[0].target.dataset.part;
+    // Only meaningful where the viewer is actually pinned. Below 1024px the
+    // grid is one column: the model is far above the list, so driving it from
+    // scroll changes something nobody can see while still paying for a
+    // material traversal and a panel rebuild per row.
+    const pinned = window.matchMedia('(min-width: 1024px)');
+
+    // The anchor line: the row nearest this y drives the model. The old
+    // -42%/-42% band straddled y=302–418 at 720px tall, but the sticky detail
+    // panel covers y=80–~360 — so the row being highlighted was usually
+    // underneath the panel describing it. Sit the band below the panel.
+    const stickyOffset = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--sticky-offset')) || 80;
+
+    let io = null;
+    const live = new Set();   // rows currently inside the band
+
+    function anchorY() {
+      const panel = $('#hf-detail');
+      const below = pinned.matches && panel ? panel.getBoundingClientRect().height : 0;
+      // Keep the anchor on screen even if the panel is unusually tall.
+      return Math.min(stickyOffset + below + 24, innerHeight * 0.75);
+    }
+
+    // Visible means "actually laid out": the search filter hides the
+    // .av-step-h wrapper, not the .av-step button, so checking the button's
+    // own inline display (as this used to) never matched and filtered-out
+    // rows kept driving the model.
+    const isVisible = (el) => el.offsetParent !== null;
+
+    // 19 rows over ~1200px of scroll is ~63px per part — a single wheel notch
+    // can cross two. Applying every crossing strobes the panel and re-traverses
+    // every material. Leading edge fires at once, then at most once per 110ms
+    // with a trailing pass so the final resting row always wins.
+    let last = 0, trailing = 0;
+    function apply() {
+      let best = null, bestD = Infinity;
+      const y = anchorY();
+      for (const el of live) {
+        if (!isVisible(el)) continue;
+        const r = el.getBoundingClientRect();
+        const d = Math.abs(r.top + r.height / 2 - y);
+        if (d < bestD) { bestD = d; best = el; }
+      }
+      const id = best?.dataset.part;
       if (!id || id === currentScrollId) return;
+      if (performance.now() < claimUntil) return;   // a click owns it for now
       currentScrollId = id;
       setActive(id);
       renderDetail(id);
       viewer?.select(id, { isolate: isolateMode });
-    }, { rootMargin: '-42% 0px -42% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
-    steps.forEach(s => io.observe(s));
+    }
+    function schedule() {
+      const now = performance.now();
+      clearTimeout(trailing);
+      if (now - last >= 110) { last = now; apply(); }
+      trailing = setTimeout(() => { last = performance.now(); apply(); }, 120);
+    }
+
+    function connect() {
+      const y = anchorY();
+      const band = 90;
+      io = new IntersectionObserver((entries) => {
+        // Track membership across callbacks: IO only reports rows whose
+        // intersection *changed*, so choosing among `entries` alone could
+        // pick a row entering the far edge over one already sitting on the
+        // anchor. `live` holds every row currently in the band.
+        for (const e of entries) {
+          if (e.isIntersecting) live.add(e.target); else live.delete(e.target);
+        }
+        schedule();
+      }, {
+        rootMargin: `-${Math.round(y)}px 0px -${Math.round(Math.max(0, innerHeight - y - band))}px 0px`,
+        threshold: 0,
+      });
+      steps.forEach(s => io.observe(s));
+    }
+    function disconnect() { io?.disconnect(); io = null; live.clear(); }
+
+    const sync = () => { disconnect(); if (pinned.matches) connect(); };
+    sync();
+    pinned.addEventListener('change', sync);
+    // The band is expressed in px, so it has to be rebuilt when the viewport
+    // (or the panel's height) changes.
+    let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(sync, 200); });
   }
 
   // ── 3D toolbar ──────────────────────────────────────────────────────────
@@ -319,6 +402,17 @@ const groups = subsystems.map(s => ({
       display: flex; flex-direction: column; gap: .75rem;
     }
     .av-viewer-pin .hf3d-host { aspect-ratio: auto; flex: 1; min-height: 0; }
+
+    /* A sticky element stops sticking at the bottom of its containing block,
+       and .av-steps IS the containing block — it ends at the last part row.
+       With tall cards that cost one part; with 44px rows the pin unstuck a
+       full viewer-height (624px ≈ 8 of 19 rows) before the list ended, so the
+       bottom 40% of the list highlighted a model sliding off screen. This
+       runway keeps the stage taller than the rows by exactly one pinned
+       viewer. */
+    .av-steps { padding-bottom: calc(100vh - var(--sticky-offset) - 1rem); }
+
+    .av-detail { position: sticky; top: var(--sticky-offset); z-index: 2; }
   }
 
   /* ── 3D viewer ─────────────────────────────────────────────────────────── */
@@ -361,7 +455,7 @@ const groups = subsystems.map(s => ({
     border: 1px solid rgba(212,160,23,.2); border-radius: .5rem; color: #f0f4ff;
     font: 500 .85rem 'Inter', sans-serif; }
   .av-search:focus { outline: none; border-color: rgba(212,160,23,.5); }
-  .av-group { display: flex; flex-direction: column; gap: .1rem; }
+  .av-group { display: flex; flex-direction: column; gap: .2rem; }
   .av-group-head { display: flex; align-items: center; gap: .5rem; padding-top: 1rem; }
   .av-dot { width: .6rem; height: .6rem; border-radius: 50%; }
   .av-group-name { font: 700 .72rem 'Space Grotesk', sans-serif; color: #fff; text-transform: uppercase; letter-spacing: .08em; }
@@ -377,7 +471,11 @@ const groups = subsystems.map(s => ({
     width: 100%; display: grid; grid-template-columns: auto auto 1fr;
     align-items: baseline; gap: .5rem; text-align: left;
     background: none; border: 0; border-left: 2px solid transparent;
-    padding: .4rem .5rem .4rem .6rem; cursor: pointer; border-radius: .35rem;
+    /* Deleting the stale `.av-step-role { margin: 0 0 .6rem }` override took
+       10px off every row, leaving a 34px click target. Pay it back as real
+       padding: back over the 40px hit-target floor, and the list keeps enough
+       length for the pinned viewer to have something to be pinned through. */
+    padding: .55rem .5rem .55rem .6rem; cursor: pointer; border-radius: .35rem;
     color: var(--hex-text); font: inherit;
     transition: background .15s ease, border-color .15s ease;
   }
@@ -392,9 +490,11 @@ const groups = subsystems.map(s => ({
   .av-step:focus-visible { outline: 2px solid var(--hex-gold); outline-offset: 2px; }
 
   /* ── Detail panel ─────────────────────────────────────────────────────
-     Sticky so the explanation stays readable while the list scrolls under it. */
+     Sticky only where the viewer is also pinned (>=1024px, see the media
+     query above). Below that the viewer scrolls away, so a pinned panel is
+     just a 250–320px opaque block — a third of a phone screen — describing a
+     model the reader can no longer see. It scrolls with the list instead. */
   .av-detail {
-    position: sticky; top: var(--sticky-offset); z-index: 2;
     background: var(--hex-card); border: 1px solid var(--hex-line);
     border-left: 3px solid var(--accent, var(--hex-gold));
     border-radius: .75rem; padding: 1.1rem 1.25rem; margin-bottom: .5rem;
@@ -416,13 +516,12 @@ const groups = subsystems.map(s => ({
     color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent);
     border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     padding: .2rem .6rem; border-radius: 999px; margin-bottom: .6rem; }
-  .av-step-title { display: flex; align-items: center; gap: .5rem; background: none; border: 0; padding: 0; cursor: pointer;
-    text-align: left; font: 700 1.4rem 'Space Grotesk', sans-serif; color: var(--hex-text); margin: 0 0 .35rem;
-    transition: color .15s; }
-  .av-step-title:hover { color: var(--hex-gold); }
-  .av-step-idx { font-size: 1rem; color: var(--accent); }
-  .av-step-role { font: 600 .95rem 'Inter', sans-serif; color: var(--hex-gold); margin: 0 0 .6rem; }
-  .av-step-desc { color: var(--hex-muted); line-height: 1.65; font-size: .92rem; margin: 0 0 1rem; }
+  /* NOTE: the old card layout's `.av-step-title` / `.av-step-idx` /
+     `.av-step-role` / `.av-step-desc` rules used to live here. They outranked
+     the compact-row rules above by source order and re-styled `.av-step-role`
+     as 0.95rem gold text with a 0.6rem bottom margin — bigger and louder than
+     the part name it sits next to. Deleted, not overridden: the compact-row
+     block above is now the only definition. */
   .av-files { margin-top: .25rem; }
   .av-files-sum { cursor: pointer; display: inline-flex; align-items: center; gap: .35rem;
     font: 600 .76rem 'Inter', sans-serif; color: var(--hex-gold);
