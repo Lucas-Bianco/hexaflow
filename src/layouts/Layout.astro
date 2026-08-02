@@ -425,9 +425,30 @@ import { withBase } from '../lib/base.js';
       smoothWheel: true,
       smoothTouch: false,
     });
-    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
     window.__lenis = lenis;
+
+    // Lenis needs a clock. If GSAP is on the page it already runs one, and
+    // running a second requestAnimationFrame loop alongside it means Lenis and
+    // every ScrollTrigger advance on different frames — which is what forces
+    // scrubbed animations to lag a frame behind the page.
+    //
+    // So: drive Lenis from GSAP's ticker when GSAP is present, and only fall
+    // back to our own loop when it isn't. `lagSmoothing(0)` stops GSAP from
+    // clamping delta after a slow frame, which would otherwise desync the two.
+    let ownLoop = null;
+    const startOwnLoop = () => {
+      if (ownLoop !== null) return;
+      const raf = (time) => { lenis.raf(time); ownLoop = requestAnimationFrame(raf); };
+      ownLoop = requestAnimationFrame(raf);
+    };
+
+    window.__hfBindLenisToGsap = (gsap) => {
+      if (ownLoop !== null) { cancelAnimationFrame(ownLoop); ownLoop = null; }
+      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+    };
+
+    startOwnLoop();
     // Route anchor links (#...) through Lenis.
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener('click', (e) => {
@@ -538,7 +559,7 @@ import { withBase } from '../lib/base.js';
         el.style.setProperty('--p', p.toFixed(4));
         // Optional numeric readout: <span data-scrub-pct>
         const pct = el.querySelector('[data-scrub-pct]');
-        if (pct) pct.textContent = Math.round(p * 100) + '%';
+        if (pct) pct.textContent = String(Math.round(p * 100)); // unit is markup's job
       }
     }
 

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import { withBase } from '../lib/base.js';
 import CinematicHero from '../components/CinematicHero.astro';
 import StackedCards from '../components/StackedCards.astro';
+import InstrumentFigure from '../components/InstrumentFigure.astro';
 
 const team = [
   { name: 'Aidan',   role: 'Project Manager & Hardware Lead'      },
@@ -164,6 +165,9 @@ const features = [
       </div>
     </div>
   </section>
+
+  <!-- ── The Instrument: scroll draws the lattice it measures ──────────── -->
+  <InstrumentFigure />
 
   <!-- ── Stacked build story ───────────────────────────────────────────── -->
   <StackedCards cards={deck} label="The Build" heading="From a lizard to a nanolab." />

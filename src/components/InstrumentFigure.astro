@@ -1,0 +1,192 @@
+---
+// THE INSTRUMENT — a technical drawing that draws itself under scroll.
+//
+// The v1 hero scrubbed footage. A stock drone shot would have animated
+// identically. This one can only exist because the measurements are real: every
+// number below is verified against the team's NASA HUNCH documents, and the
+// motion is the act of measuring rather than a reveal.
+//
+// HOW THE DRAW WORKS — no plugin, no per-frame JS:
+// Each path carries `pathLength="1"`, which renormalises its length to 1 unit
+// regardless of actual geometry. That makes `stroke-dasharray: 1` +
+// `stroke-dashoffset: calc(1 - var(--p))` a uniform 0->1 wipe across every
+// path, animated on the compositor. `--p` comes from the shared scroll pass.
+//
+// Sources: Hexagon capillary dimesions.docx (0.167 in / 0.100 in / 0.050 in /
+// .020 gap), Commentary Chart (0.48 mm across), Volume of haxagon grooves.docx
+// (10.1155 mL).
+
+interface Props {
+  cols?: number;
+  rows?: number;
+}
+const { cols = 9, rows = 5 } = Astro.props;
+
+// ── Pointy-top honeycomb ────────────────────────────────────────────────────
+const R = 22;                       // circumradius
+const W = Math.sqrt(3) * R;         // full width of one hex
+const VS = 1.5 * R;                 // vertical step between rows
+const PAD = 26;
+
+const hex = (cx: number, cy: number) =>
+  Array.from({ length: 6 }, (_, i) => {
+    const a = (Math.PI / 180) * (60 * i - 90);
+    return `${(cx + R * Math.cos(a)).toFixed(2)},${(cy + R * Math.sin(a)).toFixed(2)}`;
+  }).join(' ');
+
+const cells: { d: string; cx: number; cy: number; i: number }[] = [];
+let n = 0;
+for (let r = 0; r < rows; r++) {
+  for (let c = 0; c < cols; c++) {
+    const cx = PAD + W / 2 + c * W + (r % 2 ? W / 2 : 0);
+    const cy = PAD + R + r * VS;
+    cells.push({ d: hex(cx, cy), cx, cy, i: n++ });
+  }
+}
+const vbW = PAD * 2 + cols * W + W / 2;
+const vbH = PAD * 2 + (rows - 1) * VS + 2 * R;
+
+// Dimension callouts, revealed in sequence as the drawing completes.
+const dims = [
+  { at: 0.55, label: 'Channel width',  value: '0.48 mm' },
+  { at: 0.66, label: 'Gap',            value: '0.51 mm', sub: '0.020 in' },
+  { at: 0.77, label: 'Side to side',   value: '4.24 mm', sub: '0.167 in' },
+  { at: 0.88, label: 'Channel depth',  value: '1.27 mm', sub: '0.050 in' },
+];
+---
+
+<section class="inst scrub" data-scrub-instrument aria-label="Channel geometry, measured">
+  <div class="scrub-stage inst-stage">
+
+    <div class="inst-head">
+      <div class="section-label">Measured</div>
+      <h2 class="font-display inst-h">The lattice, to the tenth of a millimetre.</h2>
+      <p class="inst-lede">
+        Every figure here is read from the team's own test records — not a target,
+        not a rounding. Scroll to draw the channel network.
+      </p>
+    </div>
+
+    <div class="inst-fig">
+      <svg viewBox={`0 0 ${vbW.toFixed(1)} ${vbH.toFixed(1)}`} class="inst-svg"
+           role="img" aria-label="Hexagonal capillary channel lattice with dimensions">
+        <title>Hexagonal capillary channel lattice, 0.48 mm channels spaced 0.51 mm apart</title>
+
+        <!-- Lattice. Each cell draws slightly after the one before via --d. -->
+        <g class="inst-cells" fill="none" stroke="currentColor">
+          {cells.map(c => (
+            <polygon points={c.d} pathLength="1" style={`--d:${(c.i / cells.length).toFixed(4)}`} />
+          ))}
+        </g>
+
+        <!-- Measurement leaders, drawn last -->
+        <g class="inst-leaders" fill="none" stroke="currentColor">
+          <line x1={PAD} y1={vbH - 12} x2={PAD + W} y2={vbH - 12} pathLength="1" />
+          <line x1={PAD} y1={vbH - 17} x2={PAD} y2={vbH - 7} pathLength="1" />
+          <line x1={PAD + W} y1={vbH - 17} x2={PAD + W} y2={vbH - 7} pathLength="1" />
+        </g>
+        <text class="inst-dim" x={PAD + W / 2} y={vbH - 16} text-anchor="middle">4.24 mm</text>
+      </svg>
+
+      <!-- Live readout: the instrument's display -->
+      <div class="inst-readout">
+        <div class="inst-ro-main">
+          <span class="inst-ro-v font-display" data-scrub-pct>100</span><span class="inst-ro-u">% drawn</span>
+        </div>
+        <div class="inst-ro-cells">
+          <span class="font-display">{cells.length}</span> channels shown &middot;
+          <span class="font-display">10.12 mL</span> at saturation
+        </div>
+      </div>
+    </div>
+
+    <!-- Callouts appear in sequence; --at is the progress each unlocks at. -->
+    <dl class="inst-dims">
+      {dims.map(d => (
+        <div class="inst-dim-item" style={`--at:${d.at}`}>
+          <dt>{d.label}</dt>
+          <dd>
+            <span class="font-display">{d.value}</span>
+            {d.sub && <span class="inst-sub">{d.sub}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+
+  <div class="scrub-track inst-track" aria-hidden="true"></div>
+</section>
+
+<style>
+  .inst { color: var(--hex-gold); }
+  .inst-stage { gap: 1.5rem; }
+  .inst-track { height: 200vh; }
+
+  .inst-head { max-width: 44rem; }
+  .inst-h { font-size: var(--t-h2); font-weight: 700; color: var(--hex-text);
+            margin: .6rem 0 .5rem; line-height: 1.1; }
+  .inst-lede { color: var(--hex-muted); line-height: 1.7; margin: 0; }
+
+  .inst-fig {
+    position: relative; margin-top: 1.25rem;
+    display: grid; gap: 1rem; align-items: end;
+  }
+  @media (min-width: 860px) { .inst-fig { grid-template-columns: 1fr auto; } }
+
+  .inst-svg { width: 100%; max-width: 44rem; height: auto; display: block; }
+
+  /* ── The draw ────────────────────────────────────────────────────────────
+     pathLength="1" normalises every polygon, so one formula wipes them all.
+     --d staggers each cell so the lattice grows outward instead of blinking on. */
+  .inst-cells polygon {
+    stroke-width: 1.25;
+    stroke-dasharray: 1;
+    stroke-dashoffset: clamp(0, calc(1 - (var(--p, 1) - var(--d)) * 3), 1);
+    opacity: clamp(.25, calc((var(--p, 1) - var(--d)) * 6), 1);
+  }
+  .inst-leaders line {
+    stroke-width: 1; stroke-dasharray: 1;
+    stroke-dashoffset: clamp(0, calc(1 - (var(--p, 1) - .9) * 10), 1);
+  }
+  .inst-dim {
+    font: 600 7px 'Space Grotesk', sans-serif; fill: var(--hex-gold);
+    opacity: clamp(0, calc((var(--p, 1) - .92) * 12), 1);
+  }
+
+  .inst-readout {
+    border-left: 2px solid var(--hex-gold);
+    padding-left: .9rem; align-self: end; min-width: 12rem;
+  }
+  .inst-ro-main { display: flex; align-items: baseline; gap: .3rem; }
+  .inst-ro-v { font-size: 2.1rem; font-weight: 700; color: var(--hex-gold);
+               line-height: 1; font-variant-numeric: tabular-nums; }
+  .inst-ro-u { font-size: .78rem; color: var(--hex-muted); }
+  .inst-ro-cells { font-size: .76rem; color: var(--hex-muted-2); margin-top: .5rem; line-height: 1.6; }
+  .inst-ro-cells .font-display { color: var(--hex-text); }
+
+  /* ── Callouts ─────────────────────────────────────────────────────────── */
+  .inst-dims {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: .75rem; margin: 1.5rem 0 0;
+  }
+  .inst-dim-item {
+    border-top: 1px solid var(--hex-line); padding-top: .6rem;
+    /* unlock at --at; transform/opacity only */
+    opacity: clamp(0, calc((var(--p, 1) - var(--at)) * 14), 1);
+    transform: translateY(clamp(0px, calc((var(--at) - var(--p, 1)) * 60px), 10px));
+  }
+  .inst-dim-item dt { font-size: .68rem; text-transform: uppercase; letter-spacing: .1em;
+                      color: var(--hex-muted-2); margin-bottom: .3rem; }
+  .inst-dim-item dd { margin: 0; display: flex; align-items: baseline; gap: .45rem; }
+  .inst-dim-item dd .font-display { font-size: 1.05rem; font-weight: 700; color: var(--hex-gold); }
+  .inst-sub { font-size: .72rem; color: var(--hex-muted-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Finished drawing, no extra scroll length, everything legible. */
+    .inst { --p: 1 !important; }
+    .inst-track { display: none; }
+    .inst-cells polygon,
+    .inst-leaders line { stroke-dashoffset: 0; opacity: 1; }
+    .inst-dim, .inst-dim-item { opacity: 1; transform: none; }
+  }
+</style>

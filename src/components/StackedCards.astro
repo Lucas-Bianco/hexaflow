@@ -127,6 +127,7 @@ const { cards, label, heading } = Astro.props;
 </style>
 
 <script>
+  import { loadMotion } from '../lib/motion.js';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ── 3D tilt ──────────────────────────────────────────────────────────────
@@ -174,10 +175,7 @@ const { cards, label, heading } = Astro.props;
       const cards = document.querySelectorAll('[data-stk-card]');
       if (!cards.length) return;
 
-      const { gsap } = await import('gsap');
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-      if (window.__lenis) window.__lenis.on('scroll', ScrollTrigger.update);
+      const { gsap, ScrollTrigger } = await loadMotion();
 
       cards.forEach((card, i) => {
         if (i === cards.length - 1) return; // top of the stack never recedes

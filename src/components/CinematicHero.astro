@@ -85,6 +85,7 @@ const poster = withBase(`${dir}/f001.jpg`);
 </style>
 
 <script>
+  import { loadMotion } from '../lib/motion.js';
   import { withBase } from '../lib/base.js';
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -165,18 +166,7 @@ const poster = withBase(`${dir}/f001.jpg`);
 
     // ── GSAP ScrollTrigger ────────────────────────────────────────────────
     (async () => {
-      const { gsap } = await import('gsap');
-      const { ScrollTrigger } = await import('gsap/ScrollTrigger');
-      gsap.registerPlugin(ScrollTrigger);
-
-      // The site drives scrolling through Lenis. Without this, ScrollTrigger
-      // reads a scroll position Lenis has already moved past and the scrub
-      // lags a frame behind the page.
-      const lenis = window.__lenis;
-      if (lenis) {
-        lenis.on('scroll', ScrollTrigger.update);
-        ScrollTrigger.defaults({ scroller: document.body });
-      }
+      const { gsap, ScrollTrigger } = await loadMotion();
 
       const state = { f: 0 };
       gsap.to(state, {
