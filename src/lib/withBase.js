@@ -7,7 +7,15 @@ export function withBase(p) {
   if (!p) return BASE
   if (/^(https?:)?\/\//.test(p) || p.startsWith('data:') || p.startsWith('blob:')) return p
   const root = BASE.endsWith('/') ? BASE : BASE + '/'
-  return root + p.replace(/^\/+/, '')
+  const strippedRoot = root.replace(/^\/+/, '')
+  let q = p.replace(/^\/+/, '')
+  // Idempotent: if the caller already passed a base-prefixed path (e.g. a
+  // component that wraps again), strip the duplicate so double-wrapping is
+  // harmless under a project-page base like /hexaflow/.
+  if (strippedRoot && q.startsWith(strippedRoot)) {
+    q = q.slice(strippedRoot.length).replace(/^\/+/, '')
+  }
+  return root + q
 }
 
 // react-router basename: '' for root deploys, '/hexaflow' for the project page.
