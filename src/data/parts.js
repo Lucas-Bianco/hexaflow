@@ -12,7 +12,9 @@
 // here (e.g. '/models/parts/Shell.glb') to light up that part's own viewer.
 
 export const model = {
-  src: '/models/Nanolab_Assembly.glb',
+  // Multi-file glTF (Nanolab_Assembly.gltf + 35 relative .bin buffers in the
+  // same public/models/nanolab/ dir). drei useGLTF resolves the .bin URIs.
+  src: '/models/nanolab/Nanolab_Assembly.gltf',
   rootName: 'Nanolab Assembly',
   rootId: 'nanolab-assembly',
   fastenerMatches: ['m3_short']

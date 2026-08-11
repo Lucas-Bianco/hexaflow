@@ -12,12 +12,20 @@
 //   2. NASA Glenn 2.2-Second Drop Tower, Ohio: 3 drops (+ dry-run baseline) —
 //      documented in `runs` below.
 
+// Build a root-absolute frame list of N evenly-sampled frames for a run dir.
+// withBase() (applied in DropRunScrubber) re-prefixes for the deploy base.
+const frameList = (dir, n) =>
+  Array.from({ length: n }, (_, i) => `/${dir}/f-${String(i + 1).padStart(2, '0')}.jpg`)
+
 export const dropTests = {
   facility: 'NASA Glenn 2.2-Second Drop Tower',
   heightSeconds: 2.2,
   location: 'NASA Glenn Research Center, Ohio',
   drops: 3,
 
+  // 18 evenly-sampled frames per run, copied from the NASA Glenn result photos
+  // into public/images/drop/<id>/. DropRunScrubber advances one frame per scroll
+  // step across all runs in sync.
   runs: [
     {
       id: 'dry-runs',
@@ -25,32 +33,32 @@ export const dropTests = {
       dir: 'images/drop/dry-runs',
       isBaseline: true,
       narrative: 'Baseline setup with no drop.',
-      frameCount: null,
-      frames: null,
+      frameCount: 18,
+      frames: frameList('images/drop/dry-runs', 18),
     },
     {
       id: 'first-run',
       label: 'Drop 1 (best)',
       dir: 'images/drop/first-run',
       narrative: 'First drop produced the best capillary dispersal.',
-      frameCount: null,
-      frames: null,
+      frameCount: 18,
+      frames: frameList('images/drop/first-run', 18),
     },
     {
       id: 'second-run',
       label: 'Drop 2 (hexagons cleaned out)',
       dir: 'images/drop/second-run',
       narrative: 'The hexagons were cleaned out before this drop.',
-      frameCount: null,
-      frames: null,
+      frameCount: 18,
+      frames: frameList('images/drop/second-run', 18),
     },
     {
       id: 'third-run-double-water',
       label: 'Drop 3 (double water)',
       dir: 'images/drop/third-run-double-water',
       narrative: 'Water was left in the system because the code could not be changed; leaving water in was the only way to get more water into the system for the final drop.',
-      frameCount: null,
-      frames: null,
+      frameCount: 18,
+      frames: frameList('images/drop/third-run-double-water', 18),
     },
   ],
 
