@@ -1,0 +1,306 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const team = [
+  { name: 'Aidan',   role: 'Project Manager & Hardware Lead'      },
+  { name: 'Nate',    role: 'Correspondent & Water Movement Lead'   },
+  { name: 'Sabrina', role: 'Note Taker & Substrate Lead'           },
+  { name: 'Maddie',  role: 'Scheduler & Modularity Lead'           },
+  { name: 'Lucas',   role: 'Web Development Lead'                   },
+];
+
+const stats = [
+  { v: '5',        u: 'Team Members'     },
+  { v: '5.18 s',   u: 'Test Window'      },
+  { v: '10.12 mL', u: 'Channel Capacity' },
+  { v: '0.48 mm',  u: 'Channel Width'    },
+];
+
+const features = [
+  { title: 'Hexagonal Geometry', href: '/geometry', k: '01',
+    desc: 'Thorny-devil-inspired channels move water by capillary action — 10.12 mL capacity, 0.48 mm channels, SLA-printed resin dome.' },
+  { title: 'AI Vision Control',  href: '/ai-control', k: '02',
+    desc: 'A vision model reads root moisture and triggers the pump only when the plant needs it — a continuous feedback loop that prevents overwatering.' },
+  { title: 'Aeroponics',         href: '/aeroponics', k: '03',
+    desc: 'Plants hang in air and draw water straight from the channels — watered only when the roots are dry, with no growing medium to rot.' },
+  { title: 'Modular Design',     href: '/modular-enclosure', k: '04',
+    desc: 'A sliding shelf system that supports two configurations from one enclosure: drop-test (high-capacity pump) and long-term (precision pump + sensors).' },
+];
+---
+
+<Layout title="Home" description="HexaFlow – A modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants.">
+  <Nav slot="nav" />
+
+  <!-- ── MorphBackground: chapter color-worlds, fixed behind everything ── -->
+  <div class="bg-world" aria-hidden="true">
+    <div class="bg-world-layer" data-world="enclosure" style="background:var(--world-enclosure)"></div>
+    <div class="bg-world-layer" data-world="tdc"       style="background:var(--world-tdc)"></div>
+    <div class="bg-world-layer" data-world="water"    style="background:var(--world-water)"></div>
+    <div class="bg-world-layer" data-world="substrate" style="background:var(--world-substrate)"></div>
+  </div>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="hero" data-chapter="tdc">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="hero-mark reveal reveal-1">
+        <svg width="84" height="84" viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
+                   fill="rgba(212,160,23,0.08)" stroke="var(--hex-gold)" stroke-width="3.5"/>
+          <polygon points="50,20 80,36 80,64 50,80 20,64 20,36"
+                   fill="none" stroke="rgba(212,160,23,0.35)" stroke-width="2"/>
+          <text x="50" y="66" text-anchor="middle" fill="var(--hex-gold)"
+                font-size="42" font-family="Space Grotesk, sans-serif" font-weight="700">H</text>
+        </svg>
+      </div>
+
+      <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · Engineering</span>
+
+      <h1 class="hero-title kinetic" data-kinetic="char">HexaFlow</h1>
+
+      <p class="hero-sub reveal reveal-3">Modular Capillary Action Nanolab</p>
+
+      <p class="hero-lede reveal reveal-3">
+        Borrowing the thorny devil's capillary skin, HexaFlow pairs AI vision
+        with SLA-printed hex channels to water plants on demand — a closed-loop
+        nanolab built around a 5.18-second test window.
+      </p>
+
+      <div class="hero-cta reveal reveal-4">
+        <a class="btn btn-primary" href="/assembly">Explore the Assembly →</a>
+        <a class="btn btn-ghost" href="#team">Meet the Team</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll reveal reveal-5" aria-hidden="true">
+      <span>Scroll</span>
+      <span class="hero-scroll-line"></span>
+    </div>
+  </section>
+
+  <!-- ── Stats ─────────────────────────────────────────────────────────── -->
+  <section class="stats" aria-label="Key figures" data-reveal>
+    {stats.map(s => (
+      <div class="stat">
+        <span class="stat-v font-display">{s.v}</span>
+        <span class="stat-u">{s.u}</span>
+      </div>
+    ))}
+  </section>
+
+  <!-- ── About ─────────────────────────────────────────────────────────── -->
+  <section class="wrap about" data-reveal data-chapter="enclosure">
+    <div class="about-art" aria-hidden="true">
+      <div class="hex-stack">
+        <span class="hex hex-a"></span>
+        <span class="hex hex-b"></span>
+        <span class="hex hex-c"></span>
+      </div>
+    </div>
+    <div class="about-body">
+      <div class="section-label">About the Project</div>
+      <h2 class="font-display about-h">What is HexaFlow?</h2>
+      <p>
+        HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver
+        water to plants. A five-member team from Tri-County RVTHS built the system to prevent root
+        rot while enabling interchangeable experiments and rapid data collection — all inside a
+        <strong>5.18-second test window</strong>.
+      </p>
+      <p>
+        The hexagonal channels take their cue from the <strong>thorny devil lizard</strong>
+        (<em>Moloch horridus</em>), which transports water through grooved skin by capillary action.
+        A vision model reads root moisture from the camera and drives the pump, closing a continuous
+        feedback loop that prevents overwatering and root rot.
+      </p>
+      <p>
+        Manufacturing relies on SLA 3D printing in resin. Resin's polar bonds grip water more tightly
+        than water molecules grip each other, driving efficient capillary transport — strong enough
+        that the system holds water even when inverted.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Features ─────────────────────────────────────────────────────── -->
+  <section class="features" data-chapter="water">
+    <div class="wrap">
+      <div class="features-head" data-reveal>
+        <div class="section-label">Core Systems</div>
+        <h2 class="font-display features-h">How It Works</h2>
+        <p class="features-sub">Four interlocking systems, one closed-loop nanolab.</p>
+      </div>
+      <div class="features-grid" data-reveal>
+        {features.map(f => (
+          <a class="card feat" href={f.href}>
+            <span class="feat-k font-display">{f.k}</span>
+            <h3 class="font-display feat-title">{f.title}</h3>
+            <p class="feat-desc">{f.desc}</p>
+            <span class="feat-link">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Team ──────────────────────────────────────────────────────────── -->
+  <section id="team" class="wrap team">
+    <div class="team-head" data-reveal>
+      <div class="section-label">The People</div>
+      <h2 class="font-display team-h">Our Team</h2>
+      <p class="team-sub">Tri-County RVTHS · Franklin, Massachusetts</p>
+    </div>
+    <div class="team-grid" data-reveal>
+      {team.map(m => (
+        <div class="card member">
+          <div class="member-avatar">{m.name[0]}</div>
+          <div class="member-name font-display">{m.name}</div>
+          <div class="member-role">{m.role}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  /* ── Hero ───────────────────────────────────────────────────────────── */
+  .hero { position: relative; min-height: 92vh; display: flex; align-items: center;
+          justify-content: center; overflow: hidden; padding: 6rem 1.5rem 4rem; }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97'%3E%3Cpolygon points='28,2 54,16 54,46 28,60 2,46 2,16' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 54,76 54,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3Cpolygon points='28,62 2,76 2,97' fill='none' stroke='%23d4a017' stroke-width='0.8'/%3E%3C/svg%3E");
+    background-size: 56px 97px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 40%, transparent 85%);
+  }
+  .hero-glow { position: absolute; top: 28%; left: 50%; transform: translateX(-50%);
+    width: 720px; height: 460px; max-width: 90vw; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(212,160,23,0.1), transparent 70%);
+    pointer-events: none; filter: blur(8px); }
+  .hero-inner { position: relative; text-align: center; max-width: 52rem; }
+  .hero-mark { display: flex; justify-content: center; margin-bottom: 1.75rem; }
+  .hero-eyebrow {
+    display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--hex-gold);
+    padding: 0.35rem 0.85rem; border: 1px solid var(--hex-line); border-radius: 999px;
+    background: rgba(212,160,23,0.05); margin-bottom: 1.5rem;
+  }
+  .hero-title { font-size: clamp(3.2rem, 9vw, 6rem); font-weight: 700; color: var(--hex-text);
+    letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 1rem;
+    text-shadow: 0 0 60px rgba(212,160,23,0.15); }
+  .hero-sub { font-size: 1.25rem; color: var(--hex-gold); font-weight: 600;
+    letter-spacing: 0.01em; margin: 0 0 1.1rem; }
+  .hero-lede { color: var(--hex-muted); font-size: 1.05rem; line-height: 1.7;
+    max-width: 38rem; margin: 0 auto 2.5rem; }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn { padding: 0.8rem 1.85rem; border-radius: 0.55rem; font-weight: 600;
+    font-size: 0.95rem; text-decoration: none; transition: transform .15s, background .15s, border-color .15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { color: #060e1c; background: var(--hex-gold);
+    box-shadow: 0 10px 24px -10px rgba(212,160,23,0.7); }
+  .btn-primary:hover { background: #e4b125; }
+  .btn-ghost { color: var(--hex-gold); border: 1px solid rgba(212,160,23,0.35); }
+  .btn-ghost:hover { background: rgba(212,160,23,0.08); }
+  .hero-scroll { position: absolute; bottom: 1.75rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--hex-muted); }
+  .hero-scroll-line { width: 1px; height: 32px; background: linear-gradient(var(--hex-gold), transparent);
+    animation: hf-pulse 2.4s ease-in-out infinite; }
+  @keyframes hf-pulse { 0%,100% { opacity: 0.3; transform: scaleY(0.7); } 50% { opacity: 1; transform: scaleY(1); } }
+
+  /* ── Stats ──────────────────────────────────────────────────────────── */
+  .stats {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--hex-line); border-bottom: 1px solid var(--hex-line);
+    background: var(--hex-surface);
+  }
+  .stat { text-align: center; padding: 2.1rem 1rem; border-bottom: 1px solid var(--hex-line);
+    border-right: 1px solid var(--hex-line); }
+  .stat:nth-child(2n) { border-right: 0; }
+  .stat:nth-last-child(-n+2) { border-bottom: 0; }
+  .stat-v { display: block; font-size: 1.95rem; font-weight: 700; color: var(--hex-gold); line-height: 1; }
+  .stat-u { display: block; font-size: 0.72rem; color: var(--hex-muted);
+    text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.45rem; }
+  @media (min-width: 640px) {
+    .stats { grid-template-columns: repeat(4, 1fr); }
+    .stat { border-bottom: 0; }
+    .stat:nth-child(2n) { border-right: 1px solid var(--hex-line); }
+    .stat:last-child { border-right: 0; }
+  }
+
+  /* ── Layout helpers ─────────────────────────────────────────────────── */
+  .wrap { max-width: 72rem; margin: 0 auto; padding: 5.5rem 1.5rem; }
+
+  /* ── About ──────────────────────────────────────────────────────────── */
+  .about { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; }
+  @media (min-width: 880px) { .about { grid-template-columns: 0.7fr 1.3fr; gap: 3.5rem; } }
+  .about-art { display: flex; justify-content: center; }
+  .hex-stack { position: relative; width: 220px; height: 240px; }
+  .hex { position: absolute; width: 150px; height: 170px;
+    background: linear-gradient(160deg, rgba(212,160,23,0.12), rgba(212,160,23,0.02));
+    border: 1px solid var(--hex-line); clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%); }
+  .hex-a { top: 0; left: 35px; }
+  .hex-b { top: 50px; left: 0; border-color: rgba(212,160,23,0.28); }
+  .hex-c { top: 50px; left: 70px; background: linear-gradient(160deg, rgba(212,160,23,0.18), transparent); }
+  .about-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 1.25rem; }
+  .about-body p { color: var(--hex-muted); line-height: 1.75; margin: 0 0 1rem; }
+  .about-body strong { color: #e2e8f0; }
+
+  /* ── Features ───────────────────────────────────────────────────────── */
+  .features { background: var(--hex-surface);
+    border-top: 1px solid var(--hex-line); border-bottom: 1px solid var(--hex-line); }
+  .features-head { text-align: center; margin-bottom: 3rem; }
+  .features-head .section-label { justify-content: center; }
+  .features-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.6rem; }
+  .features-sub { color: var(--hex-muted); margin: 0; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; }
+  .feat { position: relative; display: block; text-decoration: none; }
+  .feat-k { position: absolute; top: 1.1rem; right: 1.3rem; font-size: 0.85rem; font-weight: 700;
+    color: rgba(212,160,23,0.35); letter-spacing: 0.05em; }
+  .feat-title { font-size: 1.05rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.6rem; }
+  .feat-desc { font-size: 0.875rem; color: var(--hex-muted); line-height: 1.65; margin: 0 0 1.1rem; }
+  .feat-link { font-size: 0.8rem; color: var(--hex-gold); font-weight: 600; }
+
+  /* ── Team ───────────────────────────────────────────────────────────── */
+  .team-head { text-align: center; margin-bottom: 3rem; }
+  .team-head .section-label { justify-content: center; }
+  .team-h { font-size: 2rem; font-weight: 700; color: var(--hex-text); margin: 0 0 0.5rem; }
+  .team-sub { color: var(--hex-muted); margin: 0; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+  .member { text-align: center; }
+  .member-avatar { width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 0.9rem;
+    display: grid; place-items: center;
+    background: rgba(212,160,23,0.12); border: 1px solid rgba(212,160,23,0.35);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--hex-gold);
+    transition: transform .2s, box-shadow .2s; }
+  .member:hover .member-avatar { transform: scale(1.06); box-shadow: 0 0 0 4px rgba(212,160,23,0.15); }
+  .member-name { font-weight: 700; color: var(--hex-text); margin-bottom: 0.35rem; }
+  .member-role { font-size: 0.8rem; color: var(--hex-muted); line-height: 1.5; }
+
+  /* Staggered children when their container reveals (opacity-only, so it
+     never fights the .card hover-lift transform). */
+  .stats > .stat,
+  .features-grid > .feat,
+  .team-grid > .member { opacity: 0; transition: opacity .6s ease; }
+  .stats.is-in > .stat,
+  .features-grid.is-in > .feat,
+  .team-grid.is-in > .member { opacity: 1; }
+  .stats.is-in > .stat:nth-child(2),
+  .features-grid.is-in > .feat:nth-child(2),
+  .team-grid.is-in > .member:nth-child(2) { transition-delay: .08s; }
+  .stats.is-in > .stat:nth-child(3),
+  .features-grid.is-in > .feat:nth-child(3),
+  .team-grid.is-in > .member:nth-child(3) { transition-delay: .16s; }
+  .stats.is-in > .stat:nth-child(4),
+  .features-grid.is-in > .feat:nth-child(4),
+  .team-grid.is-in > .member:nth-child(4) { transition-delay: .24s; }
+  .team-grid.is-in > .member:nth-child(5) { transition-delay: .32s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stats > .stat, .features-grid > .feat, .team-grid > .member { opacity: 1 !important; }
+  }
+</style>

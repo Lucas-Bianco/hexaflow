@@ -1,0 +1,46 @@
+Drop all your image files into this folder (public/images/).
+
+Once a file is here, reference it in any page as:
+  /images/yourfilename.jpg
+
+Example: if you add "tdc-photo.jpg" here, use it like this in any .astro file:
+  <img src="/images/tdc-photo.jpg" alt="TDC module" style="width:100%;border-radius:0.75rem;" />
+
+------------------------------------------------------------
+WHERE TO ADD IMAGES — by page
+------------------------------------------------------------
+
+GEOMETRY page  (src/pages/geometry.astro)
+  - TDC top-down CAD photo → replace the hex diagram SVG block
+  - Thorny Devil skin close-up → add below the Wikipedia photo
+
+DROP TESTING  (src/pages/drop-testing.astro)
+  - Replace each placeholder <div class="card"> in the photo grid
+    with: <img src="/images/drop-test-1.jpg" ... />
+  - For the video, use: <video src="/images/drop-test-example.mp4" controls />
+
+AI & CONTROL  (src/pages/ai-control.astro)
+  - Carrier board photo → add a new card above the feedback diagram
+
+USER INTERFACE  (src/pages/user-interface.astro)
+  - Replace the V2UI.mp4 placeholder card with:
+    <video src="/images/v2ui.mp4" controls style="width:100%;border-radius:0.75rem;" />
+  - UI screenshots → add below the features grid
+
+AEROPONICS  (src/pages/aeroponics.astro)
+  - Plant clips / reservoir photos → add after the benefits cards
+
+SECONDARY SUBSTRATES  (src/pages/secondary-substrates.astro)
+  - Substrate comparison photos → add after the decision matrix table
+
+MODULAR ENCLOSURE  (src/pages/modular-enclosure.astro)
+  - Replace the "Enclosure Diagram Photo" placeholder card at the bottom
+
+CAD DRAWINGS  (src/pages/cad-drawings.astro)
+  - Replace each placeholder card in the 8-slot grid with <img> tags
+
+FULL PROJECT PHOTOS  (src/pages/full-project-photos.astro)
+  - Replace each of the 13 placeholder cards with <img> tags
+
+SUBSTRATE COVERS  (src/pages/substrate-covers.astro)
+  - Replace the 5 placeholder cards in the "Cover Photos" section

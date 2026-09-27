@@ -1,0 +1,87 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+
+const photos = [
+  { src:'/images/project-1.jpg',  caption:'Full project assembly — front view' },
+  { src:'/images/project-2.jpg',  caption:'Full project assembly — side view' },
+  { src:'/images/project-3.jpg',  caption:'TDC module close-up' },
+  { src:'/images/project-4.jpg',  caption:'Hexagonal channel detail' },
+  { src:'/images/project-5.jpg',  caption:'Electronics carrier board' },
+  { src:'/images/project-6.jpg',  caption:'Camera and LED mount' },
+  { src:'/images/project-7.jpg',  caption:'Plant clips seated in the TDC' },
+  { src:'/images/project-8.jpg',  caption:'Drop test rig and setup' },
+  { src:'/images/project-9.jpg',  caption:'Water dispersal, dyed, post-drop' },
+  { src:'/images/project-10.jpg', caption:'Team at the TDC showcase' },
+  { src:'/images/project-11.jpg', caption:'TDC showcase table overview' },
+  { src:'/images/project-12.jpg', caption:'Reservoir and pump assembly' },
+  { src:'/images/project-13.jpg', caption:'Kale held in plant clips during an inversion test' },
+  { src:'/images/project-14.jpg', caption:'Project photo 14' },
+  { src:'/images/project-15.jpg', caption:'Project photo 15' },
+];
+---
+<Layout title="Full Project Photos">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Photos of Full Project &amp; TDC"
+    subtitle="Project photographs showing the full HexaFlow assembly, the TDC module, drop tests, and the Tri-County Design Challenge showcase."
+    badge="Gallery"
+  >
+    <div style="display:grid;gap:2rem;">
+
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+          Project Gallery
+        </h2>
+        <PhotoGallery photos={photos} />
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  .gi {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--hex-line);
+  }
+  .gi img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 200px;
+  }
+  .gi-caption {
+    padding: 0.5rem 0.85rem;
+    background: var(--hex-card);
+  }
+  .gi-num {
+    font-size: 0.7rem;
+    color: #475569;
+    margin-bottom: 0.1rem;
+  }
+  .gi-text {
+    font-size: 0.8rem;
+    color: var(--hex-muted);
+  }
+  /* DepthFigure hero items — span 2 columns and crop taller for prominence */
+  .depth-fig.featured {
+    grid-column: span 2;
+  }
+  .depth-fig.featured .df-img {
+    height: 320px;
+    object-fit: cover;
+  }
+</style>

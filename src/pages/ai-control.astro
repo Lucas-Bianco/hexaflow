@@ -1,0 +1,235 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="AI & Control">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="AI & Control"
+    subtitle="A locally-running vision model watches the roots and drives the pump in a closed loop — HexaFlow waters plants only when they actually need it."
+    badge="Automation"
+  >
+    <div style="display:grid;gap:2.5rem;">
+
+      <!-- How it works -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          AI-Driven Operation
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          The locally-running AI model observes plant roots via camera and dispenses water
+          incrementally — verifying adequate hydration before stopping the pump. The result is a
+          closed-loop system that responds to actual plant conditions rather than a fixed timer.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          The vision model reads moisture straight from the camera feed and drives the pump accordingly,
+          closing a <strong style="color:#e2e8f0;">continuous feedback loop</strong> that prevents
+          both overwatering and underwatering.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          The whole loop runs on a <strong style="color:#e2e8f0;">Raspberry Pi Zero 2W</strong> — chosen
+          because it was already on hand and natively supports the Pi Camera 3 — paired with an
+          <strong style="color:#e2e8f0;">InoMaker 1080p camera (130° FOV)</strong> and two secondary
+          cameras. The vision model's job is to detect dry roots via the camera and trigger the pump
+          only when needed.
+        </p>
+      </div>
+
+      <!-- Dual modes -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Dual Configuration Modes
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
+          <div class="card reveal-1" style="border-color:rgba(212,160,23,0.3);">
+            <div class="section-label">Drop Test Mode</div>
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+              Drop Testing Configuration
+            </h3>
+            <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.75;margin:0;padding-left:1.1rem;">
+              <li>AI disengages during the drop window</li>
+              <li>Constant pumping for a user-defined duration</li>
+              <li>Driven by a <strong style="color:#e2e8f0;">100 mL/min (5000 RPM) pump</strong></li>
+              <li>Targets <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> over the 5.18s test window</li>
+              <li>Maximizes channel fill during the microgravity event</li>
+            </ul>
+          </div>
+          <div class="card reveal-2">
+            <div class="section-label">Long-Term Mode</div>
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+              Long-Term Growing Configuration
+            </h3>
+            <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.75;margin:0;padding-left:1.1rem;">
+              <li>AI vision actively monitors root moisture</li>
+              <li>Driven by a <strong style="color:#e2e8f0;">1 mL/min pump</strong> for long-term operation</li>
+              <li>Saves <strong style="color:#e2e8f0;">320mA</strong> versus the drop-test pump</li>
+              <li>Fine-grained control over water delivery</li>
+              <li>Adaptive data collection and imaging protocols</li>
+              <li>TDS and pH sensors active</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom carrier board -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Custom Carrier Board
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          A custom carrier board consolidates every electronics connection into one board —
+          simpler wiring, fewer failure points:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+          {[
+            { title:'Raspberry Pi Integration', desc:'Connects via USB Type B and a standard USB port' },
+            { title:'4-Camera USB Hub',          desc:'Embedded support for up to 4 cameras at once' },
+            { title:'Direct ADC Embedding',       desc:'More reliable connections for analog sensors' },
+            { title:'Consolidated Breakouts',     desc:'Power and signal breakouts in one place for simpler wiring' },
+          ].map((f, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{f.title}</h3>
+              <p style="font-size:0.85rem;color:#64748b;margin:0;line-height:1.55;">{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Sensor selection rationale -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          Sensor Selection Rationale
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          Every sensor was chosen for a concrete reason — and against a documented alternative:
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {[
+            {
+              pick:'BME680',
+              role:'Temp / Humidity / VOC',
+              over:'BME280 / CCS811',
+              why:'Chosen for simplicity',
+            },
+            {
+              pick:'Adafruit 4026',
+              role:'Capacitive moisture probe',
+              over:'Resistive probes',
+              why:"Won't oxidize over time",
+            },
+            {
+              pick:'Atlas Scientific pH Kit',
+              role:'pH measurement',
+              over:'Arduino Gravity pH',
+              why:"Glass reed can't work in microgravity",
+            },
+            {
+              pick:'TDS Sensor',
+              role:'Dissolved nutrient load',
+              over:'—',
+              why:'Tracks nutrient concentration in the reservoir',
+            },
+            {
+              pick:'NeoPixels',
+              role:'Lighting',
+              over:'—',
+              why:'Programmable spectrum for the grow channel',
+            },
+          ].map((s, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.35rem;">{s.pick}</h3>
+              <p style="font-size:0.825rem;color:#fff;margin:0 0 0.4rem;line-height:1.5;">{s.role}</p>
+              <p style="font-size:0.8rem;color:#64748b;margin:0 0 0.35rem;line-height:1.5;">
+                Over <span style="color:#94a3b8;">{s.over}</span>
+              </p>
+              <p style="font-size:0.8rem;color:#64748b;margin:0;line-height:1.5;">{s.why}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Carrier board / hardware photos -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Hardware Photos
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-1.jpg" alt="Custom carrier board" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Custom carrier board</div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-2.jpg" alt="AI control electronics" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">AI control electronics</div>
+          </div>
+          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
+            <figure class="depth-fig">
+              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
+              <img class="df-img" data-layer="mid" src="/images/ai-3.jpg" alt="Raspberry Pi and pump wiring" loading="lazy"/>
+              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
+            </figure>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">RPi and pump wiring</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feedback loop diagram -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Feedback Loop
+        </h2>
+        <div class="card" style="display:flex;justify-content:center;padding:2rem;">
+          <svg width="100%" viewBox="0 0 440 120" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
+            <!-- Steps -->
+            {[
+              { x:30,  label:'Camera',    sub:'Images roots' },
+              { x:140, label:'AI Model',  sub:'Moisture check' },
+              { x:250, label:'Decision',  sub:'Below threshold?' },
+              { x:360, label:'Pump',      sub:'Water delivered' },
+            ].map(s => (
+              <>
+                <rect x={s.x-30} y="30" width="80" height="52" rx="6"
+                      fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1.5"/>
+                <text x={s.x+10} y="58" text-anchor="middle" fill="#fff" font-size="10"
+                      font-family="Space Grotesk,sans-serif" font-weight="600">{s.label}</text>
+                <text x={s.x+10} y="73" text-anchor="middle" fill="#64748b" font-size="8"
+                      font-family="Inter,sans-serif">{s.sub}</text>
+              </>
+            ))}
+            <!-- Arrows between steps -->
+            <line x1="60" y1="56" x2="110" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="170" y1="56" x2="220" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="280" y1="56" x2="330" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <!-- Loop back arrow -->
+            <path d="M 390 82 Q 390 110 220 110 Q 50 110 50 82" fill="none"
+                  stroke="rgba(212,160,23,0.4)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow2)"/>
+            <text x="220" y="108" text-anchor="middle" fill="#64748b" font-size="8"
+                  font-family="Inter,sans-serif">continuous feedback loop</text>
+            <defs>
+              <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#d4a017"/>
+              </marker>
+              <marker id="arrow2" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
+                <path d="M6,0 L0,3 L6,6 Z" fill="rgba(212,160,23,0.6)"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>

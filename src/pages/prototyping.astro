@@ -1,0 +1,112 @@
+﻿---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+---
+<Layout title="Prototyping Iteration">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Prototyping Iteration"
+    subtitle="Iterative design and testing, traced from early concept builds through the final CDR prototype."
+    badge="Process"
+  >
+    <div style="display:grid;gap:2rem;">
+
+      <!-- External doc link -->
+      <div data-reveal style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <div>
+          <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.3rem;">
+            Prototyping &amp; Testing Document
+          </div>
+          <div style="font-size:0.875rem;color:#64748b;">
+            The complete iteration log lives in a Google Doc.
+          </div>
+        </div>
+        <a href="https://drive.google.com" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.25rem;
+                  border-radius:0.5rem;font-weight:600;font-size:0.875rem;text-decoration:none;
+                  color:#060e1c;background:#d4a017;white-space:nowrap;transition:opacity 0.15s;"
+           onmouseover="this.style.opacity='0.88'"
+           onmouseout="this.style.opacity='1'">
+          Open Google Doc
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Embedded doc placeholder -->
+      <div data-reveal style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);background:#0d1e35;">
+        <div style="padding:0.75rem 1rem;background:rgba(212,160,23,0.06);border-bottom:1px solid rgba(212,160,23,0.12);
+                    font-size:0.8rem;color:#64748b;">
+          Embedded Google Docs — Prototyping and Testing
+        </div>
+        <!-- Replace this src with your actual published Google Doc embed URL -->
+        <iframe
+          src="about:blank"
+          width="100%"
+          height="600"
+          frameborder="0"
+          title="HexaFlow Prototyping and Testing Document"
+          style="display:block;"
+          data-note="Replace src with your Google Doc embed URL: File → Share → Publish to web → Embed"
+        ></iframe>
+        <div style="padding:0.75rem 1rem;font-size:0.78rem;color:#475569;background:#091829;">
+          Replace the iframe <code style="color:#d4a017;">src</code> with your Google Doc embed URL.
+          Go to <strong>File → Share → Publish to web → Embed</strong> in Google Docs to get the URL.
+        </div>
+      </div>
+
+      <!-- Known iteration notes -->
+      <div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.3rem;font-weight:700;color:#fff;margin:0 0 0.75rem;">
+          Iteration Summary
+        </h2>
+        <p style="color:#94a3b8;font-size:0.9rem;line-height:1.7;margin:0 0 1.25rem;">
+          The major milestones that shaped the design — each one a deliberate response to what the
+          previous build revealed.
+        </p>
+        <div class="iter-grid" data-reveal style="display:grid;gap:1rem;">
+          {[
+            { phase:'Substrate Testing',   desc:'Tested 8 materials — pine bark showed growth; all developed mold → pivoted to aeroponics.' },
+            { phase:'TDC V1',              desc:'First hexagonal capillary plate using SLA resin. Verified capillary action and inversion water retention at 10.12mL capacity.' },
+            { phase:'TDC V2',              desc:'Combined resin construction with 3D-printed framing to reduce weight and cost. Added a camera slot for pump/reservoir monitoring.' },
+            { phase:'Drop Test Iteration', desc:'Refined drop test configuration — removed TDS/pH sensors, upgraded to a high-capacity pump targeting 10.81mL in 5.18s.' },
+            { phase:'AI Integration',      desc:'Vision model trained on root moisture data. Dual-mode AI system implemented (drop test vs. long-term).' },
+            { phase:'Custom Carrier Board',desc:'Consolidated electronics: RPi, 4-camera hub, direct ADC, power breakouts — simplified wiring for reliability.' },
+          ].map(p => (
+            <div class="card" style="display:grid;grid-template-columns:auto 1fr;gap:1.25rem;align-items:start;">
+              <div style="width:10px;height:10px;border-radius:50%;background:rgba(212,160,23,0.4);
+                           border:2px solid #d4a017;flex-shrink:0;margin-top:4px;"></div>
+              <div>
+                <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.3rem;font-size:0.95rem;">{p.phase}</div>
+                <div style="font-size:0.875rem;color:#64748b;line-height:1.6;">{p.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  /* Opacity-only stagger so we never fight the .card hover-lift transform. */
+  .iter-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .iter-grid.is-in > .card { opacity: 1; }
+  .iter-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
+  .iter-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }
+  .iter-grid.is-in > .card:nth-child(4) { transition-delay: .24s; }
+  .iter-grid.is-in > .card:nth-child(5) { transition-delay: .32s; }
+  .iter-grid.is-in > .card:nth-child(6) { transition-delay: .40s; }
+  @media (prefers-reduced-motion: reduce) {
+    .iter-grid > .card { opacity: 1 !important; }
+  }
+</style>

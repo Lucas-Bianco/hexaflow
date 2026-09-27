@@ -1,0 +1,142 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageShell from '../components/PageShell.astro';
+
+const timeline = [
+  { date: 'Sept 2025', tag: 'Problem & Constraints', title: 'Define the box we had to build inside',
+    body: 'NASA HUNCH gave us the rules: a 2U nanolab (20×10×10 cm), 5 V USB-A power, a $100 budget, and a water supply that has to be entirely mechanical — no pumps-for-everything. The problem was bigger than "grow a plant in space": study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Condensation couldn\'t touch the sensors, everything had to be modular, and it needed a web interface.' },
+  { date: 'Sept–Oct 2025', tag: 'Research & Prior Art', title: 'Read everything that came before',
+    body: 'We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan\'s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and four patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our "D.A.A.N.s").' },
+  { date: 'Oct 22, 2025', tag: 'The Pivot', title: 'From hydroponics to a thorny devil',
+    body: 'Hydroponics looked promising until we realized it might make the project\'s goal obsolete. Then Sabrina found the thorny devil lizard (Moloch horridus) on asknature.org — its grooved skin moves water by capillary action, no pump needed. Nate prototyped the "Moloch Horridus Water System" in SolidWorks in two sizes. It worked "miraculously well," so we renamed the core the TDC — Thorny-Devil Capillary.' },
+  { date: 'Nov 18–19, 2025', tag: 'PDR', title: 'NASA liked the hex. Then pushed us.',
+    body: 'At Preliminary Design Review, NASA\'s reviewer called the hexagonal shape and thorny-devil method "terrific." The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth (the test is too short to grow anything); use food coloring to see the water; add 1–2 containment layers; and test at least two substrates. Peer teams warned wicking doesn\'t work in microgravity.' },
+  { date: 'Dec 15, 2025', tag: 'Decision Matrix', title: 'Choosing the substrates on purpose',
+    body: 'We scored four substrates on system compatibility, microgravity feasibility, and modularity. Rockwool won — it screws into existing holes, its binding agent won\'t escape into the channels, and water moves through it better in microgravity. Clay pebbles won as the second pick (11.5 mm pebbles can\'t enter the 0.48 mm channels). Pine bark was rejected — fragments would clog the channels. Illite was rejected — the fine powder would escape and force a redesign.' },
+  { date: 'Dec 2025–Feb 2026', tag: 'Iteration', title: 'Seven shells, a removable reservoir, and a lesson about resin',
+    body: 'We iterated the enclosure seven times: wire holes 5 mm→8 mm, walls 4 mm→2 mm, door screws M3 16 mm→4 mm, half-slotted modules that kept falling off the rails until we added supports. The reservoir became removable to stop moisture contaminating the electronics — a heat-sealed pouch in a friction-fit pocket. Then our new resin printer\'s VOCs shriveled the test plants overnight: a sharp lesson that emissions and biology don\'t share a room.' },
+  { date: 'Jan–Mar 2026', tag: 'Testing', title: 'Drop, measure, repeat — nine times',
+    body: 'We dropped the TDC from 14 feet, nine times, with dyed water, measuring the water radius before and after each drop — about 0.9 seconds of free-fall per drop, simulating NASA Glenn\'s 5.18-second zero-gravity window we\'re traveling to Ohio to test. Mean capillary movement reached 14.7 mm. We built up in three stages: bare module → module + camera → full nanolab with pump, sensors, and a web UI recording the whole thing.' },
+  { date: 'Spring 2026', tag: 'CDR → FDR', title: 'The vision model closes the loop',
+    body: 'By Critical Design Review the system was whole: TDC capillary channels, dual pumps (1 mL/min for the long term, 100 mL/min for the drop test), a Raspberry Pi Zero 2W running an AI vision model, aeroponics plus rockwool and clay pebbles, and a modular shelf enclosure. The vision model reads root moisture and waters only when the roots are dry — a continuous feedback loop that eliminates root rot. The honest open items: a custom PCB to replace the wiring, waterproofing, and a live-plant run.' },
+];
+
+const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Greenhouse', 'Dr. Murat Kacira — University of Arizona', 'Robert Morrow — NASA capillary fluidics', 'John Wetzel — Sierra Space', 'Ariel Ekblaw — MIT Space Exploration Initiative'];
+---
+
+<Layout title="Design Journey" description="The full thought process behind HexaFlow — from NASA HUNCH constraints through research, the thorny-devil pivot, decision matrices, seven iterations of testing, and the final closed-loop nanolab.">
+  <Nav slot="nav" />
+
+  <PageShell
+    title="Design Journey"
+    subtitle="The entire thought process — how five students turned a NASA HUNCH constraint into a capillary-action nanolab. Every decision, dead end, and the reasoning behind it."
+    badge="Process · Thought Process"
+  >
+    <div class="pj">
+
+      <!-- Problem framing -->
+      <section class="pj-frame" data-reveal>
+        <div class="section-label">Why this project</div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Study fluids, not just grow plants</h2>
+        <p>
+          The real goal was understanding how <strong>fluids and plant substrates behave in microgravity</strong> —
+          a step toward feeding long-distance spaceflight. Plants were the means; the behavior of water in
+          weightlessness was the subject. That framing shaped every choice that followed.
+        </p>
+      </section>
+
+      <!-- Timeline -->
+      <div class="pj-line" aria-hidden="true"></div>
+      <ol class="pj-timeline">
+        {timeline.map((m, i) => (
+          <li class="pj-mile" data-reveal>
+            <div class="pj-dot" aria-hidden="true"></div>
+            <div class="pj-card card">
+              <div class="pj-meta">
+                <span class="pj-date font-display">{m.date}</span>
+                <span class="pj-tag">{m.tag}</span>
+              </div>
+              <h3 class="font-display pj-title">{m.title}</h3>
+              <p class="pj-body">{m.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <!-- Failures & learnings -->
+      <section class="pj-block" data-reveal>
+        <div class="section-label">What broke, and what it taught us</div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Failures we kept</h2>
+        <div class="pj-learn">
+          <div class="card learn">
+            <h3 class="font-display">Kale kept dying</h3>
+            <p>Clay pebbles and rockwool have to stay continuously damp — impractical in microgravity. Fix: thread the roots through the bottom of the rockwool so they reach the nutrient water directly.</p>
+          </div>
+          <div class="card learn">
+            <h3 class="font-display">Resin printer killed the plants</h3>
+            <p>Our new resin printer shared an unventilated room with the test plants; its VOCs shriveled them overnight. Fix: move the plants, tent them, ventilate. Emissions and biology don't mix.</p>
+          </div>
+          <div class="card learn">
+            <h3 class="font-display">pH probe was too long</h3>
+            <p>The Atlas Scientific pH probe is 153 mm; we had 47 mm of clearance. A geometry problem we caught only at assembly — the kind of thing that only shows up when you build it.</p>
+          </div>
+          <div class="card learn">
+            <h3 class="font-display">No microgravity sim in software</h3>
+            <p>We couldn't get a microgravity simulation running in software, and keeping a plant alive in physical substrates was "almost definitely user error." We stopped trusting the sim and started dropping the real thing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Experts consulted -->
+      <section class="pj-block" data-reveal>
+        <div class="section-label">Who we asked</div>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Experts we consulted</h2>
+        <p class="pj-lede">We didn't guess. We emailed the people who had done pieces of this before.</p>
+        <ul class="pj-experts">
+          {experts.map(e => <li>{e}</li>)}
+        </ul>
+      </section>
+
+    </div>
+  </PageShell>
+
+  <Footer slot="footer" />
+</Layout>
+
+<style>
+  .pj { max-width: 46rem; margin: 0 auto; }
+  .pj-frame { margin-bottom: 3rem; }
+  .pj-frame h2, .pj-block h2 { font-size: var(--t-h2); font-weight: 700; color: var(--hex-text); margin: 0 0 1rem; line-height: 1.1; }
+  .pj-frame p, .pj-block p, .pj-lede { color: var(--hex-muted); line-height: 1.75; font-size: 1.02rem; }
+  .pj-frame strong { color: var(--hex-text); }
+
+  .pj-line { position: absolute; } /* placeholder; timeline uses its own rail */
+  .pj-timeline { list-style: none; margin: 0 0 3rem; padding: 0; position: relative; }
+  .pj-timeline::before {
+    content: ""; position: absolute; left: 11px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--hex-gold), rgba(212,160,23,0.1)); border-radius: 2px;
+  }
+  .pj-mile { position: relative; padding-left: 2.75rem; margin-bottom: 1.5rem; }
+  .pj-dot { position: absolute; left: 5px; top: 8px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--hex-bg); border: 3px solid var(--hex-gold); box-shadow: 0 0 0 4px rgba(212,160,23,0.1); }
+  .pj-card { padding: 1.4rem; }
+  .pj-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; flex-wrap: wrap; }
+  .pj-date { font-size: .8rem; font-weight: 700; color: var(--hex-gold); letter-spacing: .02em; }
+  .pj-tag { font-size: .65rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em;
+    color: #cbd5e1; background: rgba(255,255,255,0.04); border: 1px solid var(--hex-line);
+    padding: .2rem .55rem; border-radius: 999px; }
+  .pj-title { font-size: 1.15rem; font-weight: 700; color: var(--hex-text); margin: 0 0 .6rem; line-height: 1.25; }
+  .pj-body { color: var(--hex-muted); line-height: 1.7; font-size: .92rem; margin: 0; }
+
+  .pj-block { margin-bottom: 3rem; }
+  .pj-learn { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.25rem; }
+  @media (min-width: 620px) { .pj-learn { grid-template-columns: 1fr 1fr; } }
+  .learn h3 { font-size: 1rem; font-weight: 700; color: var(--hex-text); margin: 0 0 .4rem; }
+  .learn p { font-size: .85rem; color: var(--hex-muted); line-height: 1.6; margin: 0; }
+
+  .pj-experts { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+  .pj-experts li { font-size: .9rem; color: var(--hex-text); padding-left: 1.25rem; position: relative; line-height: 1.5; }
+  .pj-experts li::before { content: "◆"; position: absolute; left: 0; color: var(--hex-gold); font-size: .7rem; top: .15rem; }
+</style>
