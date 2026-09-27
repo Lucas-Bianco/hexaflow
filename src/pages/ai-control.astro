@@ -25,17 +25,52 @@ import PageShell from '../components/PageShell.astro';
           closed-loop system that responds to actual plant conditions rather than a fixed timer.
         </p>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          The vision model came out of extensive brainstorming on how to pump water through the system
+          in a loop — until we realized a vision model could watch
+          the roots and pump only the amount of water the plant actually needs.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
           The vision model reads moisture straight from the camera feed and drives the pump accordingly,
           closing a <strong style="color:#e2e8f0;">continuous feedback loop</strong> that prevents
           both overwatering and underwatering.
         </p>
         <p style="color:#94a3b8;line-height:1.75;margin:0;">
-          The whole loop runs on a <strong style="color:#e2e8f0;">Raspberry Pi Zero 2W</strong> — chosen
-          because it was already on hand and natively supports the Pi Camera 3 — paired with an
-          <strong style="color:#e2e8f0;">InoMaker 1080p camera (130° FOV)</strong> and two secondary
-          cameras. The vision model's job is to detect dry roots via the camera and trigger the pump
-          only when needed.
+          The whole loop runs on a <strong style="color:#e2e8f0;">Raspberry Pi Zero 2W</strong>, chosen for
+          its balance of price, compatibility, and power: it runs full Linux and hosts our web UI, yet draws
+          little enough to stay passively cooled. The main camera is an
+          <strong style="color:#e2e8f0;">InoMaker 1080p USB camera (130° FOV)</strong>, alongside two secondary
+          cameras. The wide field of view covers most of the dome, and we went with USB because routing a Pi
+          camera ribbon cable through the nanolab's tight channels wasn't going to happen. The vision model's
+          job is to detect dry roots via the camera and trigger the pump only when needed.
         </p>
+      </div>
+
+      <!-- Vision model demo -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          Vision Model in Action
+        </h2>
+        <div class="vm-demo">
+          <video class="vm-video" autoplay muted loop playsinline preload="metadata" poster="/media/ai-demo-poster.jpg"
+                 aria-label="Vision model classifying roots as dry or wet in real time">
+            <source src="/media/ai-demo.webm" type="video/webm" />
+            <source src="/media/ai-demo.mp4" type="video/mp4" />
+          </video>
+          <div>
+            <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+              A live test of the root-moisture model. The camera watches the roots sitting in a hex-channel dome,
+              and the bars show the model's confidence in real time.
+            </p>
+            <ol class="vm-steps">
+              <li><strong>Dry roots</strong> — the model reads them as dry, up to 96% confident.</li>
+              <li><strong>Roots moistened</strong> — once they're back in the dome, it flips to wet at 95%.</li>
+              <li><strong>Roots dried out</strong> — after blotting them with a towel, it returns to dry at 100%.</li>
+            </ol>
+            <p style="color:#64748b;font-size:0.85rem;line-height:1.6;margin:1rem 0 0;">
+              That dry/wet call is what decides whether the pump runs.
+            </p>
+          </div>
+        </div>
       </div>
 
       <!-- Dual modes -->
@@ -51,9 +86,9 @@ import PageShell from '../components/PageShell.astro';
             </h3>
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.75;margin:0;padding-left:1.1rem;">
               <li>AI disengages during the drop window</li>
-              <li>Constant pumping for a user-defined duration</li>
-              <li>Driven by a <strong style="color:#e2e8f0;">100 mL/min (5000 RPM) pump</strong></li>
-              <li>Targets <strong style="color:#e2e8f0;">≈ 10.81 mL</strong> over the 5.18s test window</li>
+              <li>Pumps continuously for the length of the drop</li>
+              <li>Driven by a <strong style="color:#e2e8f0;">150 mL/min (5000 RPM) pump</strong></li>
+              <li>Fills toward the channels' <strong style="color:#e2e8f0;">≈ 10.12 mL</strong> max capacity during the 2.2 s test window</li>
               <li>Maximizes channel fill during the microgravity event</li>
             </ul>
           </div>
@@ -77,15 +112,15 @@ import PageShell from '../components/PageShell.astro';
       <!-- Custom carrier board -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Custom Carrier Board
+          Custom PCB
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
-          A custom carrier board consolidates every electronics connection into one board —
+          A custom PCB consolidates every electronics connection into one board —
           simpler wiring, fewer failure points:
         </p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
           {[
-            { title:'Raspberry Pi Integration', desc:'Connects via USB Type B and a standard USB port' },
+            { title:'Raspberry Pi Integration', desc:'Powered through the nanolab\'s USB Type-B port' },
             { title:'4-Camera USB Hub',          desc:'Embedded support for up to 4 cameras at once' },
             { title:'Direct ADC Embedding',       desc:'More reliable connections for analog sensors' },
             { title:'Consolidated Breakouts',     desc:'Power and signal breakouts in one place for simpler wiring' },
@@ -160,71 +195,40 @@ import PageShell from '../components/PageShell.astro';
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-1.jpg" alt="Custom carrier board" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src="/images/ai-1.jpg" alt="HexaFlow PCB layout" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Custom carrier board</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">HexaFlow PCB layout</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-2.jpg" alt="AI control electronics" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src="/images/ai-2.jpg" alt="Raspberry Pi Zero 2W on the HexaFlow PCB" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">AI control electronics</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Pi Zero 2W on the HexaFlow PCB</div>
           </div>
           <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
             <figure class="depth-fig">
               <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/ai-3.jpg" alt="Raspberry Pi and pump wiring" loading="lazy"/>
+              <img class="df-img" data-layer="mid" src="/images/ai-3.jpg" alt="Assembled HexaFlow PCB" loading="lazy"/>
               <div class="df-hex" data-layer="near" aria-hidden="true"></div>
             </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">RPi and pump wiring</div>
+            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">Assembled HexaFlow PCB</div>
           </div>
         </div>
       </div>
 
-      <!-- Feedback loop diagram -->
+      <!-- Control flowchart (Miro) -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Feedback Loop
+          Control Flowchart
         </h2>
-        <div class="card" style="display:flex;justify-content:center;padding:2rem;">
-          <svg width="100%" viewBox="0 0 440 120" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
-            <!-- Steps -->
-            {[
-              { x:30,  label:'Camera',    sub:'Images roots' },
-              { x:140, label:'AI Model',  sub:'Moisture check' },
-              { x:250, label:'Decision',  sub:'Below threshold?' },
-              { x:360, label:'Pump',      sub:'Water delivered' },
-            ].map(s => (
-              <>
-                <rect x={s.x-30} y="30" width="80" height="52" rx="6"
-                      fill="rgba(212,160,23,0.08)" stroke="rgba(212,160,23,0.3)" stroke-width="1.5"/>
-                <text x={s.x+10} y="58" text-anchor="middle" fill="#fff" font-size="10"
-                      font-family="Space Grotesk,sans-serif" font-weight="600">{s.label}</text>
-                <text x={s.x+10} y="73" text-anchor="middle" fill="#64748b" font-size="8"
-                      font-family="Inter,sans-serif">{s.sub}</text>
-              </>
-            ))}
-            <!-- Arrows between steps -->
-            <line x1="60" y1="56" x2="110" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
-            <line x1="170" y1="56" x2="220" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
-            <line x1="280" y1="56" x2="330" y2="56" stroke="#d4a017" stroke-width="1.5" marker-end="url(#arrow)"/>
-            <!-- Loop back arrow -->
-            <path d="M 390 82 Q 390 110 220 110 Q 50 110 50 82" fill="none"
-                  stroke="rgba(212,160,23,0.4)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow2)"/>
-            <text x="220" y="108" text-anchor="middle" fill="#64748b" font-size="8"
-                  font-family="Inter,sans-serif">continuous feedback loop</text>
-            <defs>
-              <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                <path d="M0,0 L6,3 L0,6 Z" fill="#d4a017"/>
-              </marker>
-              <marker id="arrow2" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto">
-                <path d="M6,0 L0,3 L6,6 Z" fill="rgba(212,160,23,0.6)"/>
-              </marker>
-            </defs>
-          </svg>
+        <div style="position:relative;aspect-ratio:6/5;border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);background:#fff;">
+          <iframe src="https://miro.com/app/live-embed/uXjVGJtNO9k=/?focusWidget=3458764657227665425&embedMode=view_only_without_ui&embedId=477128908768"
+                  title="HexaFlow control flowchart" loading="lazy"
+                  style="position:absolute;inset:0;width:100%;height:100%;border:0;"
+                  scrolling="no" allow="fullscreen; clipboard-read; clipboard-write" allowfullscreen></iframe>
         </div>
       </div>
 
@@ -233,3 +237,12 @@ import PageShell from '../components/PageShell.astro';
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  .vm-demo { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 1.75rem; align-items: center; }
+  .vm-video { width: 100%; aspect-ratio: 1080 / 1850; object-fit: cover; border-radius: 0.75rem; border: 1px solid rgba(212,160,23,0.2); background: #000; display: block; }
+  .vm-steps { margin: 0; padding-left: 1.2rem; color: #94a3b8; line-height: 1.7; font-size: 0.9rem; }
+  .vm-steps li { margin-bottom: 0.5rem; }
+  .vm-steps strong { color: #e2e8f0; }
+  @media (max-width: 720px) { .vm-demo { grid-template-columns: 1fr; } .vm-video { max-width: 300px; margin: 0 auto; } }
+</style>

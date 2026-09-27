@@ -3,30 +3,180 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+
+const runs = [
+  { slug: 'run1', name: 'Run 1', tag: 'Dry start',
+    desc: 'The dome started completely dry. Before release the dyed water pooled as a blob around the nozzle; the moment the rig hit zero-g, capillary action snapped it away into the channels. A small bubble appeared and then went away.' },
+  { slug: 'run2', name: 'Run 2', tag: 'Dry start',
+    desc: 'Starting dry again, the water flowed out through the channels. A bubble formed at a channel junction from bottlenecking — exactly what our capillary flow calculations predicted — then shrank as the channels pulled water out of it.' },
+  { slug: 'run3-double-water', name: 'Run 3', tag: 'Double water',
+    desc: 'With the data we needed already in hand, we left the water from the previous run in the dome to see how far the channels could saturate. Big bubbles formed at the switch to zero-g, but the water still distributed through the channels instead of pooling — with visibly more volume in each channel.' },
+];
+
+const nextSteps = [
+  { t: 'Beat the glare', d: 'Fewer lights, true-white LEDs instead of RGB, and frosted LEDs to diffuse the light.' },
+  { t: 'Test other fluids', d: 'Water at different temperatures, added nutrients, and other solutes — and how each changes surface tension and capillary behavior.' },
+  { t: 'Pump in microgravity', d: 'With a longer drop or another zero-g platform, start pumping after release so the water goes straight into the channels without pooling first.' },
+  { t: 'Beyond plants', d: 'Explore the geometry for other fluid problems in microgravity, like the medical field.' },
+  { t: 'Keep the data link', d: 'Wi-Fi dropped as the rig fell, so we had to sprint downstairs to get signal and see the results. A link that survives the drop is at the top of the list.' },
+  { t: 'Easier access', d: 'A more reliable USB hub so bottom cameras work, a dome cover that comes off without all the screws, and more settings adjustable from the UI.' },
+];
 ---
 <Layout title="Drop Testing">
   <Nav slot="nav" />
 
   <PageShell
     title="Drop Testing"
-    subtitle="To see how the design behaves in microgravity, we drop the module from 14 feet — about 0.9 seconds of free-fall that simulates NASA Glenn's 5.18-second zero-gravity drop tower we'll test in Ohio."
+    subtitle="On August 6, 2026, HexaFlow fell eight stories through NASA Glenn Research Center's 2.2-second drop tower — and the hex channels moved water in real microgravity."
     badge="Testing"
   >
 
     <div style="display:grid;gap:2.5rem;">
 
+      <!-- ═══ NASA Glenn ═══ -->
+      <div data-reveal>
+        <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.6rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          NASA Glenn 2.2-Second Drop Tower
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          Nine teams from the NASA HUNCH final design showcase in Houston were invited to test at
+          NASA Glenn Research Center in Cleveland. Ours was the one team that met every requirement in time,
+          so we drove out to Ohio for the drop.
+        </p>
+        <p style="color:#94a3b8;line-height:1.75;margin:0;">
+          The 2.2-second drop tower is eight stories tall. We installed the nanolab in the test rig in the
+          shop, the rig went inside a drag shield (so it falls free of air resistance), and the whole assembly
+          was hoisted to the top of the tower, released, and caught by an airbag at the bottom. The camera
+          logged a frame every <strong style="color:#e2e8f0;">0.1 seconds</strong>, saved straight to the Pi's
+          SD card because Wi-Fi drops out during the fall.
+        </p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;" data-reveal>
+        {[
+          { v:'2.2 s', u:'of microgravity' },
+          { v:'8',     u:'story tower' },
+          { v:'3',     u:'drops' },
+          { v:'10 fps',u:'camera capture' },
+        ].map((x, i) => (
+          <div class={`card reveal-${i + 1}`} style="text-align:center;">
+            <div class="font-display" style="font-size:1.8rem;font-weight:700;color:#d4a017;">{x.v}</div>
+            <div style="font-size:0.8rem;color:#94a3b8;">{x.u}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Runs -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          The Three Drops
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          Every frame the camera captured, played back in order. The first and last few frames of each
+          run are in normal gravity — before release and after landing. Toggle between frame-by-frame and
+          real speed.
+        </p>
+        <div class="runs">
+          {runs.map((r) => (
+            <figure class="run card" data-run>
+              <div class="run-media">
+                <video class="run-video" autoplay muted loop playsinline preload="metadata"
+                       poster={`/media/${r.slug}-poster.jpg`}
+                       data-slow-webm={`/media/${r.slug}-slow.webm`}
+                       data-slow-mp4={`/media/${r.slug}-slow.mp4`}
+                       data-real-webm={`/media/${r.slug}-realtime.webm`}
+                       data-real-mp4={`/media/${r.slug}-realtime.mp4`}>
+                  <source src={`/media/${r.slug}-slow.webm`} type="video/webm" />
+                  <source src={`/media/${r.slug}-slow.mp4`} type="video/mp4" />
+                </video>
+                <button type="button" class="run-toggle" aria-pressed="false">Real speed</button>
+              </div>
+              <figcaption>
+                <div class="run-head">
+                  <span class="font-display run-name">{r.name}</span>
+                  <span class="run-tag">{r.tag}</span>
+                </div>
+                <p>{r.desc}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      <!-- Takeaways -->
+      <div class="card" data-reveal style="border-color:rgba(74,222,128,0.3);">
+        <div class="section-label" style="color:#4ade80;margin-bottom:0.6rem;">What we saw</div>
+        <ul style="color:#94a3b8;line-height:1.8;margin:0;padding-left:1.1rem;">
+          <li>The instant the rig reached zero-g, capillary action pulled the pooled water into the hex channels.</li>
+          <li>The bubble we predicted from our capillary flow calculations formed at a channel junction — and then drained, which suggests bubbles wouldn't persist in a longer test.</li>
+          <li>On our best run, water moved through the channels past the sensor inserts.</li>
+        </ul>
+      </div>
+
+      <!-- Interview -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          Interview with NASA HUNCH
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          Glenn Johnson of NASA HUNCH Design and Prototype walks through the drop tower and talks with our team about the experiment and results.
+        </p>
+        <div class="yt">
+          <iframe src="https://www.youtube-nocookie.com/embed/8B1lfm5dP1o" title="NASA Glenn Research Center Drop Tower with Tri-County Student Experiment"
+                  loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- The day -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
+          A Day at NASA Glenn
+        </h2>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
+          What impressed us most was how old everything was — equipment from decades ago, built to last and
+          still in use for real research. We also toured the center: we walked inside the Icing
+          Research Tunnel and its gigantic fan, and looked down the Zero Gravity Research Facility, the
+          5.18-second drop tower where the shaft is so deep you can see it curve.
+        </p>
+      </div>
+
+      <!-- Next -->
+      <div data-reveal>
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
+          If We Did It Again
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+          {nextSteps.map((n, i) => (
+            <div class={`card reveal-${(i % 6) + 1}`}>
+              <h3 class="font-display" style="font-size:0.95rem;font-weight:700;color:#d4a017;margin:0 0 0.4rem;">{n.t}</h3>
+              <p style="font-size:0.85rem;color:#94a3b8;line-height:1.6;margin:0;">{n.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="card" data-reveal style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+        <div>
+          <div class="section-label" style="margin-bottom:0.3rem;">Next up</div>
+          <div style="color:#e2e8f0;font-weight:600;">Presenting at ASGSR — American Society for Gravitational and Space Research</div>
+          <div style="color:#94a3b8;font-size:0.85rem;">High school & middle school poster session · December 5, 2026 · Crystal City, VA</div>
+        </div>
+      </div>
+
+      <hr style="border:0;border-top:1px solid rgba(212,160,23,0.15);margin:1rem 0;" />
+
       <!-- Overview -->
       <div style="display:grid;grid-template-columns:1fr;gap:2rem;" data-reveal>
         <div>
           <h2 class="font-display kinetic" data-kinetic="word" data-reveal style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
-            Test Methodology
+            Before Glenn: Balcony Drops
           </h2>
           <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-            We drop the TDC module from <strong style="color:#e2e8f0;">14 feet</strong> — about
-            <strong style="color:#e2e8f0;">0.9 seconds</strong> of free-fall per drop, a stand-in for
-            NASA Glenn's <strong style="color:#e2e8f0;">5.18-second</strong> zero-gravity drop tower,
-            which we're preparing to test in Ohio. Even in that short window we can watch how water
-            actually moves through the channels.
+            Before we ever reached Ohio, we dropped the bare TDC — the original "brick" — from <strong style="color:#e2e8f0;">14 feet</strong> off a balcony —
+            about <strong style="color:#e2e8f0;">0.9 seconds</strong> of free-fall per drop, onto a sweatshirt as a landing pad.
+            Even in that short window we could watch how water actually moves through the channels.
           </p>
           <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
             Before each drop we add about <strong style="color:#e2e8f0;">5 mL of dyed water</strong> to the
@@ -43,11 +193,9 @@ import PageShell from '../components/PageShell.astro';
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
           {[
             { label:'Drop Height',    value:'14 ft',        desc:'~0.9 s of free-fall per drop (4.267 m)' },
-            { label:'NASA Target',    value:'5.18 s',       desc:'NASA Glenn zero-g window the drops simulate' },
             { label:'Drops',          value:'9',            desc:'Repeated drops; water radius measured before & after each' },
             { label:'Water Volume',   value:'≈ 5 mL',       desc:'Dyed water added to the TDC center per test' },
             { label:'Mean Movement',  value:'14.7 mm',      desc:'Average capillary rise across the drop trials' },
-            { label:'Expected Result', value:'No free droplets', desc:'Water climbs into the channels by capillary action' },
           ].map((s, i) => (
             <div class={`card reveal-${i + 1}`}>
               <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.35rem;">{s.label}</div>
@@ -58,87 +206,16 @@ import PageShell from '../components/PageShell.astro';
         </div>
       </div>
 
-      <!-- Drop test diagram -->
-      <div data-reveal>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Test Setup Diagram
-        </h2>
-        <div class="card" style="display:flex;justify-content:center;padding:2.5rem;">
-          <svg width="100%" viewBox="0 0 300 320" style="max-width:320px;" xmlns="http://www.w3.org/2000/svg">
-            <!-- Drop height indicator -->
-            <line x1="30" y1="20" x2="30" y2="280" stroke="rgba(212,160,23,0.3)" stroke-width="1.5" stroke-dasharray="5 4"/>
-            <text x="10" y="150" fill="#64748b" font-size="9" font-family="Inter,sans-serif"
-                  transform="rotate(-90,10,150)">14 feet</text>
-            <line x1="20" y1="20"  x2="40" y2="20"  stroke="#d4a017" stroke-width="1.5"/>
-            <line x1="20" y1="280" x2="40" y2="280" stroke="#d4a017" stroke-width="1.5"/>
-
-            <!-- Arrow down -->
-            <line x1="150" y1="30" x2="150" y2="120" stroke="#d4a017" stroke-width="2"/>
-            <polygon points="150,140 143,120 157,120" fill="#d4a017"/>
-            <text x="162" y="88" fill="#d4a017" font-size="10" font-family="Inter,sans-serif">Drop</text>
-
-            <!-- Module box (top = start) -->
-            <rect x="80" y="40" width="140" height="70" rx="6"
-                  fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="2"/>
-            <text x="150" y="72" text-anchor="middle" fill="#fff" font-size="11"
-                  font-family="Space Grotesk,sans-serif" font-weight="600">TDC Module</text>
-            <text x="150" y="88" text-anchor="middle" fill="#64748b" font-size="9"
-                  font-family="Inter,sans-serif">5mL dyed water</text>
-
-            <!-- Module (bottom = landing) -->
-            <rect x="80" y="210" width="140" height="70" rx="6"
-                  fill="rgba(212,160,23,0.04)" stroke="rgba(212,160,23,0.4)" stroke-width="1.5"/>
-            <text x="150" y="242" text-anchor="middle" fill="#94a3b8" font-size="11"
-                  font-family="Space Grotesk,sans-serif" font-weight="600">Post Drop</text>
-            <text x="150" y="258" text-anchor="middle" fill="#64748b" font-size="9"
-                  font-family="Inter,sans-serif">Calipers measure dispersal</text>
-
-            <!-- 5.18s label -->
-            <rect x="195" y="115" width="80" height="22" rx="4"
-                  fill="rgba(212,160,23,0.1)" stroke="rgba(212,160,23,0.3)" stroke-width="1"/>
-            <text x="235" y="130" text-anchor="middle" fill="#d4a017" font-size="10"
-                  font-family="Space Grotesk,sans-serif" font-weight="600">5.18 s window</text>
-          </svg>
-        </div>
-      </div>
-
       <!-- Photo gallery -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Drop Test Photos
+          Balcony Drop Photos
         </h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-1">
-            <figure class="depth-fig">
-              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-1.jpg" alt="Drop test photo 1 — filtered water dispersal" loading="lazy"/>
-              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-            </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
-              Drop test — filtered dispersal
-            </div>
-          </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-2">
-            <figure class="depth-fig">
-              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-2.jpg" alt="Drop test photo 2 — channel water behavior" loading="lazy"/>
-              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-            </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
-              Drop test — channels filling
-            </div>
-          </div>
-          <div style="border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);" class="reveal-3">
-            <figure class="depth-fig">
-              <div class="df-glow" data-layer="far" aria-hidden="true"></div>
-              <img class="df-img" data-layer="mid" src="/images/drop-test-3.jpg" alt="Drop test photo 3 — post-drop caliper measurement" loading="lazy"/>
-              <div class="df-hex" data-layer="near" aria-hidden="true"></div>
-            </figure>
-            <div style="padding:0.5rem 0.85rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">
-              Post-drop caliper measurement
-            </div>
-          </div>
-        </div>
+        <PhotoGallery photos={[
+          { src:'/images/drop-test-1.jpg', caption:'Dyed water spreading through the channels after a drop' },
+          { src:'/images/drop-test-2.jpg', caption:'The TDC on the balcony between drops' },
+          { src:'/images/drop-test-3.jpg', caption:'Measuring the dispersal with calipers' },
+        ]} />
       </div>
 
       <!-- Data link -->
@@ -150,9 +227,8 @@ import PageShell from '../components/PageShell.astro';
         <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 0.75rem;">
           Full test data and analysis live in the linked Google Sheet.
         </p>
-        <span style="font-size:0.85rem;color:#64748b;">
-          Link: <em>Capillary Physical Tests</em> — add your Google Sheets URL here.
-        </span>
+        <a href="https://drive.google.com/open?id=1ZRwM0B2_gmQ5VgkT74n4TlVlruP8ilSemw2477_mod8" target="_blank" rel="noopener"
+           style="font-size:0.9rem;color:#d4a017;text-decoration:none;">Open Capillary Physical Tests →</a>
       </div>
 
     </div>
@@ -160,3 +236,40 @@ import PageShell from '../components/PageShell.astro';
 
   <Footer slot="footer" />
 </Layout>
+
+<style>
+  .runs { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .run { margin: 0; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .run-media { position: relative; aspect-ratio: 4 / 3; background: #000; }
+  .run-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .run-toggle { position: absolute; right: 0.6rem; bottom: 0.6rem; padding: 0.35rem 0.7rem; border-radius: 999px;
+    border: 1px solid rgba(212,160,23,0.5); background: rgba(6,14,28,0.8); color: #d4a017; font-size: 0.75rem;
+    font-weight: 600; cursor: pointer; font-family: inherit; }
+  .run-toggle[aria-pressed="true"] { background: #d4a017; color: #060e1c; }
+  .run figcaption { padding: 1rem 1.1rem 1.2rem; }
+  .run-head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .run-name { font-weight: 700; color: #fff; }
+  .run-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #d4a017;
+    border: 1px solid rgba(212,160,23,0.3); border-radius: 999px; padding: 0.1rem 0.5rem; }
+  .run figcaption p { margin: 0; color: #94a3b8; font-size: 0.85rem; line-height: 1.6; }
+  .yt { position: relative; aspect-ratio: 16 / 9; border-radius: 0.75rem; overflow: hidden; border: 1px solid rgba(212,160,23,0.15); background: #000; }
+  .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (prefers-reduced-motion: reduce) { .run-video { animation: none; } }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-run]').forEach((fig) => {
+    const v = fig.querySelector('video') as HTMLVideoElement;
+    const btn = fig.querySelector('.run-toggle') as HTMLButtonElement;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); v.controls = true; }
+    btn.addEventListener('click', () => {
+      const real = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(real));
+      btn.textContent = real ? 'Frame by frame' : 'Real speed';
+      v.innerHTML = '';
+      const srcs = real ? [[v.dataset.realWebm, 'video/webm'], [v.dataset.realMp4, 'video/mp4']] : [[v.dataset.slowWebm, 'video/webm'], [v.dataset.slowMp4, 'video/mp4']];
+      srcs.forEach(([src, type]) => { const el = document.createElement('source'); el.src = src!; el.type = type!; v.appendChild(el); });
+      v.load(); v.play().catch(() => {});
+    });
+  });
+</script>

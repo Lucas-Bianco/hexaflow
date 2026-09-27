@@ -13,7 +13,9 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
     <title>{title} | HexaFlow</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#060e1c" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -160,13 +162,9 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
   /* ── Scroll-reveal system ─────────────────────────────────────────────
      Any element with .reveal (or [data-reveal]) starts hidden and slides up
      when the IntersectionObserver adds .is-in. Stagger via .reveal-1..6. */
+  /* Content is always visible — no hide-until-scrolled gaps. (.is-in is still added by the script, harmlessly.) */
   .reveal,
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity var(--dur-reveal) var(--ease-soft), transform var(--dur-reveal) var(--ease-soft);
-    will-change: opacity, transform;
-  }
+  [data-reveal] { opacity: 1; transform: none; }
   .reveal.is-in,
   [data-reveal].is-in { opacity: 1; transform: none; }
 
@@ -179,14 +177,7 @@ const { title, description = 'HexaFlow – Modular Capillary Action Nanolab' } =
 
   /* ── KineticHeadline: per-unit stagger reveal (split by the Layout script) ─ */
   .kinetic { display: inline-block; }
-  .kinetic-unit {
-    display: inline-block;
-    transform: translateY(0.5em);
-    opacity: 0;
-    transition: transform var(--dur-kinetic) var(--ease-out-cine), opacity var(--dur-kinetic) var(--ease-out-cine);
-    transition-delay: calc(var(--i, 0) * 0.05s);
-    will-change: transform, opacity;
-  }
+  .kinetic-unit { display: inline-block; }
   .kinetic.is-in .kinetic-unit,
   .kinetic [data-reveal].is-in .kinetic-unit { transform: none; opacity: 1; }
   /* a kinetic headline that is itself a reveal target lights up its units on .is-in */

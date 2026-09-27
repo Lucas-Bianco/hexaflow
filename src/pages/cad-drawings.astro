@@ -11,15 +11,15 @@ const components = [
   },
   {
     name: 'TDC (Thorny Devil Capillary System)',
-    desc: 'The core experiment module — a hexagonal lattice that uses capillary action to distribute water evenly throughout the interior. Hex channels are 0.48 mm across, spaced 0.51 mm apart, to optimize distribution.',
+    desc: 'The core experiment module — a hexagonal lattice that uses capillary action to distribute water evenly throughout the interior. Hexagons are spaced 0.020 in (0.51 mm) apart to form the capillary channels.',
   },
   {
     name: 'TDC V2',
-    desc: 'A refined iteration that pairs resin construction with 3D-printed framing. It cuts weight and manufacturing cost while opening a camera viewport for monitoring the pump and reservoir.',
+    desc: 'A refined iteration that pairs resin construction with 3D-printed framing. It cuts weight and manufacturing cost, makes room for cameras on the inside, and gives a camera a view of the pump and reservoir in the bottom half.',
   },
   {
     name: 'Camera/LED Mounting Module',
-    desc: 'Mounts the camera and LED lighting above the root zone, with an anti-glare strip to suppress lens flare during imaging.',
+    desc: 'Holds the camera and anti-glare lighting, and slides into the shell with an opening for viewing the plant.',
   },
   {
     name: 'Plant Clips',
@@ -27,15 +27,15 @@ const components = [
   },
   {
     name: 'Water Injector',
-    desc: 'Mounted at the system base for hemisphere entry. It delivers precise water introduction into the channel network, and the injector hole can be sealed during drop tests.',
+    desc: 'The entry point for water into the system, at the base of the TDC. The injector hole was plugged for the balcony drop tests.',
   },
   {
     name: 'Pump Adapter',
-    desc: 'An interface piece compatible with both the high-capacity drop-test pump and the long-term precision pump — one enclosure, two configurations.',
+    desc: 'Lets the faster drop-test pump fit the slot designed for the slower long-term pump — one enclosure, two configurations.',
   },
   {
     name: 'Front & Side Door Panels',
-    desc: 'Access panels for internal components and the experiment module slot. They allow rapid module swaps without full disassembly.',
+    desc: 'A tabbed front door for easy maintenance, and side doors that cover the wire access in the hollow shell walls.',
   },
   {
     name: 'Substrate Covers (Rockwool)',
@@ -43,11 +43,11 @@ const components = [
   },
   {
     name: 'Clay Pebble Grates',
-    desc: 'Mesh grates hold clay pebbles in place during microgravity — preventing substrate migration while letting water and roots pass through.',
+    desc: 'A containment grate that holds clay pebbles in place for microgravity experiments, with an opening for the moisture sensor.',
   },
   {
-    name: 'USB Camera Clip (Reservoir)',
-    desc: 'A clip that mounts a USB camera to monitor the pump and reservoir, separate from the primary root-zone camera.',
+    name: 'Camera Clip',
+    desc: 'A ball-and-socket attachment for a USB camera that monitors the pump and reservoir.',
   },
 ];
 ---
@@ -91,32 +91,32 @@ const components = [
         </h2>
         <div class="cad-grid">
           {[
-            { src:'/images/cad-1.jpg',  caption:'Nanolab enclosure' },
-            { src:'/images/cad-2.jpg',  caption:'TDC top view' },
-            { src:'/images/cad-3.jpg',  caption:'TDC V2' },
-            { src:'/images/cad-4.jpg',  caption:'Plant clip detail' },
-            { src:'/images/cad-5.jpg',  caption:'Pump adapter' },
-            { src:'/images/cad-6.jpg',  caption:'Substrate cover' },
-            { src:'/images/cad-7.jpg',  caption:'Full assembly' },
-            { src:'/images/cad-8.jpg',  caption:'Camera/LED mount' },
-            { src:'/images/cad-9.jpg',  caption:'Water injector' },
-            { src:'/images/cad-10.jpg', caption:'Front door panel' },
-            { src:'/images/cad-11.jpg', caption:'Side door panel' },
-            { src:'/images/cad-12.jpg', caption:'Clay pebble grate' },
-            { src:'/images/cad-13.jpg', caption:'USB camera clip' },
-            { src:'/images/cad-14.jpg', caption:'Reservoir fittings' },
-            { src:'/images/cad-15.jpg', caption:'CAD drawing 15' },
-            { src:'/images/cad-16.jpg', caption:'CAD drawing 16' },
-            { src:'/images/cad-17.jpg', caption:'CAD drawing 17' },
-            { src:'/images/cad-18.jpg', caption:'CAD drawing 18' },
-            { src:'/images/cad-19.jpg', caption:'CAD drawing 19' },
-            { src:'/images/cad-20.jpg', caption:'CAD drawing 20' },
-            { src:'/images/cad-21.jpg', caption:'CAD drawing 21' },
-            { src:'/images/cad-22.jpg', caption:'CAD drawing 22' },
-            { src:'/images/cad-23.jpg', caption:'CAD drawing 23' },
-            { src:'/images/cad-24.jpg', caption:'CAD drawing 24' },
-            { src:'/images/cad-25.jpg', caption:'CAD drawing 25' },
-            { src:'/images/cad-26.jpg', caption:'CAD drawing 26' },
+            { src:'/images/cad-1.jpg',  caption:'HexaFlow V2 assembly drawing' },
+            { src:'/images/cad-2.jpg',  caption:'Exterior enclosure drawing' },
+            { src:'/images/cad-3.jpg',  caption:'Exterior enclosure (printed)' },
+            { src:'/images/cad-4.jpg',  caption:'TDC V2 top drawing' },
+            { src:'/images/cad-5.jpg',  caption:'TDC V2 top (printed)' },
+            { src:'/images/cad-6.jpg',  caption:'TDC V2 bottom half drawing' },
+            { src:'/images/cad-7.jpg',  caption:'TDC V2 assembled' },
+            { src:'/images/cad-8.jpg',  caption:'Camera & LED module drawing' },
+            { src:'/images/cad-9.jpg',  caption:'Camera & LED module (printed)' },
+            { src:'/images/cad-10.jpg', caption:'Plant clip V2 drawing' },
+            { src:'/images/cad-11.jpg', caption:'Plant clip V2 (printed)' },
+            { src:'/images/cad-12.jpg', caption:'Water injector drawing' },
+            { src:'/images/cad-13.jpg', caption:'Water injector (printed)' },
+            { src:'/images/cad-14.jpg', caption:'Pump adapter drawing' },
+            { src:'/images/cad-15.jpg', caption:'Pump adapter (printed)' },
+            { src:'/images/cad-16.jpg', caption:'Enclosure front door drawing' },
+            { src:'/images/cad-17.jpg', caption:'Enclosure back door drawing' },
+            { src:'/images/cad-18.jpg', caption:'Side enclosure door drawing' },
+            { src:'/images/cad-19.jpg', caption:'Front door (printed)' },
+            { src:'/images/cad-20.jpg', caption:'Side door (printed)' },
+            { src:'/images/cad-21.jpg', caption:'Rockwool substrate holder drawing' },
+            { src:'/images/cad-22.jpg', caption:'Rockwool substrate holder installed' },
+            { src:'/images/cad-23.jpg', caption:'Clay substrate grate drawing' },
+            { src:'/images/cad-24.jpg', caption:'Clay substrate grate installed' },
+            { src:'/images/cad-25.jpg', caption:'Ball + socket camera holder drawing' },
+            { src:'/images/cad-26.jpg', caption:'Ball + socket camera holder (printed)' },
           ].map((p, i) => (
             [0, 2, 6, 8].includes(i) ? (
               <figure class="depth-fig featured" data-reveal>

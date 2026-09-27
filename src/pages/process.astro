@@ -6,27 +6,38 @@ import PageShell from '../components/PageShell.astro';
 
 const timeline = [
   { date: 'Sept 2025', tag: 'Problem & Constraints', title: 'Define the box we had to build inside',
-    body: 'NASA HUNCH gave us the rules: a 2U nanolab (20×10×10 cm), 5 V USB-A power, a $100 budget, and a water supply that has to be entirely mechanical — no pumps-for-everything. The problem was bigger than "grow a plant in space": study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Condensation couldn\'t touch the sensors, everything had to be modular, and it needed a web interface.' },
-  { date: 'Sept–Oct 2025', tag: 'Research & Prior Art', title: 'Read everything that came before',
+    body: 'NASA HUNCH gave us the brief: a modular 2U nanolab (20×10×10 cm) with no more than 50 mL of water. The problem was bigger than "grow a plant in space": study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Water had to move freely — ideally passively, though pumps were allowed — and every sensor, camera, light, and electronic part had to sit inside the sealed system, away from condensation. We added a web interface on top so astronauts could run it easily.' },
+  { date: 'Sept–Oct 2025', tag: 'Research Prior Solutions', title: 'Read everything that came before',
     body: 'We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan\'s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and four patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our "D.A.A.N.s").' },
-  { date: 'Oct 22, 2025', tag: 'The Pivot', title: 'From hydroponics to a thorny devil',
-    body: 'Hydroponics looked promising until we realized it might make the project\'s goal obsolete. Then Sabrina found the thorny devil lizard (Moloch horridus) on asknature.org — its grooved skin moves water by capillary action, no pump needed. Nate prototyped the "Moloch Horridus Water System" in SolidWorks in two sizes. It worked "miraculously well," so we renamed the core the TDC — Thorny-Devil Capillary.' },
-  { date: 'Nov 18–19, 2025', tag: 'PDR', title: 'NASA liked the hex. Then pushed us.',
-    body: 'At Preliminary Design Review, NASA\'s reviewer called the hexagonal shape and thorny-devil method "terrific." The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth (the test is too short to grow anything); use food coloring to see the water; add 1–2 containment layers; and test at least two substrates. Peer teams warned wicking doesn\'t work in microgravity.' },
-  { date: 'Dec 15, 2025', tag: 'Decision Matrix', title: 'Choosing the substrates on purpose',
-    body: 'We scored four substrates on system compatibility, microgravity feasibility, and modularity. Rockwool won — it screws into existing holes, its binding agent won\'t escape into the channels, and water moves through it better in microgravity. Clay pebbles won as the second pick (11.5 mm pebbles can\'t enter the 0.48 mm channels). Pine bark was rejected — fragments would clog the channels. Illite was rejected — the fine powder would escape and force a redesign.' },
-  { date: 'Dec 2025–Feb 2026', tag: 'Iteration', title: 'Seven shells, a removable reservoir, and a lesson about resin',
-    body: 'We iterated the enclosure seven times: wire holes 5 mm→8 mm, walls 4 mm→2 mm, door screws M3 16 mm→4 mm, half-slotted modules that kept falling off the rails until we added supports. The reservoir became removable to stop moisture contaminating the electronics — a heat-sealed pouch in a friction-fit pocket. Then our new resin printer\'s VOCs shriveled the test plants overnight: a sharp lesson that emissions and biology don\'t share a room.' },
-  { date: 'Jan–Mar 2026', tag: 'Testing', title: 'Drop, measure, repeat — nine times',
-    body: 'We dropped the TDC from 14 feet, nine times, with dyed water, measuring the water radius before and after each drop — about 0.9 seconds of free-fall per drop, simulating NASA Glenn\'s 5.18-second zero-gravity window we\'re traveling to Ohio to test. Mean capillary movement reached 14.7 mm. We built up in three stages: bare module → module + camera → full nanolab with pump, sensors, and a web UI recording the whole thing.' },
-  { date: 'Spring 2026', tag: 'CDR → FDR', title: 'The vision model closes the loop',
-    body: 'By Critical Design Review the system was whole: TDC capillary channels, dual pumps (1 mL/min for the long term, 100 mL/min for the drop test), a Raspberry Pi Zero 2W running an AI vision model, aeroponics plus rockwool and clay pebbles, and a modular shelf enclosure. The vision model reads root moisture and waters only when the roots are dry — a continuous feedback loop that eliminates root rot. The honest open items: a custom PCB to replace the wiring, waterproofing, and a live-plant run.' },
+  { date: 'Oct 2025', tag: 'Preliminary Tests', title: 'Test everything, even the ramen',
+    body: 'Before committing to a design we ran preliminary tests on tons of random materials — sponge, ramen noodles, Spanish moss, bonsai rock, pine bark and more — and mold grew in all of them. Only pine bark produced substantial growth.' },
+  { date: 'Nov 2025', tag: 'The Thorny Devil', title: 'An idea from Wild Kratts',
+    body: 'In November, Nate was watching Wild Kratts with his brother and saw the thorny devil lizard (Moloch horridus), whose grooved skin moves water by capillary action with no pump. He realized it might be useful, modeled the channel system in SolidWorks, and it became the core of the project: the TDC — Thorny Devil Capillary.' },
+  { date: 'Nov 19, 2025', tag: 'PDR', title: 'Preliminary Design Review',
+    body: 'We presented to NASA HUNCH mentors, including Nancy Hall (NASA Glenn) and Glenn Johnson (NASA Johnson): the thorny-devil hex pattern holding water upside down, our October substrate tests, our sensor choices, and the first web UI. The feedback that shaped what came next:',
+    points: [
+      'Glenn Johnson called the hexagonal shape and our upside-down demo "really smart" and "a terrific method," and suggested short drops at school — from 10 ft or off a building — to catch a brief moment of zero-g on camera.',
+      'Use dyed water, and aim the camera at the fluid movement rather than plant growth, since the drop test is so short.',
+      'Nancy Hall told us to focus on one plant with a backup; for the drop, the experiment should already be running when it falls.',
+      'Lighting matters: the camera needs light, position it to avoid reflections, and consider a second light on the opposite side to shine through.',
+    ],
+    video: { id: 'hFFCSkvaE-c', start: 1427, label: 'Watch our PDR on YouTube (23:47–46:16)' } },
+  { date: 'Dec 2025', tag: 'Design', title: 'Developing the whole design',
+    body: 'December was for developing the whole design and getting our early CAD models and schematics finalized. Physical prototyping came after.' },
+  { date: 'Jan–Early Feb 2026', tag: 'Prototyping', title: 'Seven shells and a removable reservoir',
+    body: 'We iterated the enclosure seven times: wire holes 5 mm→8 mm, walls 4 mm→2 mm, half-slotted modules that kept falling off the rails until we added supports. The reservoir became removable to stop moisture contaminating the electronics — a heat-sealed pouch in a friction-fit pocket.' },
+  { date: 'Jan 2026', tag: 'Testing', title: 'Drop, measure, repeat — nine times',
+    body: 'We dropped the bare TDC — the original "brick" — from 14 feet, nine times, with dyed water, measuring the water radius before and after each drop — about 0.9 seconds of free-fall per drop, a local stand-in for NASA Glenn\'s 2.2-second drop tower. Mean capillary movement reached 14.7 mm.' },
+  { date: 'Spring 2026', tag: 'CDR', title: 'The vision model closes the loop',
+    body: 'By Critical Design Review the system was whole: TDC capillary channels, dual pumps (1 mL/min for the long term, 150 mL/min for the drop test), a Raspberry Pi Zero 2W running an AI vision model, aeroponics plus rockwool and clay pebbles, and a modular shelf enclosure. The vision model came out of extensive brainstorming on how to pump water through the system in a loop — until Aidan realized a vision model could watch the roots and pump only the amount the plant actually needed. The main critique at CDR: more water. Our design held about 10 mL, and it needed to handle 50 mL.' },
+  { date: 'After CDR', tag: 'TDC V2', title: 'Retiring "the brick"',
+    body: 'Internally, we thought the original TDC — "the brick" — was comically heavy to ship anywhere, and we wanted the cameras on the inside. That gave birth to the TDC V2.' },
 ];
 
-const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Greenhouse', 'Dr. Murat Kacira — University of Arizona', 'Robert Morrow — NASA capillary fluidics', 'John Wetzel — Sierra Space', 'Ariel Ekblaw — MIT Space Exploration Initiative'];
+const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Greenhouse', 'Dr. Murat Kacira — University of Arizona', 'Robert Morrow — Sierra Space, extraterrestrial plant growth', 'John Wetzel — Sierra Space', 'Ariel Ekblaw — MIT Space Exploration Initiative'];
 ---
 
-<Layout title="Design Journey" description="The full thought process behind HexaFlow — from NASA HUNCH constraints through research, the thorny-devil pivot, decision matrices, seven iterations of testing, and the final closed-loop nanolab.">
+<Layout title="Design Journey" description="The full thought process behind HexaFlow — from NASA HUNCH constraints through preliminary tests, the thorny devil, PDR, prototyping, CDR, and the TDC V2.">
   <Nav slot="nav" />
 
   <PageShell
@@ -60,6 +71,19 @@ const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Gree
               </div>
               <h3 class="font-display pj-title">{m.title}</h3>
               <p class="pj-body">{m.body}</p>
+              {m.points && (
+                <ul class="pj-points">
+                  {m.points.map(p => <li>{p}</li>)}
+                </ul>
+              )}
+              {m.video && (
+                <a class="pj-video" href={`https://www.youtube.com/watch?v=${m.video.id}&t=${m.video.start}s`}
+                   target="_blank" rel="noopener" aria-label={m.video.label}>
+                  <img src={`https://i.ytimg.com/vi/${m.video.id}/hqdefault.jpg`} alt="" loading="lazy" />
+                  <span class="pj-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#d4a017"/><path d="M45 24 27 14v20z" fill="#060e1c"/></svg></span>
+                  <span class="pj-video-cap">{m.video.label} ↗</span>
+                </a>
+              )}
             </div>
           </li>
         ))}
@@ -71,14 +95,7 @@ const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Gree
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal>Failures we kept</h2>
         <div class="pj-learn">
           <div class="card learn">
-            <h3 class="font-display">Kale kept dying</h3>
-            <p>Clay pebbles and rockwool have to stay continuously damp — impractical in microgravity. Fix: thread the roots through the bottom of the rockwool so they reach the nutrient water directly.</p>
-          </div>
-          <div class="card learn">
-            <h3 class="font-display">Resin printer killed the plants</h3>
-            <p>Our new resin printer shared an unventilated room with the test plants; its VOCs shriveled them overnight. Fix: move the plants, tent them, ventilate. Emissions and biology don't mix.</p>
-          </div>
-          <div class="card learn">
+            <h3 class="font-display">pH probe          <div class="card learn">
             <h3 class="font-display">pH probe was too long</h3>
             <p>The Atlas Scientific pH probe is 153 mm; we had 47 mm of clearance. A geometry problem we caught only at assembly — the kind of thing that only shows up when you build it.</p>
           </div>
@@ -106,6 +123,16 @@ const experts = ['Dr. Gene Giacomelli — University of Arizona, Mars-Lunar Gree
 </Layout>
 
 <style>
+  .pj-points { margin: 0.6rem 0 0; padding-left: 1.1rem; color: #94a3b8; font-size: 0.9rem; line-height: 1.65; }
+  .pj-points li { margin-bottom: 0.35rem; }
+  .pj-video { position: relative; margin-top: 1rem; aspect-ratio: 16 / 9; border-radius: 0.6rem; overflow: hidden;
+              border: 1px solid rgba(212,160,23,0.18); background: #000; }
+  .pj-video { display: block; text-decoration: none; }
+  .pj-video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: opacity .2s; }
+  .pj-video:hover img { opacity: .95; }
+  .pj-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); filter: drop-shadow(0 4px 12px rgba(0,0,0,.5)); }
+  .pj-video-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: .6rem .9rem; font-size: .85rem; font-weight: 600;
+    color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.75)); }
   .pj { max-width: 46rem; margin: 0 auto; }
   .pj-frame { margin-bottom: 3rem; }
   .pj-frame h2, .pj-block h2 { font-size: var(--t-h2); font-weight: 700; color: var(--hex-text); margin: 0 0 1rem; line-height: 1.1; }

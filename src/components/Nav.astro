@@ -1,66 +1,86 @@
 ---
-const navLinks = [
-  { href: '/',                     label: 'Home' },
-  { href: '/assembly',             label: 'Assembly Viewer', emphasize: true },
-  { href: '/process',              label: 'Design Journey' },
-  { href: '/geometry',             label: 'Geometry' },
-  { href: '/drop-testing',         label: 'Drop Testing' },
-  { href: '/ai-control',           label: 'AI & Control' },
-  { href: '/user-interface',       label: 'User Interface' },
-  { href: '/aeroponics',           label: 'Aeroponics' },
-  { href: '/secondary-substrates', label: 'Secondary Substrates' },
-  { href: '/substrate-covers',     label: 'Substrate Covers' },
-  { href: '/modular-enclosure',    label: 'Modular Enclosure' },
-  { href: '/cad-drawings',         label: 'CAD Drawings + Photos' },
-  { href: '/full-project-photos',  label: 'Full Project Photos' },
-  { href: '/bom',                  label: 'BOM' },
-  { href: '/prototyping',          label: 'Prototyping Iteration' },
-  { href: '/sources',              label: 'Misc. Sources' },
+const top = [
+  { href: '/',         label: 'Home' },
+  { href: '/assembly', label: 'Assembly Viewer', emphasize: true },
+  { href: '/process',  label: 'Design Journey' },
+];
+const groups = [
+  { label: 'Science', links: [
+    { href: '/geometry',             label: 'Geometry' },
+    { href: '/drop-testing',         label: 'Drop Testing' },
+    { href: '/aeroponics',           label: 'Aeroponics' },
+    { href: '/secondary-substrates', label: 'Secondary Substrates' },
+    { href: '/substrate-covers',     label: 'Substrate Covers' },
+  ]},
+  { label: 'Technology', links: [
+    { href: '/ai-control',        label: 'AI & Control' },
+    { href: '/user-interface',    label: 'User Interface' },
+    { href: '/modular-enclosure', label: 'Modular Enclosure' },
+  ]},
+  { label: 'Documentation', links: [
+    { href: '/cad-drawings',        label: 'CAD Drawings + Photos' },
+    { href: '/full-project-photos', label: 'Full Project Photos' },
+    { href: '/bom',                 label: 'BOM' },
+    { href: '/prototyping',         label: 'Prototyping Iteration' },
+    { href: '/sources',             label: 'Sources' },
+  ]},
 ];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href) => path === href || (href !== '/' && path.startsWith(href + '/')) || (href !== '/' && path === href);
 ---
 
 <nav class="hf-nav" data-nav>
   <!-- Logo -->
   <a href="/" class="hf-logo" aria-label="HexaFlow home">
-    <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden="true">
-      <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
-               fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="5"/>
-      <text x="50" y="66" text-anchor="middle" fill="#d4a017"
-            font-size="46" font-family="Inter,sans-serif" font-weight="700">H</text>
-    </svg>
+    <img src="/images/hexaflow-logo-white.png" alt="" width="30" height="27" style="display:block;" />
     <span class="hf-logo-text">HexaFlow</span>
   </a>
 
-  <!-- Desktop scrollable nav -->
-  <div class="no-scrollbar" id="desktop-nav">
-    {navLinks.map(link => {
-      const active = path === link.href || (link.href !== '/' && path.startsWith(link.href));
+  <!-- Desktop nav: top links + grouped dropdowns (every page reachable at any width) -->
+  <div id="desktop-nav">
+    {top.map(link => (
+      <a href={link.href} class={`hf-link${isActive(link.href) ? ' is-active' : ''}${link.emphasize ? ' is-emph' : ''}`}>
+        {link.label}
+      </a>
+    ))}
+    {groups.map(g => {
+      const groupActive = g.links.some(l => isActive(l.href));
       return (
-        <a href={link.href} class={`hf-link${active ? ' is-active' : ''}${link.emphasize ? ' is-emph' : ''}`}>
-          {link.label}
-        </a>
+        <div class="hf-dd">
+          <button type="button" class={`hf-link hf-dd-btn${groupActive ? ' is-active' : ''}`} aria-expanded="false" aria-haspopup="true">
+            {g.label}
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          </button>
+          <div class="hf-dd-menu" role="menu">
+            {g.links.map(l => (
+              <a href={l.href} role="menuitem" class={`hf-dd-item${isActive(l.href) ? ' is-active' : ''}`}>{l.label}</a>
+            ))}
+          </div>
+        </div>
       );
     })}
   </div>
 
-  <!-- Mobile hamburger -->
-  <button id="nav-toggle" aria-label="Menu" class="hf-burger">
+  <!-- Mobile / narrow hamburger -->
+  <button id="nav-toggle" aria-label="Menu" aria-expanded="false" class="hf-burger">
     <span id="b1"></span><span id="b2"></span><span id="b3"></span>
   </button>
 </nav>
 
 <!-- Mobile menu -->
 <div id="mobile-menu" class="hf-mobile">
-  {navLinks.map(link => {
-    const active = path === link.href || (link.href !== '/' && path.startsWith(link.href));
-    return (
-      <a href={link.href} class={`hf-mobile-link${active ? ' is-active' : ''}`}>
-        {link.label}
-      </a>
-    );
-  })}
+  {top.map(link => (
+    <a href={link.href} class={`hf-mobile-link${isActive(link.href) ? ' is-active' : ''}`}>{link.label}</a>
+  ))}
+  {groups.map(g => (
+    <div class="hf-mobile-group">
+      <div class="hf-mobile-head">{g.label}</div>
+      {g.links.map(l => (
+        <a href={l.href} class={`hf-mobile-link${isActive(l.href) ? ' is-active' : ''}`}>{l.label}</a>
+      ))}
+    </div>
+  ))}
 </div>
 
 <style>
@@ -80,31 +100,49 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
   .hf-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
   .hf-logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
 
-  #desktop-nav { display: none; flex: 1; overflow-x: auto; gap: 0.15rem; align-items: center; }
+  #desktop-nav { display: none; flex: 1; gap: 0.15rem; align-items: center; justify-content: flex-end; }
   .hf-link {
     position: relative; white-space: nowrap; padding: 0.4rem 0.7rem; border-radius: 0.4rem;
-    font-size: 0.82rem; font-weight: 500; text-decoration: none; color: #94a3b8;
+    font-size: 0.85rem; font-weight: 500; text-decoration: none; color: #94a3b8;
     transition: color .15s, background .15s;
+    background: none; border: 0; cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 0.35rem;
   }
   .hf-link:hover { color: #e2e8f0; }
   .hf-link.is-active { color: #d4a017; background: rgba(212,160,23,0.1); }
-  .hf-link.is-emph { color: #fff; font-weight: 600; }
-  .hf-link.is-emph::after {
-    content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.18rem; height: 2px;
-    background: linear-gradient(90deg, #d4a017, rgba(212,160,23,0.2)); border-radius: 2px;
+  .hf-link.is-emph:not(.is-active) { color: #fff; font-weight: 600; }
+
+  .hf-dd { position: relative; }
+  .hf-dd-btn svg { transition: transform .15s; }
+  .hf-dd.open .hf-dd-btn svg { transform: rotate(180deg); }
+  .hf-dd-menu {
+    position: absolute; top: calc(100% + 0.4rem); right: 0; min-width: 13rem;
+    display: none; flex-direction: column; padding: 0.4rem;
+    background: rgba(6,14,28,0.97); border: 1px solid rgba(212,160,23,0.2); border-radius: 0.6rem;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
   }
+  .hf-dd.open .hf-dd-menu { display: flex; }
+  @media (hover: hover) { .hf-dd:hover .hf-dd-menu { display: flex; } }
+  /* invisible bridge so the menu doesn't close when moving the cursor down */
+  .hf-dd-menu::before { content: ""; position: absolute; left: 0; right: 0; top: -0.5rem; height: 0.5rem; }
+  .hf-dd-item { padding: 0.55rem 0.75rem; border-radius: 0.4rem; font-size: 0.85rem; color: #94a3b8; text-decoration: none; white-space: nowrap; }
+  .hf-dd-item:hover, .hf-dd-item:focus-visible { color: #e2e8f0; background: rgba(212,160,23,0.08); }
+  .hf-dd-item.is-active { color: #d4a017; }
 
   .hf-burger { margin-left: auto; display: flex; flex-direction: column; gap: 5px;
     background: none; border: none; cursor: pointer; padding: 8px; }
   .hf-burger span { display: block; width: 20px; height: 2px; background: #d4a017; border-radius: 2px; transition: all 0.2s; }
 
   .hf-mobile { display: none; position: fixed; inset: 0; top: 4rem; z-index: 40; background: rgba(6,14,28,0.98); overflow-y: auto; padding: 1rem; }
-  .hf-mobile-link { display: block; padding: 0.85rem 1rem; border-radius: 0.5rem; font-size: 0.95rem; font-weight: 500; text-decoration: none; margin-bottom: 0.25rem; color: #94a3b8; border: 1px solid transparent; }
+  .hf-mobile-group { margin-top: 0.75rem; }
+  .hf-mobile-head { padding: 0.5rem 1rem 0.25rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #d4a017; }
+  .hf-mobile-link { display: block; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.95rem; font-weight: 500; text-decoration: none; margin-bottom: 0.15rem; color: #94a3b8; border: 1px solid transparent; }
   .hf-mobile-link.is-active { color: #d4a017; background: rgba(212,160,23,0.08); border-color: rgba(212,160,23,0.25); }
 
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     #desktop-nav { display: flex; }
     .hf-burger { display: none; }
+    .hf-mobile { display: none !important; }
   }
 </style>
 
@@ -115,14 +153,32 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
   const b2 = document.getElementById('b2')!;
   const b3 = document.getElementById('b3')!;
   let open = false;
-  toggle.addEventListener('click', () => {
-    open = !open;
+  const setOpen = (v: boolean) => {
+    open = v;
     menu.style.display = open ? 'block' : 'none';
+    toggle.setAttribute('aria-expanded', String(open));
     b1.style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
     b2.style.opacity = open ? '0' : '1';
     b3.style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+  };
+  toggle.addEventListener('click', () => setOpen(!open));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+
+  // Dropdowns: click/tap to toggle (hover also opens on mouse devices), Esc / outside click closes
+  const dds = Array.from(document.querySelectorAll<HTMLElement>('.hf-dd'));
+  const closeAll = (except?: HTMLElement) => dds.forEach(d => {
+    if (d !== except) { d.classList.remove('open'); d.querySelector('button')?.setAttribute('aria-expanded', 'false'); }
   });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    open = false; menu.style.display = 'none'; b1.style.transform = b3.style.transform = ''; b2.style.opacity = '1';
-  }));
+  dds.forEach(dd => {
+    const btn = dd.querySelector('button')!;
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !dd.classList.contains('open');
+      closeAll(dd);
+      dd.classList.toggle('open', willOpen);
+      btn.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+  document.addEventListener('click', () => closeAll());
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeAll(); setOpen(false); } });
 </script>

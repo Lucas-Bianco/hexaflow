@@ -71,6 +71,8 @@ export async function initViewer(host, opts) {
   const meshOf = new Map();         // partId -> Mesh[]
   const partRoots = new Map();      // partId -> Object3D[] (nodes to move on explode)
   const basePositions = new Map();  // Object3D -> Vector3 (original position)
+  const explodeLocal = new Map();   // node -> Vector3 offset in its parent's space at amount = 1 (fallback explode)
+  const partWorldOff = new Map();   // partId -> Vector3 world offset at amount = 1 (for labels)
   let selectedId = null;
   let isolate = false;       // active isolation state (derived from isolateMode + selection)
   let isolateMode = false;   // user preference: should selecting a part hide the others?
@@ -103,9 +105,62 @@ export async function initViewer(host, opts) {
   root = gltf.scene;
   scene.add(root);
 
+  // The SolidWorks export is the EXPLODED view. If an assembled (collapsed)
+  // export is available, read just its node transforms and blend between the
+  // two: explode 0 = assembled, explode 1 = the file's exploded view.
+  let poses = null;
+  if (model.assembledSrc) {
+    try {
+      const res = await fetch(model.assembledSrc);
+      if (res.ok) poses = buildPoses(gltf, await res.json());
+    } catch (e) { console.warn('HexaFlow: assembled pose unavailable', e); }
+  }
+  if (poses) applyPose(0);
+
   indexScene();
   buildLabels();
   frameScene();
+  if (poses) computePoseLabelOffsets();
+
+  function buildPoses(gltf, aj) {
+    const ej = gltf.parser.json, assoc = gltf.parser.associations;
+    const byName = new Map();
+    (aj.nodes || []).forEach((n, i) => { if (n.name && !byName.has(n.name)) byName.set(n.name, i); });
+    const out = [];
+    gltf.scene.traverse((obj) => {
+      const a = assoc.get(obj);
+      if (!a || a.nodes === undefined) return;
+      const i = a.nodes, en = ej.nodes[i];
+      let j;
+      if (en && en.name) j = byName.get(en.name);
+      else if (aj.nodes[i] && !aj.nodes[i].name) j = i;          // unnamed (inserts): same slot
+      if (j === undefined) return;
+      const an = aj.nodes[j], m = new THREE.Matrix4();
+      if (an.matrix) m.fromArray(an.matrix);
+      else m.compose(new THREE.Vector3(...(an.translation || [0, 0, 0])),
+                     new THREE.Quaternion(...(an.rotation || [0, 0, 0, 1])),
+                     new THREE.Vector3(...(an.scale || [1, 1, 1])));
+      const pA = new THREE.Vector3(), qA = new THREE.Quaternion(), sA = new THREE.Vector3();
+      m.decompose(pA, qA, sA);
+      out.push({ obj, pA, qA, sA, pE: obj.position.clone(), qE: obj.quaternion.clone(), sE: obj.scale.clone() });
+    });
+    return out.length ? out : null;
+  }
+  function applyPose(t) {
+    for (const p of poses) {
+      p.obj.position.lerpVectors(p.pA, p.pE, t);
+      p.obj.quaternion.slerpQuaternions(p.qA, p.qE, t);
+      p.obj.scale.lerpVectors(p.sA, p.sE, t);
+    }
+    root.updateMatrixWorld(true);
+  }
+  function computePoseLabelOffsets() {
+    const centerOf = (meshes) => { const b = new THREE.Box3(); meshes.forEach(m => b.expandByObject(m)); return b.getCenter(new THREE.Vector3()); };
+    applyPose(1);
+    const c1 = new Map(); for (const [id, ms] of meshOf) c1.set(id, centerOf(ms));
+    applyPose(0);
+    for (const [id, ms] of meshOf) partWorldOff.set(id, c1.get(id).sub(centerOf(ms)));
+  }
 
   function indexScene() {
     root.traverse((obj) => {
@@ -121,14 +176,26 @@ export async function initViewer(host, opts) {
         }
         node = node.parent;
       }
+      // Unnamed meshes that only resolve to the top-level assembly are loose
+      // hardware (the brass heat-set inserts) — group them with the fasteners
+      // so clicking one doesn't select the whole assembly.
+      if (partId === model.rootId && !obj.name) partId = '__fasteners__';
       obj.userData.partId = partId;
       if (!partId) return;
       if (!meshOf.has(partId)) meshOf.set(partId, []);
       meshOf.get(partId).push(obj);
-      // record the matched node as a part root (for explode)
-      if (partId === '__fasteners__') return;
-      let rn = obj;
-      while (rn) { if (rn.name && matchPart(rn.name) === partId) break; rn = rn.parent; }
+      // record the node that moves on explode. For real parts it's the TOPMOST
+      // ancestor that still belongs to this part (so multi-body parts like the
+      // PCB move as one piece). Fasteners/inserts move as their top-level node.
+      let rn = null;
+      if (partId === '__fasteners__') {
+        let n = obj;
+        while (n && n.parent && n.parent !== root && !(n.parent.name && matchPart(n.parent.name) === model.rootId)) n = n.parent;
+        rn = n;
+      } else {
+        for (let n = obj; n && n !== root; n = n.parent) if (n.name && matchPart(n.name) === partId) rn = n;
+        if (!rn) rn = obj;
+      }
       if (rn) {
         if (!partRoots.has(partId)) partRoots.set(partId, []);
         if (!partRoots.get(partId).includes(rn)) partRoots.get(partId).push(rn);
@@ -195,13 +262,13 @@ export async function initViewer(host, opts) {
     }
   }
 
-  function select(id, { isolate: iso = true } = {}) {
+  function select(id, { isolate: iso = true, source = 'api' } = {}) {
     selectedId = id;
     // The root assembly is the overview — never isolate to its stray meshes.
     if (id === null || id === model.rootId) { isolate = false; setHighlight(null); }
     else { isolate = iso; setHighlight(id); }
     applyVisibility();
-    onSelect(id);
+    onSelect(id, source);
   }
 
   // ── Picking ────────────────────────────────────────────────────────────
@@ -221,10 +288,10 @@ export async function initViewer(host, opts) {
     const hits = raycaster.intersectObjects(targets, false);
     if (hits.length) {
       const id = hits[0].object.userData.partId;
-      if (id && id !== '__fasteners__') { select(id, { isolate: isolateMode }); return; }
+      if (id && id !== '__fasteners__') { select(id, { isolate: isolateMode, source: 'pick' }); return; }
     }
     // empty space click → clear
-    select(null);
+    select(null, { source: 'pick' });
   });
 
   // ── Toggles ────────────────────────────────────────────────────────────
@@ -246,28 +313,51 @@ export async function initViewer(host, opts) {
   }
 
   // ── Explode ────────────────────────────────────────────────────────────
-  const explodeDir = new Map(); // partRoot node -> Vector3 direction (normalized) * unit
-  function computeExplodeDirs() {
+  // Measured ONCE with the model at rest (re-measuring the exploded model made
+  // the distance feed on itself). Each piece moves away from the assembly center
+  // along the line through its own bounding-box center.
+  const EXPLODE_SCALE = 1.1;
+  function computeExplode() {
+    root.updateMatrixWorld(true);
+    const rest = new THREE.Box3().setFromObject(root);
+    const center = rest.getCenter(new THREE.Vector3());
+    const span = rest.getSize(new THREE.Vector3()).length() || 1;
     for (const [partId, nodes] of partRoots) {
-      nodes.forEach(n => {
-        const pos = new THREE.Vector3();
-        n.getWorldPosition(pos);
-        const dir = pos.clone().sub(assemblyCenter);
-        if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
-        dir.normalize();
-        explodeDir.set(n, dir);
-      });
+      for (const n of nodes) {
+        const b = new THREE.Box3().setFromObject(n);
+        if (b.isEmpty()) continue;
+        const c = b.getCenter(new THREE.Vector3());
+        const d = c.clone().sub(center);
+        const len = d.length();
+        if (len < span * 1e-3) d.set(0, 1, 0); else d.divideScalar(len);
+        // distance grows with how far out the piece already sits, plus a minimum push
+        const world = d.multiplyScalar((len + span * 0.12) * EXPLODE_SCALE);
+        const parent = n.parent;
+        const a = parent.worldToLocal(c.clone());
+        const bpt = parent.worldToLocal(c.clone().add(world));
+        explodeLocal.set(n, bpt.sub(a));
+        if (!partWorldOff.has(partId)) partWorldOff.set(partId, world.clone());
+      }
     }
   }
+  // Pull the camera back as the model spreads so the pieces stay in frame.
+  // The zoom the user had at 0% is remembered and restored on the way back.
+  let baseDist = null;
+  const EXPLODE_ZOOM = 0.75;
   function setExplode(amount) {
-    if (explodeDir.size === 0) computeExplodeDirs();
+    if (!poses && explodeLocal.size === 0) computeExplode();
+    if (explodeAmount === 0 && amount > 0) baseDist = camera.position.distanceTo(controls.target);
+    if (baseDist !== null) {
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      camera.position.copy(controls.target).addScaledVector(dir, baseDist * (1 + EXPLODE_ZOOM * amount));
+      controls.update();
+      if (amount === 0) baseDist = null;
+    }
     explodeAmount = amount;
-    const box = new THREE.Box3().setFromObject(root);
-    const span = box.getSize(new THREE.Vector3()).length() || 1;
-    const dist = span * 0.35 * amount;
-    for (const [node, dir] of explodeDir) {
-      const base = basePositions.get(node) || node.position;
-      node.position.copy(base).addScaledVector(dir, dist);
+    if (poses) { applyPose(amount); return; }
+    for (const [node, off] of explodeLocal) {
+      const base = basePositions.get(node);
+      if (base) node.position.copy(base).addScaledVector(off, amount);
     }
   }
 
@@ -276,7 +366,10 @@ export async function initViewer(host, opts) {
   function updateLabels() {
     for (const [partId, { el, center }] of labels) {
       if (!labelsOn || (isolate && partId !== selectedId)) { el.style.display = 'none'; continue; }
-      proj.copy(center).project(camera);
+      proj.copy(center);
+      const off = partWorldOff.get(partId);
+      if (off && explodeAmount) proj.addScaledVector(off, explodeAmount);
+      proj.project(camera);
       const inFront = proj.z < 1;
       if (!inFront) { el.style.display = 'none'; continue; }
       const x = (proj.x * 0.5 + 0.5) * host.clientWidth;
@@ -315,6 +408,7 @@ export async function initViewer(host, opts) {
     setFastenersVisible,
     setIsolateMode,
     setExplode,
+    hasAssembledPose: !!poses,
     toggleFullscreen: () => {
       const fs = host.closest('.hf3d-host') || host;
       if (!document.fullscreenElement) fs.requestFullscreen?.(); else document.exitFullscreen?.();
