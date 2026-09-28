@@ -5,12 +5,6 @@ import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
 import PhotoGallery from '../components/PhotoGallery.astro';
 
-const decisionMatrix = [
-  { substrate:'Pine Bark',   compat:4, fim:4, mod:3, total:11 },
-  { substrate:'Illite (Clay)',compat:3, fim:5, mod:4, total:12 },
-  { substrate:'Rockwool',    compat:5, fim:3, mod:5, total:13 },
-  { substrate:'Clay Pebbles',compat:4, fim:4, mod:4, total:12 },
-];
 ---
 <Layout title="Secondary Substrates">
   <Nav slot="nav" />
@@ -26,45 +20,25 @@ const decisionMatrix = [
       <div data-reveal>
         <h2 class="font-display kinetic" data-kinetic="word" data-reveal
             style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
-          October Preliminary Test
+          October Preliminary Substrate Test
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
-          The team tested eight substrate materials. Only pine bark produced substantial plant growth;
-          mold developed rapidly across every substrate. Those results drove the pivot toward
-          <strong style="color:#e2e8f0;">aeroponics and hydroponics</strong> over traditional soil substrates.
+          We grew kale and banana peppers in a variety of substrates under LED grow lights similar to
+          the final Nanolab design, in a sealed chamber with water added as needed. Only
+          <strong style="color:#e2e8f0;">pine bark</strong> yielded substantial plant growth, and mold
+          grew very quickly in all substrates.
         </p>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.75rem;margin-bottom:1.5rem;">
-          {[
-            { name:'Soil',              result:'fail' },
-            { name:'Bonsai Rock',       result:'fail' },
-            { name:'Spanish Moss',      result:'fail' },
-            { name:'Sponge',            result:'fail' },
-            { name:'Ramen Noodles',     result:'fail' },
-            { name:'Crushed Pine Bark', result:'partial' },
-            { name:'Layered Pine Bark', result:'pass' },
-            { name:'Auger',             result:'fail' },
-          ].map((s, i) => {
-            const col = s.result === 'pass' ? '#4ade80' : s.result === 'partial' ? '#facc15' : '#f87171';
-            return (
-              <div class={`reveal-${(i % 6) + 1}`} style={`background:#0d1e35;border:1px solid ${col}25;border-radius:0.5rem;
-                           padding:0.75rem;text-align:center;`}>
-                <div style={`width:8px;height:8px;border-radius:50%;background:${col};
-                              margin:0 auto 0.5rem;`}></div>
-                <div style="font-size:0.8rem;color:#e2e8f0;font-weight:500;">{s.name}</div>
-                <div style={`font-size:0.72rem;color:${col};margin-top:0.2rem;`}>
-                  {s.result === 'pass' ? 'Growth' : s.result === 'partial' ? 'Partial' : 'Failed / Mold'}
-                </div>
-              </div>
-            );
-          })}
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.5rem;">
+          {['Soil','Bonsai Rock','Spanish Moss','Sponge','Ramen Noodles','Crushed Pine Bark','Layered Pine Bark','Auger'].map((name, i) => (
+            <span class={`reveal-${(i % 6) + 1}`} style="background:#0d1e35;border:1px solid rgba(212,160,23,0.15);
+                         border-radius:999px;padding:0.4rem 0.9rem;font-size:0.8rem;color:#e2e8f0;">{name}</span>
+          ))}
         </div>
-
-        <div style="padding:1rem 1.25rem;background:rgba(250,204,21,0.05);border:1px solid rgba(250,204,21,0.2);
-                    border-radius:0.5rem;font-size:0.875rem;color:#94a3b8;line-height:1.6;">
-          <strong style="color:#facc15;">Conclusion:</strong> The team adopted aeroponics as the primary growing method,
-          using substrate only as a supplementary anchor where needed.
-        </div>
+        <figure style="margin:0;border-radius:0.75rem;overflow:hidden;border:1px solid rgba(212,160,23,0.15);">
+          <img src="/images/substrate-7.jpg" alt="October substrate test trays, October 20th and October 31st" loading="lazy" style="display:block;width:100%;height:auto;"/>
+          <figcaption style="padding:0.6rem 1rem;background:#0d1e35;font-size:0.78rem;color:#64748b;">October preliminary test — October 20th vs. October 31st</figcaption>
+        </figure>
       </div>
 
       <!-- Decision matrix -->
@@ -72,116 +46,58 @@ const decisionMatrix = [
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
           Substrate Decision Matrix
         </h2>
-        <p style="color:#94a3b8;font-size:0.875rem;margin:0 0 1.25rem;">
-          Four substrates were evaluated using three criteria on a 1–5 scale:
-          <strong style="color:#e2e8f0;">System Compatibility</strong>,
-          <strong style="color:#e2e8f0;">Feasibility in Microgravity (FIM)</strong>, and
-          <strong style="color:#e2e8f0;">Modularity</strong>.
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          After doing much research about substrates that could work with our system and its needs, we
+          narrowed our ideas to four substrates: <strong style="color:#e2e8f0;">pine bark, illite, rockwool,
+          and clay pebbles</strong>. Each was scored from 1 to 5 on three criteria:
         </p>
-        <div style="overflow-x:auto;border-radius:0.75rem;border:1px solid rgba(212,160,23,0.15);">
-          <table style="width:100%;border-collapse:collapse;font-size:0.875rem;background:#0d1e35;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+          {[
+            { k:'System Compatibility', lo:'Requires a complete rework of the system', hi:'No modifications needed' },
+            { k:'Feasibility in Microgravity (FIM)', lo:'Loses vital properties in microgravity', hi:'Properties improve in microgravity' },
+            { k:'Modularity', lo:'Supports only one type of plant', hi:'Near-universal plant support' },
+          ].map((c, i) => (
+            <div class={`card reveal-${i + 1}`}>
+              <div class="section-label" style="margin-bottom:0.6rem;">{c.k}</div>
+              <p style="color:#94a3b8;font-size:0.85rem;line-height:1.6;margin:0 0 0.35rem;"><strong style="color:#f87171;">1</strong> — {c.lo}</p>
+              <p style="color:#94a3b8;font-size:0.85rem;line-height:1.6;margin:0;"><strong style="color:#4ade80;">5</strong> — {c.hi}</p>
+            </div>
+          ))}
+        </div>
+        <div style="overflow-x:auto;border-radius:0.75rem;border:1px solid rgba(212,160,23,0.15);margin-top:1.25rem;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.875rem;background:#0d1e35;min-width:480px;">
             <thead>
               <tr style="border-bottom:1px solid rgba(212,160,23,0.15);">
-                {['Substrate','System Compat.','Feasibility in μg','Modularity','Total'].map(h => (
-                  <th style="text-align:left;padding:0.85rem 1rem;font-size:0.75rem;font-weight:600;
-                              text-transform:uppercase;letter-spacing:0.08em;color:#d4a017;">{h}</th>
+                {['Substrate','System Compatibility','Feasibility in μg','Modularity','Total'].map(h => (
+                  <th style="text-align:left;padding:0.85rem 1rem;font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#d4a017;">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {decisionMatrix.sort((a,b) => b.total - a.total).map((row, i) => (
-                <tr style={`border-bottom:1px solid rgba(212,160,23,0.06);
-                             ${i === 0 ? 'background:rgba(212,160,23,0.04);' : ''}`}>
-                  <td style="padding:0.85rem 1rem;color:#e2e8f0;font-weight:500;">
-                    {i === 0 && <span style="color:#d4a017;font-size:0.7rem;margin-right:0.4rem;">★</span>}
-                    {row.substrate}
-                  </td>
-                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.compat}/5</td>
-                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.fim}/5</td>
-                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{row.mod}/5</td>
-                  <td style={`padding:0.85rem 1rem;font-weight:700;
-                               color:${row.total >= 13 ? '#d4a017' : '#e2e8f0'};`}>
-                    {row.total}/15
-                  </td>
+              {[
+                { n:'Pine Bark',    c:4, f:4, m:4, t:12 },
+                { n:'Illite',       c:1, f:4, m:2, t:7  },
+                { n:'Rockwool',     c:5, f:5, m:3, t:13 },
+                { n:'Clay Pebbles', c:4, f:4, m:4, t:12 },
+              ].map(r => (
+                <tr style="border-bottom:1px solid rgba(212,160,23,0.06);">
+                  <td style="padding:0.85rem 1rem;color:#e2e8f0;font-weight:500;">{r.n}</td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{r.c}</td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{r.f}</td>
+                  <td style="padding:0.85rem 1rem;color:#94a3b8;">{r.m}</td>
+                  <td style="padding:0.85rem 1rem;color:#e2e8f0;font-weight:700;">{r.t}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p style="font-size:0.8rem;color:#475569;margin-top:0.75rem;">
-          ★ Highest scoring substrate. All four were selected for further testing.
-        </p>
-
-        <!-- Candidate rationale -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.5rem;">
-          <div class="card reveal-1" style="border-color:rgba(74,222,128,0.3);">
-            <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Rockwool — Chosen</div>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
-              Screws directly into the nanolab's existing screw holes, and its binding agent stays put
-              rather than escaping into the channels — allowing a larger plant opening. Water moves
-              through it more effectively in microgravity.
-            </p>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
-              <strong style="color:#e2e8f0;">Supports:</strong> fruits, berries, herbs, melons, peppers.
-            </p>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
-              <strong style="color:#f87171;">Limits:</strong> fails root vegetables and pH-sensitive plants;
-              carries no inherent nutrients.
-            </p>
-          </div>
-
-          <div class="card reveal-2" style="border-color:rgba(74,222,128,0.3);">
-            <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Clay Pebbles — Chosen</div>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0 0 0.5rem;">
-              ~11.5 mm pebbles are too large to enter the 0.48 mm channels, so containment is built into
-              the geometry. The opening must stay under 11.5 mm, which limits stem size — but anything
-              bigger wouldn't fit a 10×10×20 cm nanolab anyway.
-            </p>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
-              The baked ceramic retains <strong style="color:#e2e8f0;">10–20% less water in microgravity</strong>
-              (NASA source), keeping the root zone from waterlogging.
-            </p>
-          </div>
-
-          <div class="card reveal-3" style="border-color:rgba(248,113,113,0.25);">
-            <div class="section-label" style="color:#f87171;margin-bottom:0.5rem;">Pine Bark — Rejected</div>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
-              Fragments could lodge in the channels, the material is acidic, and sizing the screen to
-              the smallest piece becomes a mass-production problem. Despite winning the October grow
-              test, it failed the matrix on engineering grounds.
-            </p>
-          </div>
-
-          <div class="card reveal-4" style="border-color:rgba(248,113,113,0.25);">
-            <div class="section-label" style="color:#f87171;margin-bottom:0.5rem;">Illite — Rejected</div>
-            <p style="color:#94a3b8;font-size:0.85rem;line-height:1.65;margin:0;">
-              The fine powder would escape through the plant-stem opening and clog the channels.
-              Controlling it would require a separate suspended container with grates — a significant
-              redesign of the nanolab.
-            </p>
-          </div>
-        </div>
+        <a href="https://drive.google.com/open?id=1osLwDJuhJma7hZ6c3q5oHdyaR-NIZVqWk06oDPJWGfc"
+           target="_blank" rel="noopener"
+           style="display:inline-block;margin-top:1.25rem;color:#d4a017;font-size:0.9rem;text-decoration:none;">
+          Commentary Chart for Decision Matrix →
+        </a>
       </div>
 
-      <!-- Feb 9 roots-through-rockwool fix -->
-      <div data-reveal>
-        <h2 class="font-display kinetic" data-kinetic="word" data-reveal
-            style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1rem;">
-          February 9 — Roots-Through-Rockwool Fix
-        </h2>
-        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
-          A later learning (Feb 9): clay pebbles and rockwool must stay <em>continuously</em> damp to wick
-          water — impractical in microgravity, where wetting is intermittent at best. The team's fix
-          was to <strong style="color:#e2e8f0;">thread the roots through the bottom of the rockwool</strong>
-          so they reach the nutrient water directly, sidestepping the wicking problem entirely.
-        </p>
-        <div style="padding:1rem 1.25rem;background:rgba(212,160,23,0.05);border:1px solid rgba(212,160,23,0.2);
-                    border-radius:0.5rem;font-size:0.875rem;color:#94a3b8;line-height:1.6;">
-          <strong style="color:#d4a017;">Takeaway:</strong> The substrate isn't just an anchor — it's part
-          of the water-delivery path. Routing roots through its base lets the rockwool support the stem
-          while the roots drink straight from the reservoir.
-        </div>
-      </div>
 
       <!-- Microgravity test -->
       <div data-reveal>
@@ -189,54 +105,80 @@ const decisionMatrix = [
           Microgravity Simulation Test
         </h2>
         <p style="color:#94a3b8;line-height:1.75;margin:0 0 1rem;">
-          Planted substrates were inverted with their covers for one minute to simulate weightlessness —
-          a stand-in for the free-fall conditions the hardware will see in flight.
+          After planting pre-germinated seeds in the substrates, we held the plants upside down for one
+          minute to see whether plants, covers, and substrates would stay in place while resisting gravity.
         </p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
           <div class="card reveal-1">
             <div class="section-label" style="margin-bottom:0.5rem;">Procedure</div>
             <ul style="color:#94a3b8;font-size:0.875rem;line-height:1.8;margin:0;padding-left:1.1rem;">
-              <li>Plants inserted into substrate</li>
+              <li>Pre-germinated seeds planted in substrate</li>
               <li>Substrate covers secured</li>
-              <li>Assembly inverted for 1 minute</li>
-              <li>Observations recorded</li>
+              <li>Held upside down for 1 minute</li>
             </ul>
           </div>
           <div class="card reveal-2" style="border-color:rgba(74,222,128,0.25);">
             <div class="section-label" style="color:#4ade80;margin-bottom:0.5rem;">Result</div>
             <p style="color:#94a3b8;font-size:0.875rem;line-height:1.65;margin:0;">
-              Plants, covers, and substrates all stayed in place — a strong sign the assembly will hold up
-              under actual microgravity conditions.
+              Plants, covers, and substrates all stayed in place. Because the plants stayed inside the
+              substrate when resisting gravity, we conclude they will stay rooted when there is no gravity
+              present — both plants and substrates will stay inside the TDC Delivery System in microgravity.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Substrate photos -->
+      <!-- Microgravity test photos -->
       <div data-reveal>
         <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Substrate Test Photos
+          Microgravity Test Photos
         </h2>
         <PhotoGallery photos={[
-          { src:'/images/substrate-1.jpg', caption:'Substrate test — sample 1' },
-          { src:'/images/substrate-2.jpg', caption:'Substrate test — sample 2' },
-          { src:'/images/substrate-3.jpg', caption:'Substrate test — sample 3' },
-          { src:'/images/substrate-4.jpg', caption:'Substrate test — sample 4' },
-          { src:'/images/substrate-5.jpg', caption:'Substrate test — sample 5' },
-          { src:'/images/substrate-6.jpg', caption:'Substrate test — sample 6' },
-          { src:'/images/substrate-7.jpg', caption:'Substrate test — sample 7' },
-          { src:'/images/substrate-8.jpg', caption:'Substrate test — sample 8' },
+          { src:'/images/substrate-3.jpg', caption:'Module held upside down during the one-minute test' },
+          { src:'/images/substrate-4.jpg', caption:'Clay pebbles with a seedling under the grate cover' },
+          { src:'/images/substrate-6.jpg', caption:'Clay pebble module inverted — plant and pebbles held in place' },
+          { src:'/images/substrate-8.jpg', caption:'Rockwool with a seedling under the cover' },
+          { src:'/images/substrate-5.jpg', caption:'Rockwool module inverted — plant and substrate held in place' },
         ]} />
       </div>
 
-      <!-- Works cited note -->
-      <div style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(212,160,23,0.04);
-                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#64748b;" data-reveal>
-        <strong style="color:#94a3b8;">Works Cited:</strong> 28 academic and technical references covering
-        plant nutrition, hydroponic systems, substrate properties, and space agriculture research from
-        NASA and peer-reviewed journals.
-        <a href="/sources" style="color:#d4a017;text-decoration:none;margin-left:0.25rem;">View sources →</a>
-      </div>
+      <!-- Works cited -->
+      <details style="padding:1rem 1.25rem;border-radius:0.5rem;background:rgba(212,160,23,0.04);
+                  border:1px solid rgba(212,160,23,0.12);font-size:0.825rem;color:#94a3b8;" data-reveal>
+        <summary style="cursor:pointer;color:#e2e8f0;font-weight:600;">Works Cited (28)</summary>
+        <ul style="margin:0.75rem 0 0;padding-left:1.1rem;line-height:1.7;">
+          {[
+            "The Influences of Moisture on the Mechanical, Morphological and Thermogravimetric Properties of Mineral Wool Made from Basalt Glass Fibers",
+            "Physical and Hydraulic Properties of Baked Ceramic Aggregates Used for Plant Growth Medium",
+            "Hardware Validation of the Advanced Plant Habitat on ISS: Canopy Photosynthesis in Reduced Gravity",
+            "CIPAIR Claflin 2012 NASA Student Intern Report — From Kennedy, to Beyond: Growing Plants in Space",
+            "Sources of Plant Nutrients and Soil Amendments",
+            "Hydroponics",
+            "Hydroponic Systems",
+            "Can Hydroponics Be Used in Space",
+            "How Plants Absorb Nutrients and Create Fuel",
+            "How Plants Absorb Nutrients",
+            "Comparison of Substrate, Hydroponic and Aeroponic Cultivation Systems for the Production of Carrot Root",
+            "A Comprehensive Guide to Rockwool Hydroponics",
+            "FAQ — Frequently Asked Questions (ROCKWOOL)",
+            "All You Need to Know About Growing With Stone Wool",
+            "Microaggregate Growth in a Clay Undergoing Drying",
+            "Particle Aggregation in Microgravity: Informal Experiments on the International Space Station",
+            "Evaluation of the Particle Sizes of Four Clay Minerals",
+            "Long Term Flocculation of Clay in the Absence of Gravity",
+            "XRD-based 40Ar/39Ar Age Correction for Fine-Grained Illite",
+            "LECA for Plants: One Secret to Thriving Indoor Gardens",
+            "Which Plants Can You Grow in Leca?",
+            "Illite — An Overview",
+            "Illite (Britannica)",
+            "Dynamic Role of 'Illite-Like' Clay Minerals in Temperate Soils: Facts and Hypotheses",
+            "Clay Minerals as Influenced by Environments of Their Formation",
+            "What Is Pine Bark and Is It Good for All Plants",
+            "Organic Growing Medium: Choosing Pine Bark for Healthy Plants",
+            "Plants That Grow Under Pine Trees"
+          ].map(t => <li>{t}</li>)}
+        </ul>
+      </details>
 
       <!-- Link to substrate covers -->
       <a href="/substrate-covers"
@@ -247,7 +189,7 @@ const decisionMatrix = [
          onmouseout="this.style.borderColor='rgba(212,160,23,0.2)'">
         <div>
           <div class="font-display" style="font-weight:700;color:#fff;">Substrate Covers</div>
-          <div style="font-size:0.85rem;color:#64748b;margin-top:0.2rem;">Covers and containment solutions for each substrate type</div>
+          <div style="font-size:0.85rem;color:#64748b;margin-top:0.2rem;">Covers for the rockwool and clay pebble substrates</div>
         </div>
         <span style="color:#d4a017;font-size:1.25rem;">→</span>
       </a>

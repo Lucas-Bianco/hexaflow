@@ -17,10 +17,9 @@ const groups = subsystems.map(s => ({
 <section class="av">
   <p class="av-intro" data-reveal>
     The full HexaFlow nanolab, exported from SolidWorks. <strong>Scroll</strong> through the parts
-    on the right and the 3D model highlights each one as it enters view — the whole assembly stays in
-    frame so you keep context. <strong>Click a part</strong> in the model or in a card to focus it;
-    tick <strong>Isolate</strong> in the toolbar if you'd rather hide everything else. (Clicking the
-    model never yanks the page — that was the point.)
+    on the right and the 3D model highlights each one as it enters view. <strong>Click a part in the
+    model</strong> to jump to its card, or click a card's title to find it in the model. Tick
+    <strong>Isolate</strong> in the toolbar if you'd rather hide everything else.
   </p>
 
   <div class="av-scroll-stage" data-reveal>
@@ -121,14 +120,63 @@ const groups = subsystems.map(s => ({
   let viewer = null;
   let isolateMode = false;     // mirrors the toolbar checkbox
   let currentScrollId = null;  // dedupes the scroll→3D bridge
+  let bridgeMutedUntil = 0;    // pauses the scroll bridge while we scroll to a picked card
 
   // ── Selection visuals (DOM only — NEVER scrolls the page) ──────────────
   // This is the core of the isolate fix: highlighting a part updates the
   // active card + list state and the 3D viewer, but does not call
-  // scrollIntoView. The user's scroll position is theirs to control.
+  // scroll; only a click on the 3D model scrolls to its card (revealCard).
   function setActive(id) {
     $$('.av-step').forEach(el => el.classList.toggle('is-active', el.dataset.part === id));
     $$('.av-crumb-btn').forEach(el => el.classList.toggle('is-active', el.dataset.part === id));
+    autoExplode(id);
+  }
+
+  // ── Auto-explode ───────────────────────────────────────────────────────
+  // The viewer opens fully assembled. Selecting any individual part (scroll,
+  // card click, or model click) opens the explode so internal parts are
+  // visible; returning to the overview closes it again. Once the user drags
+  // the slider themselves, we leave it alone until "Show all".
+  let userSetExplode = false;
+  let explodeAnim = 0;
+  function animateExplode(to) {
+    const slider = $('#hf-explode');
+    if (!viewer || !viewer.hasAssembledPose || !slider) return;
+    const from = parseFloat(slider.value);
+    if (Math.abs(from - to) < 0.001) return;
+    cancelAnimationFrame(explodeAnim);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const dur = reduce ? 0 : 700, t0 = performance.now();
+    const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const step = (now) => {
+      const t = dur ? Math.min(1, (now - t0) / dur) : 1;
+      const v = from + (to - from) * ease(t);
+      slider.value = v; viewer.setExplode(v);
+      if (t < 1) explodeAnim = requestAnimationFrame(step);
+    };
+    explodeAnim = requestAnimationFrame(step);
+  }
+  function autoExplode(id) {
+    if (userSetExplode) return;
+    animateExplode(id && id !== 'nanolab-assembly' ? 1 : 0);
+  }
+
+  // Model click → bring that part's card to the middle of the screen and flash it.
+  // On desktop the viewer is sticky, so the model stays in view while the list moves.
+  function revealCard(id) {
+    const card = document.querySelector(`.av-step[data-part="${id}"]`);
+    if (!card) return;
+    if (card.style.display === 'none') {         // hidden by the filter box → clear it
+      const box = $('#hf-search'); box.value = ''; box.dispatchEvent(new Event('input'));
+    }
+    card.classList.remove('is-picked'); void card.offsetWidth; card.classList.add('is-picked');
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;   // stacked layout: don't scroll the model away
+    const r = card.getBoundingClientRect();
+    const target = window.scrollY + r.top + r.height / 2 - window.innerHeight / 2;
+    currentScrollId = id;
+    bridgeMutedUntil = performance.now() + 1200;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: Math.max(0, target), behavior: reduce ? 'auto' : 'smooth' });
   }
 
   function selectFromClick(id) {
@@ -159,11 +207,17 @@ const groups = subsystems.map(s => ({
     try {
       viewer = await initViewer(document.getElementById('hf3d-stage'), {
         parts, subsystemColor, model,
-        // mesh click → update active card state ONLY. No scrollIntoView.
+        // mesh click → mark the card active and scroll it into view (desktop).
         // Empty-space click (id === null) returns to the overview card.
-        onSelect: (id) => setActive(id || 'nanolab-assembly'),
+        onSelect: (id, source) => {
+          setActive(id || 'nanolab-assembly');
+          if (source === 'pick' && id) revealCard(id);
+        },
       });
       $('#hf3d-loading').style.display = 'none';
+      // Explode only makes sense with the assembled pose available.
+      const explodeCtl = $('#hf-explode')?.closest('.hf3d-slider');
+      if (explodeCtl) explodeCtl.style.display = viewer.hasAssembledPose ? '' : 'none';
       $('#hf3d-hint').style.opacity = '1';
       viewer.select('nanolab-assembly', { isolate: false });
       setActive('nanolab-assembly');
@@ -187,6 +241,7 @@ const groups = subsystems.map(s => ({
     if (reduce) return;
 
     const io = new IntersectionObserver((entries) => {
+      if (performance.now() < bridgeMutedUntil) return;   // we're mid-scroll to a picked card
       // Among intersecting steps, pick the one closest to viewport center.
       const visible = entries
         .filter(e => e.isIntersecting && e.target.style.display !== 'none')
@@ -216,10 +271,16 @@ const groups = subsystems.map(s => ({
     const active = $('.av-step.is-active');
     if (active && viewer) viewer.select(active.dataset.part, { isolate: isolateMode });
   });
-  $('#hf-explode').addEventListener('input', e => viewer?.setExplode(parseFloat(e.target.value)));
+  $('#hf-explode').addEventListener('input', e => {
+    if (e.isTrusted) { userSetExplode = true; cancelAnimationFrame(explodeAnim); }
+    viewer?.setExplode(parseFloat(e.target.value));
+  });
   $('#hf-reset').addEventListener('click', () => {
     viewer?.resetView();
+    cancelAnimationFrame(explodeAnim);
+    userSetExplode = false;
     $('#hf-explode').value = 0;
+    viewer?.setExplode(0);
     currentScrollId = null;
     setActive('nanolab-assembly');
     viewer?.select('nanolab-assembly', { isolate: false });
@@ -295,6 +356,13 @@ const groups = subsystems.map(s => ({
     border-radius: .9rem; padding: 1.4rem; min-height: 62vh;
     transition: border-color .25s var(--ease-out-cine), box-shadow .25s var(--ease-out-cine), transform .25s var(--ease-out-cine); }
   @media (min-width: 620px) { .av-step { grid-template-columns: 220px 1fr; align-items: start; } }
+  .av-step.is-picked { animation: av-pick 1.4s ease-out; }
+  @keyframes av-pick {
+    0%   { box-shadow: 0 0 0 0 rgba(212,160,23,0.0); }
+    15%  { box-shadow: 0 0 0 3px rgba(212,160,23,0.85), 0 0 28px rgba(212,160,23,0.35); }
+    100% { box-shadow: 0 0 0 0 rgba(212,160,23,0.0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .av-step.is-picked { animation: none; } }
   .av-step.is-active {
     border-color: color-mix(in srgb, var(--accent) 55%, transparent);
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), 0 14px 40px -18px rgba(0,0,0,.7);

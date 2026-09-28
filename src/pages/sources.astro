@@ -4,92 +4,269 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import PageShell from '../components/PageShell.astro';
 
-const groups = [
+const refs = [
   {
-    cat: 'Geometry & Biomimicry',
-    refs: [
-      { title: 'Skin morphology study of Moloch horridus', note: 'ResearchGate — primary source for thorny devil capillary channel geometry' },
-      { title: 'Capillary action in micro-scale channels', note: 'Fluid transport without gravity; polar adhesion properties of resin materials' },
-      { title: 'Hexagonal geometry in biological systems', note: 'Honeycomb efficiency, channel optimization principles' },
-    ],
+    "title": "Looking at Liquid Motion in Microgravity — ISS National Lab",
+    "url": "https://issnationallab.org/iss360/looking-at-liquid-motion-in-microgravity/"
   },
   {
-    cat: 'Aeroponics',
-    refs: [
-      { title: 'LettUs Grow',                 note: 'Aeroponic growing systems and efficiency data (98% water savings)' },
-      { title: 'Atlas Scientific',             note: 'Sensor integration for pH and TDS in aeroponic systems' },
-      { title: 'Food Gardening Network',       note: 'Suitable and unsuitable crops for aeroponic growing' },
-      { title: 'NASA Science',                 note: 'Plant growth research in space environments' },
-      { title: 'Agrotonomy',                   note: 'Commercial aeroponics and root zone oxygen studies' },
-      { title: 'NoSoilSolutions',              note: 'Hydroponic and aeroponic media comparisons' },
-      { title: 'Greenhouse Canada',            note: 'Controlled environment agriculture and substrate research' },
-      { title: 'NASA XROOTS Program Documentation', note: 'Sierra Space eXposed Root On-Orbit Test System' },
-    ],
+    "title": "Growing plants in microgravity — Google Patents search",
+    "url": "https://patents.google.com/scholar/86731586280368132?q=growing+plants+in+microgravity&scholar&oq=growing+plants+in+microgravity"
   },
   {
-    cat: 'Secondary Substrates',
-    refs: [
-      { title: 'Plant nutrition in hydroponic systems',      note: 'Nutrient uptake in soil-free growing environments' },
-      { title: 'Rockwool as a growing medium',               note: 'Water retention, sterility, and root penetrability' },
-      { title: 'Clay pebbles in hydroponics',                note: 'Drainage, microgravity containment, and root support' },
-      { title: 'Illite clay mineral properties',             note: 'Microgravity feasibility and system compatibility' },
-      { title: 'Pine bark as a substrate',                   note: 'Preliminary test results — only material showing growth' },
-      { title: 'NASA space agriculture research (28 refs)',  note: 'Full citation list maintained in Google Sheets / project docs' },
-    ],
+    "title": "How Plants Are Grown in Space — FoodUnfolded",
+    "url": "https://www.foodunfolded.com/article/how-plants-are-grown-in-space-space-food-technology"
   },
   {
-    cat: 'Space Agriculture & Microgravity',
-    refs: [
-      { title: 'China Lunar Farming Program',     note: 'Integration of aeroponics into lunar surface agriculture' },
-      { title: 'Sierra Space Astro Garden',       note: 'XROOTS — aeroponic plant cultivation for long-duration spaceflight' },
-      { title: 'ISS VEGGIE Experiment',           note: 'NASA plant growth hardware aboard the International Space Station' },
-      { title: 'Advanced Plant Habitat (APH)',    note: 'Controlled environment chamber for plant research on ISS' },
-    ],
+    "title": "Growing Plants in Space — USDA ARS",
+    "url": "https://www.ars.usda.gov/oc/utm/growing-plants-in-space/"
   },
   {
-    cat: 'Electronics & Software',
-    refs: [
-      { title: 'Raspberry Pi documentation',  note: 'GPIO, USB, and carrier board integration references' },
-      { title: 'OpenCV / computer vision',    note: 'Plant root moisture detection via image analysis' },
-      { title: 'GitHub — AidanForrester/TC-HUNCH-Nanolab', note: 'Project version control and UI development log' },
-    ],
+    "title": "Acta Horticulturae 1134.29",
+    "url": "https://doi.org/10.17660/actahortic.2016.1134.29"
   },
+  {
+    "title": "NASA TechPort — Project 97036",
+    "url": "https://techport.nasa.gov/projects/97036"
+  },
+  {
+    "title": "Adafruit STEMMA Soil Sensor (4026)",
+    "url": "https://www.adafruit.com/product/4026"
+  },
+  {
+    "title": "CircuitPython Libraries — Adafruit Learn",
+    "url": "https://learn.adafruit.com/welcome-to-circuitpython/circuitpython-libraries"
+  },
+  {
+    "title": "Adafruit_CircuitPython_seesaw — GitHub",
+    "url": "https://github.com/adafruit/Adafruit_CircuitPython_seesaw"
+  },
+  {
+    "title": "SparkFun Environmental Combo Breakout — ENS160/BME280",
+    "url": "https://www.sparkfun.com/sparkfun-environmental-combo-breakout-ens160-bme280-qwiic.html"
+  },
+  {
+    "title": "CCS811/BME280 Qwiic Environmental Combo Hookup Guide — SparkFun",
+    "url": "https://learn.sparkfun.com/tutorials/ccs811bme280-qwiic-environmental-combo-breakout-hookup-guide/all"
+  },
+  {
+    "title": "qwiic_ens160_py — GitHub",
+    "url": "https://github.com/sparkfun/qwiic_ens160_py"
+  },
+  {
+    "title": "qwiic_bme280_py — GitHub",
+    "url": "https://github.com/sparkfun/qwiic_bme280_py"
+  },
+  {
+    "title": "NeoPixel Ring — 16 LED (Adafruit 1463)",
+    "url": "https://www.adafruit.com/product/1463"
+  },
+  {
+    "title": "NeoPixel Ring — 24 LED (Adafruit 1586)",
+    "url": "https://www.adafruit.com/product/1586?srsltid=AfmBOopkYndpQ71-EebwcObmhMS6doHb4cMwlsgPC82jjscXBvYyAx1Ewio"
+  },
+  {
+    "title": "CircuitPython NeoPixel documentation",
+    "url": "https://docs.circuitpython.org/projects/neopixel/en/latest/"
+  },
+  {
+    "title": "pH Kit — Atlas Scientific",
+    "url": "https://atlas-scientific.com/kits/ph-kit/?utm_source=chatgpt.com"
+  },
+  {
+    "title": "Adafruit NeoPixel Überguide — NeoPixel Strips",
+    "url": "https://learn.adafruit.com/adafruit-neopixel-uberguide/neopixel-strips"
+  },
+  {
+    "title": "Connecting a pH Sensor to a Raspberry Pi — myhydropi",
+    "url": "https://myhydropi.com/connecting-a-ph-sensor-to-a-raspberry-pi/"
+  },
+  {
+    "title": "Gravity Analog pH Sensor Meter Kit — Arduino Store",
+    "url": "https://store-usa.arduino.cc/products/gravity-analog-ph-sensor-meter-kit"
+  },
+  {
+    "title": "Growing Plants in Space — NASA",
+    "url": "https://www.nasa.gov/exploration-research-and-technology/growing-plants-in-space/"
+  },
+  {
+    "title": "2018 Michigan Plant Substrate — NASA NTRS",
+    "url": "https://ntrs.nasa.gov/api/citations/20230009740/downloads/2018%20Michigan_PlantSubstrate.pdf"
+  },
+  {
+    "title": "Kennedy Scientists Develop New Way to Plant, Nourish Seeds in Space — NASA",
+    "url": "https://www.nasa.gov/missions/station/kennedy-scientists-develop-new-way-to-plant-nourish-seeds-in-space/"
+  },
+  {
+    "title": "Plant Pillows in Space — Sierra Nevada Corp.",
+    "url": "https://www.sncorp.com/news-archive/plant-pillows-in-space/"
+  },
+  {
+    "title": "Advanced Plant Habitat — NASA fact sheet",
+    "url": "https://science.nasa.gov/wp-content/uploads/2023/06/advanced-plant-habitat.pdf"
+  },
+  {
+    "title": "NASA KSC Biomass Production Chamber — ResearchGate",
+    "url": "https://www.researchgate.net/figure/NASA-Kennedy-Space-Center-Biomass-Production-Chamber-BPC-A-Multilevel-high-altitude_fig2_358267659"
+  },
+  {
+    "title": "NASA TechPort — Project 183165",
+    "url": "https://techport.nasa.gov/projects/183165"
+  },
+  {
+    "title": "U of G Students Demonstrate Plant Growth Chamber for Canadian Space Agency — Greenhouse Canada",
+    "url": "https://www.greenhousecanada.com/u-of-g-students-demonstrate-plant-growth-chamber-for-canadian-space-agency/"
+  },
+  {
+    "title": "U of G Student Team Aims to Advance in Deep Space Food Challenge — U of G News",
+    "url": "https://news.uoguelph.ca/2023/01/u-of-g-student-team-aim-to-advance-to-next-phase-of-deep-space-food-challenge/"
+  },
+  {
+    "title": "University of Guelph Students in the Race to Grow Food in Space — RCI",
+    "url": "https://ici.radio-canada.ca/rci/en/news/1951640/university-of-guelph-students-are-in-the-race-to-grow-food-in-space"
+  },
+  {
+    "title": "Veggie — NASA Science",
+    "url": "https://science.nasa.gov/mission/veggie/"
+  },
+  {
+    "title": "Vegetable Production System — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Vegetable_Production_System"
+  },
+  {
+    "title": "Vegetable Production System — ISS National Lab",
+    "url": "https://issnationallab.org/facilities/vegetable-production-system/"
+  },
+  {
+    "title": "Astronaut Vegetable Production System — Science Photo Gallery",
+    "url": "https://sciencephotogallery.com/featured/1-astronaut-vegetable-production-system-nasa.html"
+  },
+  {
+    "title": "Passive Orbital Nutrient Delivery System — ISS National Lab",
+    "url": "https://issnationallab.org/facilities/passive-orbital-nutrient-delivery-system/"
+  },
+  {
+    "title": "NASA Testing Method to Grow Bigger Plants in Space — NASA",
+    "url": "https://www.nasa.gov/missions/station/nasa-testing-method-to-grow-bigger-plants-in-space/"
+  },
+  {
+    "title": "PONDS Flysheet — Redwire",
+    "url": "https://redwirespace.com/wp-content/uploads/2023/06/redwire-PONDS-flysheet.pdf"
+  },
+  {
+    "title": "PONDS Patent KSC-TOPS-81 — NASA Technology Transfer",
+    "url": "https://technology.nasa.gov/patent/KSC-TOPS-81"
+  },
+  {
+    "title": "Green Moon Project — Media",
+    "url": "https://www.greenmoonproject.com/media"
+  },
+  {
+    "title": "Green Moon Project — EPSC2020-22",
+    "url": "https://doi.org/10.5194/epsc2020-22"
+  },
+  {
+    "title": "Green Moon Project — Scientific Project",
+    "url": "https://www.greenmoonproject.com/gmpscientificproject"
+  },
+  {
+    "title": "Introducing the Green Moon Project — ALEA Global Group",
+    "url": "https://aleaglobalgroup.com/2022/01/24/introducing-the-green-moon-project/"
+  },
+  {
+    "title": "MELiSSA — ADS abstract (COSPAR 2008)",
+    "url": "https://ui.adsabs.harvard.edu/abs/2008cosp...37.1706L/abstract"
+  },
+  {
+    "title": "MELiSSA — Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Melissa"
+  },
+  {
+    "title": "MELiSSA — ScienceDirect",
+    "url": "https://www.sciencedirect.com/science/article/abs/pii/S0016328716301380?fr=RR-2&ref=pdf_download&rr=9cc4f8e77ea89021"
+  },
+  {
+    "title": "A Decade-Long Quest to Build an Ecosystem in a Room — Sciencesprings",
+    "url": "https://sciencesprings.wordpress.com/2019/04/06/from-european-space-agency-a-decade-long-quest-to-build-an-ecosystem-in-a-room/"
+  },
+  {
+    "title": "MELiSSA: How It Began — ESA",
+    "url": "https://www.esa.int/Enabling_Support/Space_Engineering_Technology/MELiSSA_How_it_began"
+  },
+  {
+    "title": "ESA's MELiSSA Life-Support Programme Wins Academic Recognition — ESA",
+    "url": "https://www.esa.int/Enabling_Support/Space_Engineering_Technology/ESA_s_MELiSSA_life-support_programme_wins_academic_recognition"
+  },
+  {
+    "title": "Patent CN105638413A — Google Patents",
+    "url": "https://patents.google.com/patent/CN105638413A/en?q=(plants+microgravity+iss)&oq=plants+microgravity+iss"
+  },
+  {
+    "title": "Five MIT Payloads Deployed on the ISS — MIT News",
+    "url": "https://news.mit.edu/2020/five-mit-payloads-deployed-international-space-station-0325"
+  },
+  {
+    "title": "NASA SpaceX 31st Commercial Resupply Mission Overview — NASA",
+    "url": "https://www.nasa.gov/general/nasa-spacex-31st-commercial-resupply-mission-overview/"
+  },
+  {
+    "title": "Patent US20220369580A1 — Google Patents",
+    "url": "https://patents.google.com/patent/US20220369580A1/en?q=(plants+microgravity+iss)&oq=plants+microgravity+iss"
+  },
+  {
+    "title": "Patent CN108633718A — Google Patents",
+    "url": "https://patents.google.com/patent/CN108633718A/en?q=(~patent%2fCN105638413A)"
+  },
+  {
+    "title": "Environmental Sensors — SparkFun",
+    "url": "https://www.sparkfun.com/sensors/environmental-sensors.html"
+  },
+  {
+    "title": "SparkFun Atmospheric Sensor Breakout — BME280",
+    "url": "https://www.sparkfun.com/sparkfun-atmospheric-sensor-breakout-bme280-qwiic.html"
+  },
+  {
+    "title": "PEEK — Curbell Plastics",
+    "url": "https://www.curbellplastics.com/materials/plastics/peek/?srsltid=AfmBOorOEWaPnxkTAwZfN9aZ98Kr819G_VDSkeOfgpL88xcpo0AhH5vZ"
+  },
+  {
+    "title": "Astronauts Plant Seed Pillows in New Space Agriculture Study — NASA Science",
+    "url": "https://science.nasa.gov/directorates/smd/astronauts-plant-seed-pillows-in-new-space-agriculture-study/"
+  },
+  {
+    "title": "China's Astronauts Grow Vegetables on Tiangong — Space.com",
+    "url": "https://www.space.com/china-astronauts-grow-vegetables-tiangong-space-station"
+  }
 ];
 ---
-<Layout title="Misc. Sources">
+<Layout title="Sources">
   <Nav slot="nav" />
 
   <PageShell
-    title="Misc. Sources"
-    subtitle="Research references, programs, and documentation cited across every HexaFlow project section."
+    title="Sources"
+    subtitle="Research references cited across the HexaFlow project."
     badge="References"
   >
     <div style="display:grid;gap:2.5rem;">
-      {groups.map((g, gi) => (
-        <div>
-          <h2 class="font-display" style="font-size:1.25rem;font-weight:700;color:#fff;margin:0 0 1rem;
-                      display:flex;align-items:center;gap:0.75rem;">
-            <span style="display:inline-block;width:4px;height:1.25rem;background:#d4a017;border-radius:2px;flex-shrink:0;"></span>
-            {gi === 0 ? <span class="kinetic" data-kinetic="word" data-reveal>{g.cat}</span> : g.cat}
-          </h2>
-          <div class="refs-grid" data-reveal style="display:grid;gap:0.6rem;">
-            {g.refs.map(r => (
-              <div class="card" style="padding:1rem 1.25rem;">
-                <div style="font-weight:600;color:#e2e8f0;font-size:0.9rem;margin-bottom:0.25rem;">{r.title}</div>
-                <div style="font-size:0.825rem;color:#64748b;">{r.note}</div>
-              </div>
-            ))}
-          </div>
+      <div>
+        <h2 class="font-display" style="font-size:1.25rem;font-weight:700;color:#fff;margin:0 0 1rem;
+                    display:flex;align-items:center;gap:0.75rem;">
+          <span style="display:inline-block;width:4px;height:1.25rem;background:#d4a017;border-radius:2px;flex-shrink:0;"></span>
+          <span class="kinetic" data-kinetic="word" data-reveal>Works Cited</span>
+        </h2>
+        <div class="refs-grid" data-reveal style="display:grid;gap:0.6rem;">
+          {refs.map(r => (
+            <a class="card" href={r.url} target="_blank" rel="noopener" style="padding:1rem 1.25rem;text-decoration:none;display:block;">
+              <div style="font-weight:600;color:#e2e8f0;font-size:0.9rem;margin-bottom:0.25rem;">{r.title}</div>
+              <div style="font-size:0.75rem;color:#64748b;">{new URL(r.url).hostname.replace(/^www\./,'')}</div>
+            </a>
+          ))}
         </div>
-      ))}
-
-      <div data-reveal style="padding:1.25rem;border-radius:0.75rem;background:rgba(212,160,23,0.04);
-                  border:1px solid rgba(212,160,23,0.12);">
-        <p style="font-size:0.875rem;color:#64748b;margin:0;line-height:1.65;">
-          Full citations (authors, year, DOI/URL) will be added to each entry. The secondary substrates
-          section draws on <strong style="color:#94a3b8;">28 academic sources</strong> — the complete list is in the project Google Docs.
-        </p>
       </div>
+
+      <p data-reveal style="font-size:0.875rem;color:#64748b;margin:0;line-height:1.65;">
+        Substrate-specific references are listed on the <a href="/secondary-substrates" style="color:#d4a017;">Secondary Substrates</a> page.
+      </p>
     </div>
   </PageShell>
 
@@ -98,7 +275,7 @@ const groups = [
 
 <style>
   /* Opacity-only stagger so we never fight the .card hover-lift transform. */
-  .refs-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .refs-grid > .card { opacity: 1; }
   .refs-grid.is-in > .card { opacity: 1; }
   .refs-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
   .refs-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }

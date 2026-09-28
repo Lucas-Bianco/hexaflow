@@ -98,24 +98,21 @@ import PageShell from '../components/PageShell.astro';
         </figure>
       </div>
 
-      <!-- Video placeholder -->
+      <!-- Demo video -->
       <div data-reveal>
-        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Interface Demo Video
+        <h2 class="font-display" style="font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 0.5rem;">
+          Interface Demo
         </h2>
-        <div class="card" style="display:flex;flex-direction:column;align-items:center;
-                                  justify-content:center;min-height:220px;gap:1rem;text-align:center;">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"/>
-            <polygon points="10,8 16,12 10,16" fill="#d4a017" stroke="none"/>
-          </svg>
-          <div>
-            <div class="font-display" style="font-weight:700;color:#fff;margin-bottom:0.35rem;">V2UI.mp4</div>
-            <div style="font-size:0.85rem;color:#64748b;line-height:1.5;">
-              Drop <code style="color:#d4a017;">V2UI.mp4</code> into <code style="color:#d4a017;">public/images/</code> to enable inline video playback.
-            </div>
-          </div>
-        </div>
+        <p style="color:#94a3b8;line-height:1.75;margin:0 0 1.25rem;">
+          A walkthrough of the V2 interface: live sensor readouts and camera switching, the test and
+          6-hourly photo galleries, the NanoLab controls, live analytics with PNG/JSON export, and
+          comparing charts from imported data.
+        </p>
+        <video controls muted playsinline preload="metadata" poster="/media/ui-demo-poster.jpg"
+               style="width:100%;aspect-ratio:16/9;border-radius:0.75rem;border:1px solid rgba(212,160,23,0.2);background:#000;display:block;">
+          <source src="/media/ui-demo.webm" type="video/webm" />
+          <source src="/media/ui-demo.mp4" type="video/mp4" />
+        </video>
       </div>
 
     </div>
@@ -126,7 +123,7 @@ import PageShell from '../components/PageShell.astro';
 
 <style>
   /* Opacity-only stagger so we never fight the .card hover-lift transform. */
-  .feat-grid > .card { opacity: 0; transition: opacity .6s ease; }
+  .feat-grid > .card { opacity: 1; }
   .feat-grid.is-in > .card { opacity: 1; }
   .feat-grid.is-in > .card:nth-child(2) { transition-delay: .08s; }
   .feat-grid.is-in > .card:nth-child(3) { transition-delay: .16s; }

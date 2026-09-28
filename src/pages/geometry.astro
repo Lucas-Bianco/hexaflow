@@ -35,8 +35,8 @@ import PageShell from '../components/PageShell.astro';
             scale, the system can retain water even when fully inverted.
           </p>
           <p style="color:#94a3b8;line-height:1.75;margin:0;">
-            The channels space hexagons <strong style="color:#e2e8f0;">0.51 mm (0.020 in) apart</strong> with a channel width of
-            <strong style="color:#e2e8f0;">0.48 mm</strong> to optimize capillary distribution.
+            The hexagons are spaced <strong style="color:#e2e8f0;">0.020 in (0.51 mm) apart</strong> — that gap is the
+            capillary channel water travels through.
           </p>
 
           <!-- Channel geometry spec block -->
@@ -52,16 +52,12 @@ import PageShell from '../components/PageShell.astro';
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.100 in / 2.54 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel depth</div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Hexagon depth</div>
                 <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.050 in / 1.27 mm</div>
               </div>
               <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Channel width</div>
-                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.48 mm</div>
-              </div>
-              <div>
-                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Gap between channels</div>
-                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.51 mm / 0.020 in</div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.08em;">Gap between hexagons</div>
+                <div class="font-display" style="font-size:1.05rem;font-weight:700;color:#d4a017;">0.020 in / 0.51 mm</div>
               </div>
             </div>
           </div>
@@ -76,8 +72,7 @@ import PageShell from '../components/PageShell.astro';
           </p>
           <p style="color:#94a3b8;line-height:1.75;margin:0;">
             Total channel capacity is <strong style="color:#e2e8f0;">10.12 mL</strong> (precisely 10.1155 mL) when fully
-            saturated — roughly 10 minutes of constant flow at the 1 mL/min long-term pump rate to saturate. The
-            drop-test pump runs at ~100 mL/min, moving 8.63 mL through the 5.18 s test window.
+            saturated — roughly 10 minutes of constant flow at the 1 mL/min long-term pump rate to saturate.
           </p>
         </div>
 
@@ -132,9 +127,9 @@ import PageShell from '../components/PageShell.astro';
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2.5rem;">
         {[
           { label:'Channel Capacity',  value:'10.12 mL',        desc:'Precisely 10.1155 mL when fully saturated — ~10 min at 1 mL/min long-term pump' },
-          { label:'Hex Spacing',       value:'0.51 mm',          desc:'0.020 in gap between channels; 0.48 mm channel width' },
+          { label:'Hex Spacing',       value:'0.020 in',         desc:'0.51 mm gap between hexagons — the capillary channel' },
           { label:'Side-to-Side',      value:'0.167 in',         desc:'4.24 mm hex span with 0.100 in (2.54 mm) side length' },
-          { label:'Channel Depth',     value:'0.050 in',         desc:'1.27 mm etched channel depth across the dome' },
+          { label:'Hexagon Depth',     value:'0.050 in',         desc:'1.27 mm — how far the hexagons are extruded' },
           { label:'Manufacturing',     value:'SLA Resin Dome',  desc:'Polar resin hex dome; FDM body. Only the dome is SLA-printed' },
           { label:'Surface Property',  value:'Polar Resin',     desc:'Stronger water adhesion than water-to-water cohesion' },
           { label:'Gravity Required',  value:'None',            desc:'Capillary action works in microgravity environments' },
@@ -148,54 +143,6 @@ import PageShell from '../components/PageShell.astro';
         ))}
       </div>
     </div>
-
-    <!-- Hex diagram (SVG) -->
-    <section class="pin">
-      <header class="pin-head">
-        <div class="section-label">Geometry</div>
-        <h2 class="font-display" data-reveal style="font-size:1.5rem;font-weight:700;color:#fff;margin:0 0 1.25rem;">
-          Channel Geometry Diagram
-        </h2>
-      </header>
-      <div class="pin-body" data-reveal>
-        <div class="card" style="display:flex;flex-direction:column;align-items:center;padding:2.5rem;">
-        <svg width="100%" viewBox="0 0 400 220" style="max-width:500px;" xmlns="http://www.w3.org/2000/svg">
-          <!-- Hex grid pattern showing channel layout -->
-          <!-- Row 1 -->
-          <polygon points="60,20 90,37 90,70 60,87 30,70 30,37"   fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="120,20 150,37 150,70 120,87 90,70 90,37"  fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="180,20 210,37 210,70 180,87 150,70 150,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="240,20 270,37 270,70 240,87 210,70 210,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="300,20 330,37 330,70 300,87 270,70 270,37" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="360,20 390,37 390,70 360,87 330,70 330,37" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <!-- Row 2 (offset) -->
-          <polygon points="30,87 60,104 60,137 30,154 0,137 0,104"   fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="90,87 120,104 120,137 90,154 60,137 60,104"  fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2" stroke-dasharray="none"/>
-          <polygon points="150,87 180,104 180,137 150,154 120,137 120,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="210,87 240,104 240,137 210,154 180,137 180,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
-          <polygon points="270,87 300,104 300,137 270,154 240,137 240,104" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="330,87 360,104 360,137 330,154 300,137 300,104" fill="rgba(212,160,23,0.12)" stroke="#d4a017" stroke-width="2"/>
-          <!-- Row 3 -->
-          <polygon points="60,154 90,171 90,204 60,220 30,204 30,171"  fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="120,154 150,171 150,204 120,220 90,204 90,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="180,154 210,171 210,204 180,220 150,204 150,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="240,154 270,171 270,204 240,220 210,204 210,171" fill="rgba(212,160,23,0.06)" stroke="#d4a017" stroke-width="1.5"/>
-          <polygon points="300,154 330,171 330,204 300,220 270,204 270,171" fill="rgba(212,160,23,0.08)" stroke="#d4a017" stroke-width="1.5"/>
-          <!-- Spacing annotation -->
-          <line x1="90" y1="53" x2="120" y2="53" stroke="#93c5fd" stroke-width="1" stroke-dasharray="3 2"/>
-          <text x="105" y="48" text-anchor="middle" fill="#93c5fd" font-size="9" font-family="Inter,sans-serif">0.51mm</text>
-          <!-- Water flow arrows -->
-          <text x="90" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-          <text x="210" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-          <text x="330" y="115" text-anchor="middle" fill="#d4a017" font-size="11" font-family="Inter,sans-serif">H₂O</text>
-        </svg>
-        <p style="font-size:0.8rem;color:#64748b;margin-top:1rem;text-align:center;max-width:400px;">
-          Top-down view of hexagonal channel layout. Highlighted cells show water distribution points.
-          Hexagons are spaced 0.51 mm apart with 0.48 mm channel width to optimize capillary flow.
-        </p>
-        </div>
-      </div>
-    </section>
 
     <!-- Source -->
     <div data-reveal style="margin-top:2rem;padding:1rem 1.25rem;border-radius:0.5rem;

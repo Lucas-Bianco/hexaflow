@@ -4,23 +4,23 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 
 const team = [
-  { name: 'Aidan',   role: 'Project Manager & Hardware Lead'      },
+  { name: 'Aidan',   role: 'Project Manager & Embedded Systems Lead' },
   { name: 'Nate',    role: 'Correspondent & Water Movement Lead'   },
   { name: 'Sabrina', role: 'Note Taker & Substrate Lead'           },
-  { name: 'Maddie',  role: 'Scheduler & Modularity Lead'           },
+  { name: 'Maddie',  role: 'Modularity Lead'},
   { name: 'Lucas',   role: 'Web Development Lead'                   },
 ];
 
 const stats = [
   { v: '5',        u: 'Team Members'     },
-  { v: '5.18 s',   u: 'Test Window'      },
+  { v: '2.2 s',   u: 'Test Window'      },
   { v: '10.12 mL', u: 'Channel Capacity' },
-  { v: '0.48 mm',  u: 'Channel Width'    },
+  { v: '0.020 in', u: 'Hex Gap'          },
 ];
 
 const features = [
   { title: 'Hexagonal Geometry', href: '/geometry', k: '01',
-    desc: 'Thorny-devil-inspired channels move water by capillary action — 10.12 mL capacity, 0.48 mm channels, SLA-printed resin dome.' },
+    desc: 'Thorny-devil-inspired channels move water by capillary action — 10.12 mL capacity, 0.020 in gaps between hexagons, SLA-printed resin dome.' },
   { title: 'AI Vision Control',  href: '/ai-control', k: '02',
     desc: 'A vision model reads root moisture and triggers the pump only when the plant needs it — a continuous feedback loop that prevents overwatering.' },
   { title: 'Aeroponics',         href: '/aeroponics', k: '03',
@@ -48,14 +48,7 @@ const features = [
 
     <div class="hero-inner">
       <div class="hero-mark reveal reveal-1">
-        <svg width="84" height="84" viewBox="0 0 100 100" aria-hidden="true">
-          <polygon points="50,4 96,28 96,72 50,96 4,72 4,28"
-                   fill="rgba(212,160,23,0.08)" stroke="var(--hex-gold)" stroke-width="3.5"/>
-          <polygon points="50,20 80,36 80,64 50,80 20,64 20,36"
-                   fill="none" stroke="rgba(212,160,23,0.35)" stroke-width="2"/>
-          <text x="50" y="66" text-anchor="middle" fill="var(--hex-gold)"
-                font-size="42" font-family="Space Grotesk, sans-serif" font-weight="700">H</text>
-        </svg>
+        <img src="/images/hexaflow-logo-white.png" alt="" width="84" height="75" style="display:block;" />
       </div>
 
       <span class="hero-eyebrow reveal reveal-2">Tri-County RVTHS · Engineering</span>
@@ -67,12 +60,13 @@ const features = [
       <p class="hero-lede reveal reveal-3">
         Borrowing the thorny devil's capillary skin, HexaFlow pairs AI vision
         with SLA-printed hex channels to water plants on demand — a closed-loop
-        nanolab built around a 5.18-second test window.
+        nanolab built around a 2.2-second test window.
       </p>
 
       <div class="hero-cta reveal reveal-4">
         <a class="btn btn-primary" href="/assembly">Explore the Assembly →</a>
         <a class="btn btn-ghost" href="#team">Meet the Team</a>
+        <a class="btn btn-ghost" href="https://docs.google.com/presentation/d/1WRTcVGhvHi_1nKMBfqno-GelBBwLuy_HnUMlzi06UI8/present" target="_blank" rel="noopener">CDR Slideshow ↗</a>
       </div>
     </div>
 
@@ -108,7 +102,7 @@ const features = [
         HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver
         water to plants. A five-member team from Tri-County RVTHS built the system to prevent root
         rot while enabling interchangeable experiments and rapid data collection — all inside a
-        <strong>5.18-second test window</strong>.
+        <strong>2.2-second test window</strong>.
       </p>
       <p>
         The hexagonal channels take their cue from the <strong>thorny devil lizard</strong>
@@ -189,7 +183,7 @@ const features = [
     padding: 0.35rem 0.85rem; border: 1px solid var(--hex-line); border-radius: 999px;
     background: rgba(212,160,23,0.05); margin-bottom: 1.5rem;
   }
-  .hero-title { font-size: clamp(3.2rem, 9vw, 6rem); font-weight: 700; color: var(--hex-text);
+  .hero-title { display: block; font-size: clamp(3.2rem, 9vw, 6rem); font-weight: 700; color: var(--hex-text);
     letter-spacing: -0.03em; line-height: 0.95; margin: 0 0 1rem;
     text-shadow: 0 0 60px rgba(212,160,23,0.15); }
   .hero-sub { font-size: 1.25rem; color: var(--hex-gold); font-weight: 600;
@@ -285,7 +279,7 @@ const features = [
      never fights the .card hover-lift transform). */
   .stats > .stat,
   .features-grid > .feat,
-  .team-grid > .member { opacity: 0; transition: opacity .6s ease; }
+  .team-grid > .member { opacity: 1; }
   .stats.is-in > .stat,
   .features-grid.is-in > .feat,
   .team-grid.is-in > .member { opacity: 1; }
