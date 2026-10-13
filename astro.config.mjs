@@ -7,7 +7,7 @@ import tailwind from '@astrojs/tailwind';
 const base = process.env.HF_BASE || '/';
 
 export default defineConfig({
-  site: 'https://lucasbianco.github.io',
+  site: 'https://hexaflow.space',
   base,
   integrations: [tailwind()],
   server: {
