@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #060e1c;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Reveal: opacity + transform, never fight GSAP transforms. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger helpers (opacity-only so they don't fight lift/transform). */
+.reveal-1 { transition-delay: 0.08s; }
+.reveal-2 { transition-delay: 0.16s; }
+.reveal-3 { transition-delay: 0.24s; }
+.reveal-4 { transition-delay: 0.32s; }
+.reveal-5 { transition-delay: 0.40s; }
+.reveal-6 { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  * {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Thin custom scrollbar to match the dark theme. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #060e1c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
