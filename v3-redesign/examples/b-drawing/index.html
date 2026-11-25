@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HexaFlow | Sheet 01, Home</title>
+<meta name="description" content="HexaFlow: a modular capillary nanolab with hexagonal channels copied from the thorny devil lizard. NASA HUNCH, Tri-County RVTHS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand-row">
+      <a class="brand" href="index.html">HexaFlow<small>V2 nanolab / NASA HUNCH</small></a>
+      <span class="top-meta">Tri-County RVTHS, Franklin, Massachusetts</span>
+    </div>
+    <nav aria-label="Sheet index">
+      <ul class="nav">
+        <li><a href="index.html" aria-current="page"><span>01</span>Home</a></li>
+        <li><a href="#"><span>02</span>Mission</a></li>
+        <li><a href="#"><span>03</span>Design Journey</a></li>
+        <li><a href="#"><span>04</span>Biomimicry &amp; Geometry</a></li>
+        <li><a href="#"><span>05</span>Substrates</a></li>
+        <li><a href="#"><span>06</span>Aeroponics</a></li>
+        <li><a href="#"><span>07</span>AI Vision &amp; Control</a></li>
+        <li><a href="#"><span>08</span>The Nanolab</a></li>
+        <li><a href="drop-testing.html"><span>09</span>Drop Testing</a></li>
+        <li><a href="#"><span>10</span>CAD &amp; Drawings</a></li>
+        <li><a href="#"><span>11</span>Gallery</a></li>
+        <li><a href="#"><span>12</span>Sources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div id="top-sheet">
+  <!-- SHEET 01 : title + general notes -->
+  <section class="sheet" aria-labelledby="h-title">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 01 / General</b><span class="zone">Zone A1</span></div>
+      <div class="grid">
+        <div class="c-1-8">
+          <p class="eyebrow">NASA HUNCH / Tri-County RVTHS / 2U nanolab</p>
+          <h1 id="h-title" class="page-title">Growing plants in microgravity, the way a thorny devil drinks.</h1>
+        </div>
+        <div class="c-9-12">
+          <table>
+            <caption>General data</caption>
+            <tbody>
+              <tr><th scope="row">Envelope</th><td class="num">20 &times; 10 &times; 10<span class="unit">cm</span></td></tr>
+              <tr><th scope="row">Power</th><td class="num">5<span class="unit">V USB-A</span></td></tr>
+              <tr><th scope="row">Budget</th><td class="num">100<span class="unit">USD</span></td></tr>
+              <tr><th scope="row">Channel width</th><td class="num dim">0.48<span class="unit">mm</span></td></tr>
+              <tr><th scope="row">Capacity, saturated</th><td class="num dim">10.12<span class="unit">mL</span></td></tr>
+              <tr><th scope="row">Drop window, NASA Glenn</th><td class="num dim">2.2<span class="unit">s</span></td></tr>
+              <tr><th scope="row">Team</th><td class="num">5<span class="unit">people</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid mt5">
+        <div class="c-1-8">
+          <p class="lede">Hexagonal capillary channels, copied from the thorny devil lizard, carry water to plant roots where gravity cannot help. Nine free-fall drops on a local rig, 14.7&nbsp;mm of measured capillary movement, inside a 2U nanolab.</p>
+          <a class="btn-link primary" href="drop-testing.html">Drop Testing at NASA Glenn</a>
+          <a class="btn-link" href="#sheet-02">Assembly, with parts</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- SHEET 02 : sticky assembly with leader-line callouts -->
+<section class="scrolly" id="sheet-02" aria-labelledby="h-asm" data-callouts>
+  <div class="stage">
+    <div class="wrap stage-wrap">
+      <div class="sheet-head"><b>Sheet 02 / Assembly, exploded view</b><span class="zone">Zone B2</span></div>
+      <div class="grid stage-body">
+        <div class="c-1-8 draw-box">
+          <figure>
+            <h2 id="h-asm" class="eyebrow tight">Fig. 02-1 / HexaFlow V2 assembled, six parts called out</h2>
+            <svg class="draw" viewBox="0 0 1040 716" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Exploded assembly drawing of the HexaFlow V2 nanolab with six numbered leader-line callouts">
+              <rect class="paper" x="0" y="0" width="1040" height="716"></rect>
+              <image href="../assets/cad-1.jpg" x="0" y="0" width="927" height="716" preserveAspectRatio="none"></image>
+              <line x1="927" y1="0" x2="927" y2="716" stroke="#121212" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+
+              <g data-callout="0">
+                <path class="leader" pathLength="1" d="M625 108 L930 80 L962 80"></path>
+                <circle class="tip" cx="625" cy="108" r="5"></circle>
+                <a href="#part-side-doors" aria-label="Side Door Panels"><g class="tag"><circle cx="985" cy="80" r="22"></circle><text x="985" y="81">1</text></g></a>
+              </g>
+              <g data-callout="1">
+                <path class="leader" pathLength="1" d="M645 131 L930 190 L962 190"></path>
+                <circle class="tip" cx="645" cy="131" r="5"></circle>
+                <a href="#part-usb-b-camera-clip" aria-label="USB-B Camera Clip"><g class="tag"><circle cx="985" cy="190" r="22"></circle><text x="985" y="191">2</text></g></a>
+              </g>
+              <g data-callout="2">
+                <path class="leader" pathLength="1" d="M600 205 L930 300 L962 300"></path>
+                <circle class="tip" cx="600" cy="205" r="5"></circle>
+                <a href="#part-hexaflow-pcb" aria-label="HexaFlow PCB"><g class="tag"><circle cx="985" cy="300" r="22"></circle><text x="985" y="301">3</text></g></a>
+              </g>
+              <g data-callout="3">
+                <path class="leader" pathLength="1" d="M585 285 L930 410 L962 410"></path>
+                <circle class="tip" cx="585" cy="285" r="5"></circle>
+                <a href="#part-tdc-assembly-v2" aria-label="TDC Assembly V2"><g class="tag"><circle cx="985" cy="410" r="22"></circle><text x="985" y="411">4</text></g></a>
+              </g>
+              <g data-callout="4">
+                <path class="leader" pathLength="1" d="M755 300 L930 520 L962 520"></path>
+                <circle class="tip" cx="755" cy="300" r="5"></circle>
+                <a href="#part-nanolab-shell" aria-label="Nanolab Shell"><g class="tag"><circle cx="985" cy="520" r="22"></circle><text x="985" y="521">5</text></g></a>
+              </g>
+              <g data-callout="5">
+                <path class="leader" pathLength="1" d="M510 330 L560 640 L930 630 L962 630"></path>
+                <circle class="tip" cx="510" cy="330" r="5"></circle>
+                <a href="#part-front-door" aria-label="Front Door Panel"><g class="tag"><circle cx="985" cy="630" r="22"></circle><text x="985" y="631">6</text></g></a>
+              </g>
+            </svg>
+            <figcaption><b>G0000</b><span>HexaFlow V2 Assembled, scale 1:5, sheet 1 of 1. Team drawing, SolidWorks.</span></figcaption>
+          </figure>
+        </div>
+        <div class="c-9-12">
+          <p class="eyebrow">Parts called out</p>
+          <ol class="callout-list" data-list>
+            <li><span class="k">1</span><span><a href="#part-side-doors">Side Door Panels</a><span class="pn">ITEM 03 / side-doors</span><span class="role">Side access panels.</span></span></li>
+            <li><span class="k">2</span><span><a href="#part-usb-b-camera-clip">USB-B Camera Clip (Reservoir)</a><span class="pn">ITEM 06 / usb-b-camera-clip</span><span class="role">Mounts a USB camera to observe the pump and reservoir.</span></span></li>
+            <li><span class="k">3</span><span><a href="#part-hexaflow-pcb">HexaFlow PCB</a><span class="pn">ITEM 09 / hexaflow-pcb</span><span class="role">Custom control board. Mounts the pump, camera, and sensor interfaces.</span></span></li>
+            <li><span class="k">4</span><span><a href="#part-tdc-assembly-v2">TDC Assembly V2</a><span class="pn">ITEM 10 / tdc-assembly-v2</span><span class="role">The core capillary experiment module, second generation.</span></span></li>
+            <li><span class="k">5</span><span><a href="#part-nanolab-shell">Nanolab Shell</a><span class="pn">ITEM 01 / nanolab-shell</span><span class="role">Outer structural shell with hollow side walls for cable management.</span></span></li>
+            <li><span class="k">6</span><span><a href="#part-front-door">Front Door Panel</a><span class="pn">ITEM 05 / front-door</span><span class="role">Access panel for internal components and the experiment module slot.</span></span></li>
+          </ol>
+          <p class="stage-note">Scroll to draw the leaders. Each callout links to its part.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="rest" role="main">
+  <!-- SHEET 03 : about -->
+  <section class="sheet" aria-labelledby="h-about">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 03 / About the project</b><span class="zone">Zone C1</span></div>
+      <div class="grid">
+        <div class="c-1-5"><h2 id="h-about" class="sheet-title">What is HexaFlow?</h2></div>
+        <div class="c-6-12">
+          <p>HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants. A five-member team from Tri-County RVTHS built it inside a 2U enclosure, on a $100 budget, to prevent root rot while enabling interchangeable experiments and rapid data collection. The system was tested in a 2.2-second free-fall window at NASA Glenn&rsquo;s 2.2-Second Drop Tower in Ohio.</p>
+          <p>The hexagonal channels take their cue from the thorny devil lizard (<em>Moloch horridus</em>), which transports water through grooved skin by capillary action, no pump required. A vision model reads root moisture from the camera and drives the pump, closing a continuous feedback loop that prevents overwatering and root rot.</p>
+          <p>Manufacturing relies on SLA 3D printing in resin. Resin&rsquo;s polar bonds grip water more tightly than water molecules grip each other, driving efficient capillary transport, strong enough that the system holds water even when inverted.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHEET 04 : key figures -->
+  <section class="sheet" aria-labelledby="h-fig">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 04 / Results and key dimensions</b><span class="zone">Zone C2</span></div>
+      <div class="grid mb5">
+        <div class="c-1-5"><h2 id="h-fig" class="sheet-title">Four numbers.</h2></div>
+        <div class="c-6-12"><p class="lede">Two come from the design, two from testing.</p></div>
+      </div>
+      <div class="figures">
+        <div class="fig"><div class="n">2.2<span class="unit">s</span></div><div class="l">NASA Glenn drop window</div><div class="s">2.2-Second Drop Tower, Ohio</div></div>
+        <div class="fig"><div class="n">14.7<span class="unit">mm</span></div><div class="l">Mean capillary rise</div><div class="s">9-drop Suite B, 14-ft rig</div></div>
+        <div class="fig"><div class="n">0.48<span class="unit">mm</span></div><div class="l">Channel width</div><div class="s">0.020 in gap</div></div>
+        <div class="fig"><div class="n">10.12<span class="unit">mL</span></div><div class="l">Channel capacity</div><div class="s">Fully saturated</div></div>
+      </div>
+      <div class="grid mt5">
+        <div class="c-1-8">
+          <table>
+            <caption>Table 04-1 / Test platforms</caption>
+            <thead><tr><th>Platform</th><th class="num">Height</th><th class="num">Free-fall</th><th class="num">Drops</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Local rig</th><td class="num">14 ft (4.267 m)</td><td class="num">~0.9 s</td><td class="num">9, Suite B</td></tr>
+              <tr><th scope="row">NASA Glenn 2.2-Second Drop Tower</th><td class="num">n/a</td><td class="num">2.2 s</td><td class="num">3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="c-9-12"><p class="note">The 5.18-second Zero Gravity Research Facility is a separate, larger facility at NASA Glenn.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHEET 05 : build log -->
+  <section class="sheet" aria-labelledby="h-build">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 05 / Revision history</b><span class="zone">Zone D1</span></div>
+      <div class="grid mb5">
+        <div class="c-1-5"><h2 id="h-build" class="sheet-title">From a lizard to a nanolab.</h2></div>
+        <div class="c-6-12"><p class="lede">Three moments that shaped the build. The full record is on the Design Journey sheet.</p></div>
+      </div>
+      <ol class="rows">
+        <li>
+          <span class="d">Oct 22, 2025</span>
+          <span class="h"><span class="tag">Ideation</span>From hydroponics to a thorny devil</span>
+          <span class="b">Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic. Then Sabrina found the thorny devil lizard on asknature.org, whose grooved skin moves water by capillary action, no pump needed.</span>
+        </li>
+        <li>
+          <span class="d">Nov 18&ndash;19, 2025</span>
+          <span class="h"><span class="tag">Design</span>NASA liked the hex. Then pushed us.</span>
+          <span class="b">At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth; use food coloring to see the water; add 1&ndash;2 containment layers; and test at least two substrates.</span>
+        </li>
+        <li>
+          <span class="d">Jan&ndash;Mar 2026</span>
+          <span class="h"><span class="tag">Test</span>Drop, measure, repeat, nine times</span>
+          <span class="b">Two suites were run: six drops first, averaging about 9.9&nbsp;mm of capillary movement; then nine more after the module was revised, averaging 14.7&nbsp;mm, a 48% improvement. The spread across the nine ran from 4.28&nbsp;mm to 31.79&nbsp;mm.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SHEET 06 : team -->
+  <section class="sheet" aria-labelledby="h-team">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 06 / Team</b><span class="zone">Zone D2</span></div>
+      <div class="grid">
+        <div class="c-1-7">
+          <figure>
+            <div class="frame"><img src="../assets/home-team.jpg" width="2048" height="1196" loading="lazy" alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board"></div>
+            <figcaption><b>Photo 06-1</b><span>The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board.</span></figcaption>
+          </figure>
+        </div>
+        <div class="c-8-12">
+          <h2 id="h-team" class="sheet-title mb">Team</h2>
+          <table>
+            <caption>Table 06-1 / Roles</caption>
+            <thead><tr><th>Name</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Aidan</th><td>Project Manager &amp; Hardware Lead</td></tr>
+              <tr><th scope="row">Nate</th><td>Correspondent &amp; Water Movement Lead</td></tr>
+              <tr><th scope="row">Sabrina</th><td>Note Taker &amp; Substrate Lead</td></tr>
+              <tr><th scope="row">Maddie</th><td>Scheduler &amp; Modularity Lead</td></tr>
+              <tr><th scope="row">Lucas</th><td>Web Development Lead</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHEET 07 : sheet index -->
+  <section class="sheet last" aria-labelledby="h-idx">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 07 / Drawing index</b><span class="zone">Zone D3</span></div>
+      <div class="grid">
+        <div class="c-1-5"><h2 id="h-idx" class="sheet-title">Sheet index</h2></div>
+        <div class="c-6-12">
+          <table class="index-table">
+            <thead><tr><th>No.</th><th>Sheet</th></tr></thead>
+            <tbody>
+              <tr><td class="mono-cell">01</td><td><a href="index.html">Home</a></td></tr>
+              <tr><td class="mono-cell">02</td><td><a href="#">Mission</a></td></tr>
+              <tr><td class="mono-cell">03</td><td><a href="#">Design Journey</a></td></tr>
+              <tr><td class="mono-cell">04</td><td><a href="#">Biomimicry &amp; Geometry</a></td></tr>
+              <tr><td class="mono-cell">05</td><td><a href="#">Substrates</a></td></tr>
+              <tr><td class="mono-cell">06</td><td><a href="#">Aeroponics</a></td></tr>
+              <tr><td class="mono-cell">07</td><td><a href="#">AI Vision &amp; Control</a></td></tr>
+              <tr><td class="mono-cell">08</td><td><a href="#">The Nanolab (assembly)</a></td></tr>
+              <tr><td class="mono-cell">09</td><td><a href="drop-testing.html">Drop Testing at NASA Glenn</a></td></tr>
+              <tr><td class="mono-cell">10</td><td><a href="#">CAD &amp; Drawings</a></td></tr>
+              <tr><td class="mono-cell">11</td><td><a href="#">Gallery</a></td></tr>
+              <tr><td class="mono-cell">12</td><td><a href="#">Sources &amp; Credits</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="sources grid">
+      <div class="c-1-4"><h2>Sources &amp; credits</h2></div>
+      <div class="c-5-12">
+        <ul>
+          <li>NASA Glenn 2.2-Second Drop Tower, NASA Glenn Research Center, Ohio. <a href="https://www1.grc.nasa.gov/facilities/drop-tower/">www1.grc.nasa.gov/facilities/drop-tower</a></li>
+          <li>Thorny devil capillary geometry: skin morphology study of <em>Moloch horridus</em>, and asknature.org.</li>
+          <li>Team repository: <a href="https://github.com/AidanForrester/TC-HUNCH-Nanolab">AidanForrester/TC-HUNCH-Nanolab</a></li>
+          <li>Built by the HexaFlow team, Tri-County RVTHS, for NASA HUNCH. <a href="#">Full sources list</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="titleblock" role="group" aria-label="Title block">
+      <div class="tb-proj"><span class="k">Project</span><span class="big">HexaFlow V2 nanolab</span></div>
+      <div class="tb-title"><span class="k">Title</span><span class="big">Home</span></div>
+      <div class="tb-org"><span class="k">Drawn by</span><span class="v">Tri-County RVTHS / NASA HUNCH</span></div>
+      <div class="tb-sheet"><span class="k">Sheet</span><span class="v acc">01 of 12</span></div>
+      <div class="tb-rev"><span class="k">Rev</span><span class="v">A</span></div>
+      <div class="tb-date"><span class="k">Date</span><span class="v">2026-11-24</span></div>
+      <div class="tb-scale"><span class="k">Material</span><span class="v">PETG, PLA, Resin</span></div>
+    </div>
+    <p class="legal">Example design direction B. Content from the HexaFlow site data. Frame times on the Drop Testing sheet are nominal.</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

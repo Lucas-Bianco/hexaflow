@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Journey: how a NASA HUNCH constraint became a capillary-action nanolab | HexaFlow</title>
+<meta name="description" content="The full HexaFlow design process: problem, ideation, design, build, test and iteration, with the dead ends and the reasoning behind every decision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add("js");</script>
+<script src="main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="mast">
+  <a class="wordmark" href="index.html"><img src="../assets/logo-gold.png" alt="" width="28" height="25">HexaFlow <small>build log</small></a>
+  <details class="pages">
+    <summary>Pages</summary>
+    <ol>
+      <li><a href="index.html"><span class="n">01</span>Home</a></li>
+      <li><a href="#"><span class="n">02</span>Mission</a></li>
+      <li><a href="journey.html" aria-current="page"><span class="n">03</span>Design Journey</a></li>
+      <li><a href="#"><span class="n">04</span>Biomimicry &amp; Geometry</a></li>
+      <li><a href="#"><span class="n">05</span>Substrates</a></li>
+      <li><a href="#"><span class="n">06</span>Aeroponics</a></li>
+      <li><a href="#"><span class="n">07</span>AI Vision &amp; Control</a></li>
+      <li><a href="#"><span class="n">08</span>The Nanolab</a></li>
+      <li><a href="drop-testing.html"><span class="n">09</span>Drop Testing at NASA Glenn</a></li>
+      <li><a href="#"><span class="n">10</span>CAD &amp; Drawings</a></li>
+      <li><a href="#"><span class="n">11</span>Gallery</a></li>
+      <li><a href="#"><span class="n">12</span>Sources &amp; Credits</a></li>
+    </ol>
+  </details>
+</header>
+
+<main id="main">
+
+  <section class="opening dark" aria-labelledby="title">
+    <img src="../assets/project-15.jpg" alt="Top view of the printed hexagonal capillary dome seated in a square plate with four gold heat-set inserts" width="4000" height="1848">
+    <div class="opening-text">
+      <p class="label">Process &middot; The Design Journey</p>
+      <h1 id="title">How a NASA HUNCH constraint became a capillary-action nanolab</h1>
+      <p class="dek">Five students, one 2U box, a $100 budget, and a lizard that moves water with its skin. This is the full thought process, problem through research, design, build, test, and iteration. Every decision, dead end, and the reasoning behind it.</p>
+    </div>
+    <p class="credit">The printed TDC dome, seen from above. Photo: HexaFlow team.</p>
+  </section>
+
+  <section class="story dark" id="story" aria-labelledby="story-h">
+    <div class="wrap">
+      <div class="story-intro">
+        <p class="label">The spine of the project</p>
+        <h2 id="story-h">Nine milestones across seven months</h2>
+        <p class="lede">Scroll to walk the build in order. Each chapter is a date, a decision, and what it cost us. The deeper narrative for every phase sits on the paper slips tipped into each chapter.</p>
+      </div>
+
+      <div class="story-grid">
+        <ol class="steps">
+          <li class="rail-li" aria-hidden="true"><svg class="trail" focusable="false"></svg></li>
+
+          <!-- 1 -->
+          <li class="step" id="ch-1" data-date="Sept 2025">
+            <p class="step-date">Sept 2025</p>
+            <p class="label">Problem &middot; Phase 01</p>
+            <h3>Define the box we had to build inside</h3>
+            <p>NASA HUNCH gave us the rules: a 2U nanolab (20&times;10&times;10 cm), 5 V USB-A power, a $100 budget, and a water supply that has to be entirely mechanical, no pumps-for-everything. The problem was bigger than &ldquo;grow a plant in space&rdquo;: study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Condensation couldn&rsquo;t touch the sensors, everything had to be modular, and it needed a web interface.</p>
+            <p class="led">Led by <b>Aidan</b>, Project Manager &amp; Hardware Lead</p>
+            <div class="insert">
+              <p class="label">Phase 01 &middot; Problem</p>
+              <h4>Study fluids, not just grow plants</h4>
+              <p>The real goal was understanding how fluids and plant substrates behave in microgravity, a step toward feeding long-distance spaceflight. Plants were the means; the behavior of water in weightlessness was the subject. That framing shaped every choice that followed.</p>
+              <p>On Sept 2025, NASA HUNCH handed us the box we had to build inside. Condensation could not touch the sensors, everything had to be modular, and it needed a web interface. The water supply had to be entirely mechanical. No pumps-for-everything.</p>
+              <div class="tablewrap">
+                <table class="data">
+                  <caption><b>Table 1</b>The constraints</caption>
+                  <tbody>
+                    <tr><th scope="row">Volume</th><td>2U nanolab, 20 x 10 x 10 cm</td></tr>
+                    <tr><th scope="row">Power</th><td>5 V USB-A</td></tr>
+                    <tr><th scope="row">Budget</th><td>$100</td></tr>
+                    <tr><th scope="row">Water</th><td>Entirely mechanical, no pumps-for-everything</td></tr>
+                    <tr><th scope="row">Sensors</th><td>Condensation could not touch them</td></tr>
+                    <tr><th scope="row">Form</th><td>Modular, with a web interface</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <span class="slot"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about getting the brief from NASA HUNCH]</span><small>Note slot, to be written by Aidan</small></span>
+          </li>
+
+          <!-- 2 -->
+          <li class="step" id="ch-2" data-date="Sept&ndash;Oct 2025">
+            <p class="step-date">Sept&ndash;Oct 2025</p>
+            <p class="label">Ideation &middot; Phase 02</p>
+            <h3>Read everything that came before</h3>
+            <p>We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan&rsquo;s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and three patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our &ldquo;D.A.A.N.s&rdquo;).</p>
+            <p>We emailed Dr. Gene Giacomelli, Dr. Murat Kacira, Robert Morrow, John Wetzel and Ariel Ekblaw. Not all of them wrote back, but the ones who did shaped the design.</p>
+            <p class="led">Led by <b>Nate</b>, Correspondent &amp; Water Movement Lead</p>
+            <div class="insert">
+              <p class="label">Phase 02 &middot; Ideation</p>
+              <h4>Read everything, then steal from a lizard</h4>
+              <p>We did not guess. We emailed the people who had done pieces of this before. Not all of them wrote back, but the ones who did shaped the design.</p>
+              <ul>
+                <li>Dr. Gene Giacomelli, University of Arizona, Mars-Lunar Greenhouse</li>
+                <li>Dr. Murat Kacira, University of Arizona</li>
+                <li>Robert Morrow, NASA capillary fluidics</li>
+                <li>John Wetzel, Sierra Space</li>
+                <li>Ariel Ekblaw, MIT Space Exploration Initiative</li>
+              </ul>
+            </div>
+            <span class="slot right"><span class="hand">[Nate: 1 to 2 sentences, in your words, about writing to the experts and who wrote back]</span><small>Note slot, to be written by Nate</small></span>
+          </li>
+
+          <!-- 3 -->
+          <li class="step" id="ch-3" data-date="Oct 22, 2025">
+            <p class="step-date">Oct 22, 2025</p>
+            <p class="label">Ideation &middot; The pivot</p>
+            <h3>From hydroponics to a thorny devil</h3>
+            <p>Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic. Hydroponics looked promising until we realized it might make the project&rsquo;s goal obsolete. Then Sabrina found the thorny devil lizard (<em>Moloch horridus</em>) on asknature.org: its grooved skin moves water by capillary action, no pump needed.</p>
+            <p>Nate prototyped the &ldquo;Moloch Horridus Water System&rdquo; in SolidWorks in two sizes. It worked &ldquo;miraculously well,&rdquo; so we renamed the core the TDC, Thorny-Devil Capillary.</p>
+            <p class="led">Found by <b>Sabrina</b>, prototyped by <b>Nate</b> &middot; Led by Nate, Water Movement Lead</p>
+            <p class="dateline">The substrate photo is dated 20 Oct and 31 Oct on the image itself.</p>
+            <span class="slot"><span class="hand">[Sabrina: 1 to 2 sentences, in your words, about finding the thorny devil on asknature.org]</span><small>Note slot, to be written by Sabrina</small></span>
+          </li>
+
+          <!-- 4 -->
+          <li class="step" id="ch-4" data-date="Nov 18&ndash;19, 2025">
+            <p class="step-date">Nov 18&ndash;19, 2025</p>
+            <p class="label">Design &middot; Phase 03</p>
+            <h3>NASA liked the hex. Then pushed us.</h3>
+            <p>At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth (the test is too short to grow anything); use food coloring to see the water; add 1&ndash;2 containment layers; and test at least two substrates. Peer teams warned wicking doesn&rsquo;t work in microgravity.</p>
+            <p class="led">Led by <b>Aidan</b>, Project Manager &amp; Hardware Lead</p>
+            <span class="slot"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about hearing &ldquo;terrific&rdquo; at Preliminary Design Review]</span><small>Note slot, to be written by Aidan</small></span>
+          </li>
+
+          <!-- 5 -->
+          <li class="step" id="ch-5" data-date="Dec 15, 2025">
+            <p class="step-date">Dec 15, 2025</p>
+            <p class="label">Design &middot; Phase 03</p>
+            <h3>Choosing the substrates on purpose</h3>
+            <p>We scored four substrates on system compatibility, microgravity feasibility, and modularity. Rockwool won: it screws into existing holes, its binding agent won&rsquo;t escape into the channels, and water moves through it better in microgravity. Clay pebbles won as the second pick (11.5 mm pebbles can&rsquo;t enter the 0.48 mm channels). Pine bark was rejected, because fragments would clog the channels. Illite was rejected, because the fine powder would escape and force a redesign.</p>
+            <p class="led">Led by <b>Sabrina</b>, Note Taker &amp; Substrate Lead</p>
+            <div class="insert">
+              <p class="label">Phase 03 &middot; Design</p>
+              <h4>The matrix let us choose on purpose instead of on preference</h4>
+              <p>On Dec 15, 2025, we scored four substrates on system compatibility, microgravity feasibility, and modularity.</p>
+              <div class="tablewrap">
+                <table class="data">
+                  <caption><b>Table 2</b>Substrate verdicts</caption>
+                  <thead><tr><th scope="col">Substrate</th><th scope="col">Verdict</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">Rockwool</th><td>Won. Screws into existing holes, its binding agent will not escape into the channels, and water moves through it better in microgravity.</td></tr>
+                    <tr><th scope="row">Clay pebbles</th><td>Second pick. 11.5 mm pebbles cannot enter the 0.48 mm channels.</td></tr>
+                    <tr><th scope="row">Pine bark</th><td>Rejected. Fragments would clog the channels.</td></tr>
+                    <tr><th scope="row">Illite</th><td>Rejected. The fine powder would escape and force a redesign.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <figure class="photo">
+                <img src="../assets/substrate-2.jpg" alt="Spreadsheet scoring pine bark, illite, rockwool and clay pebbles on system compatibility, feasibility in microgravity and modularity, with a total column" width="665" height="149" loading="lazy">
+                <figcaption><span class="fn">Fig. 2</span>The scoring matrix, as a spreadsheet screenshot. Dated 15 Dec 2025.</figcaption>
+              </figure>
+            </div>
+            <span class="slot right"><span class="hand">[Sabrina: 1 to 2 sentences, in your words, about choosing the substrates]</span><small>Note slot, to be written by Sabrina</small></span>
+          </li>
+
+          <!-- 6 -->
+          <li class="step" id="ch-6" data-date="Dec 2025&ndash;Feb 2026">
+            <p class="step-date">Dec 2025&ndash;Feb 2026</p>
+            <p class="label">Iterate &middot; Phase 06</p>
+            <h3>Seven shells, a removable reservoir, and a lesson about resin</h3>
+            <p>We iterated the enclosure seven times: wire holes 5 mm to 8 mm, walls 4 mm to 2 mm, door screws M3 16 mm to 4 mm, half-slotted modules that kept falling off the rails until we added supports. The reservoir became removable to stop moisture contaminating the electronics: a heat-sealed pouch in a friction-fit pocket.</p>
+            <p>Then our new resin printer&rsquo;s VOCs shriveled the test plants overnight, a sharp lesson that emissions and biology don&rsquo;t share a room. The kale kept dying, and the cause turned out to be the team&rsquo;s own new resin printer, running unventilated in the same room. Both plants shriveled before anyone connected the two. Fix: move the plants, tent them, ventilate.</p>
+            <p class="led">Led by <b>Maddie</b>, Scheduler &amp; Modularity Lead</p>
+            <div class="insert">
+              <p class="label">Prototyping milestones</p>
+              <h4>Seven shells and a lesson about resin</h4>
+              <ul>
+                <li><b>Substrate Testing:</b> 8 materials tested; pine bark showed growth; all developed mold, so we pivoted to aeroponics.</li>
+                <li><b>TDC V1:</b> first hexagonal capillary plate in SLA resin. Verified capillary action and inversion water retention at 10.12 mL capacity.</li>
+                <li><b>TDC V2:</b> combined resin construction with 3D-printed framing to cut weight and cost, and added a camera slot for pump and reservoir monitoring.</li>
+                <li><b>Drop Test Iteration:</b> removed TDS and pH sensors, upgraded to a high-capacity pump targeting 8.63 mL.</li>
+                <li><b>AI Integration:</b> vision model trained on root moisture data, dual-mode system for drop test and long-term operation.</li>
+                <li><b>Custom Carrier Board:</b> consolidated electronics onto one board (RPi, 4-camera hub, direct ADC, power breakouts) to simplify wiring.</li>
+              </ul>
+              <figure class="photo">
+                <img src="../assets/cad-5.jpg" alt="Printed grey capillary dome in a square housing, photographed from above" width="1536" height="2048" loading="lazy">
+                <figcaption><span class="fn">Print</span>A printed TDC housing. Undated.</figcaption>
+              </figure>
+            </div>
+            <span class="slot"><span class="hand">[Maddie: 1 to 2 sentences, in your words, about the modules that kept falling off the rails]</span><small>Note slot, to be written by Maddie</small></span>
+          </li>
+
+          <!-- 7 -->
+          <li class="step" id="ch-7" data-date="Jan&ndash;Mar 2026">
+            <p class="step-date">Jan&ndash;Mar 2026</p>
+            <p class="label">Test &middot; Phase 05</p>
+            <h3>Drop, measure, repeat, nine times</h3>
+            <p>We dropped the TDC from 14 feet, with dyed water, measuring the water radius before and after each drop: about 0.9 seconds of free-fall per drop, simulating NASA Glenn&rsquo;s 2.2-second zero-gravity window we&rsquo;re traveling to Ohio to test.</p>
+            <p>Two suites were run: six drops first, averaging about 9.9 mm of capillary movement; then nine more after the module was revised, averaging 14.7 mm, a 48% improvement. (The &ldquo;9 drops&rdquo; figure cited elsewhere refers to the revised Suite B.) Mean capillary movement reached 14.7 mm across the revised suite; the spread across the nine ran from 4.28 mm to 31.79 mm.</p>
+            <p>We built up in three stages: bare module, then module plus camera, then the full nanolab with pump, sensors, and a web UI recording the whole thing. We couldn&rsquo;t get a microgravity simulation running in software, and keeping a plant alive in physical substrates was &ldquo;almost definitely user error.&rdquo;</p>
+            <p class="pull">We stopped trusting the sim and started dropping the real thing.</p>
+            <p class="led">Led by <b>Nate</b>, Correspondent &amp; Water Movement Lead &middot; <a href="drop-testing.html">Drop Testing at NASA Glenn, frame by frame</a></p>
+            <div class="insert">
+              <p class="label">Phase 05 &middot; Test</p>
+              <h4>Drop, measure, repeat</h4>
+              <div class="nums">
+                <div class="num-cell"><p class="num-big"><span data-count="14.7" data-dp="1">14.7</span><small>mm</small></p><p class="num-l">Mean capillary rise</p><p class="num-n">revised Suite B</p></div>
+                <div class="num-cell"><p class="num-big"><span data-count="9" data-dp="0">9</span></p><p class="num-l">Free-fall drops</p><p class="num-n">Suite B</p></div>
+                <div class="num-cell"><p class="num-big"><span data-count="48" data-dp="0">48</span><small>%</small></p><p class="num-l">Improvement</p><p class="num-n">Suite A to Suite B</p></div>
+                <div class="num-cell"><p class="num-big"><span data-count="0.9" data-dp="1">0.9</span><small>s</small></p><p class="num-l">Free fall per drop</p><p class="num-n">14 ft rig</p></div>
+              </div>
+            </div>
+            <span class="slot right"><span class="hand">[Nate: 1 to 2 sentences, in your words, about the first drop and what the dye did]</span><small>Note slot, to be written by Nate</small></span>
+          </li>
+
+          <!-- 8 -->
+          <li class="step" id="ch-8" data-date="Feb 9, 2026">
+            <p class="step-date">Feb 9, 2026</p>
+            <p class="label">Iterate &middot; Phase 06</p>
+            <h3>Roots-through-rockwool fix</h3>
+            <p>A later learning (Feb 9): clay pebbles and rockwool must stay continuously damp to wick water, impractical in microgravity, where wetting is intermittent at best. The team&rsquo;s fix was to thread the roots through the bottom of the rockwool so they reach the nutrient water directly, sidestepping the wicking problem entirely.</p>
+            <p>Takeaway: the substrate anchors the plant and is part of the water-delivery path. Routing roots through its base lets the rockwool support the stem while the roots drink straight from the reservoir.</p>
+            <p class="led">Led by <b>Sabrina</b>, Note Taker &amp; Substrate Lead</p>
+            <span class="slot"><span class="hand">[Sabrina: 1 to 2 sentences, in your words, about the kale and the roots-through-rockwool fix]</span><small>Note slot, to be written by Sabrina</small></span>
+          </li>
+
+          <!-- 9 -->
+          <li class="step" id="ch-9" data-date="Spring 2026">
+            <p class="step-date">Spring 2026</p>
+            <p class="label">Build &middot; Phase 04</p>
+            <h3>The vision model closes the loop</h3>
+            <p>By Critical Design Review the system was whole: TDC capillary channels, dual pumps (1 mL/min for the long term, 100 mL/min for the drop test), a Raspberry Pi Zero 2W running an AI vision model, aeroponics plus rockwool and clay pebbles, and a modular shelf enclosure. The vision model reads root moisture and waters only when the roots are dry, a continuous feedback loop that eliminates root rot.</p>
+            <p>The honest open items: a custom PCB to replace the wiring, waterproofing, and a live-plant run. A geometry problem caught only at assembly: the Atlas Scientific pH probe is 153 mm; we had 47 mm of clearance. The kind of thing that only shows up when you build it.</p>
+            <p class="led">Led by <b>Aidan</b>, Project Manager &amp; Hardware Lead</p>
+            <div class="insert">
+              <p class="label">Phase 04 &middot; Build</p>
+              <h4>A custom carrier board</h4>
+              <p>A custom carrier board consolidated the electronics onto one board: Raspberry Pi, a 4-camera hub, direct ADC, and power breakouts, which simplified wiring for reliability.</p>
+              <h4>Caught only at assembly</h4>
+              <p>The Atlas Scientific pH probe is 153 mm. We had 47 mm of clearance. A geometry problem that only shows up when you build it, not when you model it.</p>
+              <figure class="photo">
+                <img src="../assets/ai-3.jpg" alt="A green printed circuit board with a hexagonal pattern of pins, lit purple on a desk" width="1536" height="2048" loading="lazy">
+                <figcaption><span class="fn">Board</span>The custom carrier board, built. Undated.</figcaption>
+              </figure>
+            </div>
+            <span class="slot right"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about the 153 mm probe and 47 mm of clearance]</span><small>Note slot, to be written by Aidan</small></span>
+            <p><a class="arrow-link" href="drop-testing.html">Next: Drop Testing at NASA Glenn &rarr;</a></p>
+          </li>
+        </ol>
+
+        <div class="stage">
+          <div class="stage-top"><span>Chapter <span id="stage-count">01</span> / 09</span><span class="hand" id="stage-date">Sept 2025</span></div>
+          <div class="stage-box">
+            <figure class="stage-img light"><div class="pic"><div class="marked"><img src="../assets/enclosure-1.jpg" alt="Exploded enclosure diagram with labelled USB port, tabbed door and cable channels" width="2048" height="1423"></div></div><figcaption><b>The box.</b> 2U enclosure, 20&times;10&times;10 cm. Diagram: HexaFlow team CAD.</figcaption></figure>
+            <figure class="stage-img light"><div class="pic"><div class="marked"><img src="../assets/geometry-1.jpg" alt="Electron micrographs of thorny devil skin with a hexagon geometry diagram" width="850" height="780" loading="lazy"></div></div><figcaption><b>The lizard&rsquo;s skin.</b> Micrographs and channel geometry from the skin morphology study cited in Sources.</figcaption></figure>
+            <figure class="stage-img"><div class="pic"><div class="marked" data-manual data-photo data-seed="9" data-marks='[{"t":"arrow","x1":27,"y1":9,"x2":19,"y2":38,"bend":-0.2},{"t":"label","x":29,"y":8,"text":"pine bark"}]'><img src="../assets/substrate-7.jpg" alt="Two trays of substrate samples photographed on October 20th and October 31st, with yellow sticky notes and a red circle around the pine bark cells" width="1035" height="578" loading="lazy"></div></div><figcaption><b>The planning board.</b> Substrate trays dated 20 Oct and 31 Oct on the photo. Photo: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img light"><div class="pic"><div class="marked"><img src="../assets/geometry-2.jpg" alt="CAD render of the hexagonal capillary dome on a square plate" width="873" height="793" loading="lazy"></div></div><figcaption><b>The TDC.</b> Hexagonal capillary dome, Thorny-Devil Capillary. CAD: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img"><div class="pic"><div class="marked"><img src="../assets/substrate-5.jpg" alt="Rockwool pad seated in the capillary plate with a thin sprout, held in a hand" width="1363" height="1418" loading="lazy"></div></div><figcaption><b>Rockwool, seated.</b> The winning substrate in the TDC plate. Photo: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img"><div class="pic"><div class="marked"><img src="../assets/project-3.jpg" alt="Grey 3D-printed enclosure shell with the hexagon dome inside" width="1536" height="2048" loading="lazy"></div></div><figcaption><b>One of seven shells.</b> Printed enclosure iteration, which one is undated. Photo: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img"><div class="pic"><div class="marked" data-manual data-photo data-seed="4" data-marks='[{"t":"circle","x":65,"y":36,"rx":12,"ry":8},{"t":"label","x":4,"y":24,"text":"dyed water\nafter a drop"},{"t":"arrow","x1":28,"y1":26,"x2":52,"y2":33,"bend":-0.15}]'><img src="../assets/drop-test-1.jpg" alt="Hexagonal capillary dome with a purple dyed water bead after a drop" width="1080" height="1582" loading="lazy"></div></div><figcaption><b>After a drop.</b> Dyed water on the hex lattice. Photo: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img"><div class="pic"><div class="marked"><img src="../assets/substrate-8.jpg" alt="Rockwool pad in the capillary plate with a small sprout and a white pen line drawn on it" width="1536" height="2048" loading="lazy"></div></div><figcaption><b>Roots and rockwool.</b> Photo: HexaFlow team.</figcaption></figure>
+            <figure class="stage-img light"><div class="pic"><div class="marked"><img src="../assets/ai-1.jpg" alt="Custom carrier board layout with a hexagonal pattern" width="460" height="433" loading="lazy"></div></div><figcaption><b>Carrier board.</b> Custom PCB layout for the Raspberry Pi, cameras and sensors. Design: HexaFlow team.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sheet flat">
+    <p class="pagehead"><span>HexaFlow build log &middot; Design Journey</span><span>closing page</span></p>
+    <section class="wrap sec" id="learned" aria-labelledby="learn-h">
+      <div class="sec-head">
+        <span class="num">What we learned</span>
+        <h2 id="learn-h">Failures we kept</h2>
+        <p class="lede">Every failure below became a design decision. That is the loop: build the thing, drop it, measure, and listen when the result disagrees with the model.</p>
+      </div>
+      <div class="learn">
+        <article>
+          <h3>Kale kept dying</h3>
+          <p>Clay pebbles and rockwool have to stay continuously damp, which is impractical in microgravity. Fix: thread the roots through the bottom of the rockwool so they reach the nutrient water directly.</p>
+        </article>
+        <article>
+          <h3>Resin printer killed the plants</h3>
+          <p>Our new resin printer shared an unventilated room with the test plants, and its VOCs shriveled them overnight. Fix: move the plants, tent them, ventilate. Emissions and biology do not mix.</p>
+        </article>
+        <article>
+          <h3>The pH probe was too long</h3>
+          <p>The Atlas Scientific pH probe is 153 mm, and we had 47 mm of clearance. A geometry problem we caught only at assembly, the kind of thing that only shows up when you build it.</p>
+        </article>
+        <article>
+          <h3>No microgravity sim in software</h3>
+          <p>We could not get a microgravity simulation running in software, and keeping a plant alive in physical substrates was &ldquo;almost definitely user error.&rdquo; We stopped trusting the sim and started dropping the real thing.</p>
+        </article>
+      </div>
+      <p class="closing-note">The process that worked differed from the one we planned: we stopped trusting the simulation, built the real thing, and let nine drops of dyed water from 14 feet tell us what the model could not. Seven months, seven enclosure shells, fifteen drops, and one lizard. That is <mark class="hl">HexaFlow</mark>.</p>
+    </section>
+
+    <section class="wrap sec" id="who" aria-labelledby="who-h">
+      <div class="sec-head">
+        <span class="num">Who led what</span>
+        <h2 id="who-h">Five leads, nine chapters</h2>
+      </div>
+      <div class="two">
+        <div class="tablewrap">
+          <table class="data led-table">
+            <caption><b>Table 3</b>Chapter leads, by role</caption>
+            <thead><tr><th scope="col">Chapter</th><th scope="col">Led by</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">01 Define the box</th><td class="who"><b>Aidan</b>, Project Manager &amp; Hardware Lead</td></tr>
+              <tr><th scope="row">02 Read everything</th><td class="who"><b>Nate</b>, Correspondent &amp; Water Movement Lead</td></tr>
+              <tr><th scope="row">03 The thorny devil</th><td class="who"><b>Nate</b>, Water Movement Lead (found by Sabrina)</td></tr>
+              <tr><th scope="row">04 Preliminary Design Review</th><td class="who"><b>Aidan</b>, Project Manager</td></tr>
+              <tr><th scope="row">05 Choosing substrates</th><td class="who"><b>Sabrina</b>, Substrate Lead</td></tr>
+              <tr><th scope="row">06 Seven shells</th><td class="who"><b>Maddie</b>, Modularity Lead</td></tr>
+              <tr><th scope="row">07 Drop, measure, repeat</th><td class="who"><b>Nate</b>, Water Movement Lead</td></tr>
+              <tr><th scope="row">08 Roots through rockwool</th><td class="who"><b>Sabrina</b>, Substrate Lead</td></tr>
+              <tr><th scope="row">09 The vision model</th><td class="who"><b>Aidan</b>, Hardware Lead</td></tr>
+              <tr><th scope="row">This website</th><td class="who"><b>Lucas</b>, Web Development Lead</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <span class="slot"><span class="hand">[Aidan: what failed and what you changed]</span><small>Note slot</small></span>
+          <span class="slot right"><span class="hand">[Nate: what failed and what you changed]</span><small>Note slot</small></span>
+          <span class="slot"><span class="hand">[Sabrina: what failed and what you changed]</span><small>Note slot</small></span>
+          <span class="slot right"><span class="hand">[Maddie: what failed and what you changed]</span><small>Note slot</small></span>
+          <span class="slot"><span class="hand">[Lucas: what failed and what you changed, on the website]</span><small>Note slot</small></span>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="foot" id="sources">
+  <div class="wrap foot-grid">
+    <div>
+      <img class="logo" src="../assets/logo-gold.png" alt="HexaFlow hexagon lattice logo" width="52" height="47">
+      <p class="label">Sources &amp; credits</p>
+      <h2>Who made this, and from what</h2>
+      <p>HexaFlow, Tri-County RVTHS, Franklin, Massachusetts. A NASA HUNCH project. Web development led by Lucas, Web Development Lead.</p>
+    </div>
+    <ul>
+      <li><b>Skin morphology study of Moloch horridus.</b> Primary source for capillary channel geometry.</li>
+      <li><b>Capillary action in micro-scale channels.</b> Fluid transport without gravity.</li>
+      <li><b>Hexagonal geometry in biological systems.</b> Honeycomb efficiency.</li>
+      <li><b>LettUs Grow.</b> Aeroponic growing systems.</li>
+      <li><b>Atlas Scientific.</b> Contact-free pH probe.</li>
+      <li><b>NASA XROOTS Program Documentation.</b> Sierra Space eXposed Root On-Orbit Test System.</li>
+      <li><b>NASA Glenn 2.2-Second Drop Tower.</b> Where the three drops were run.</li>
+      <li><b>asknature.org.</b> Where the thorny devil was found.</li>
+    </ul>
+    <p class="fine">Photographs, CAD and drop-tower frames: HexaFlow team. Full source list on the Sources &amp; Credits page. &copy; HexaFlow / NASA HUNCH Nanolab team. Designed and built by the team.</p>
+  </div>
+</footer>
+</body>
+</html>

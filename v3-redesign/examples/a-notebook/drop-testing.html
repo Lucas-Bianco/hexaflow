@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drop Testing at NASA Glenn | HexaFlow</title>
+<meta name="description" content="Three drops at the NASA Glenn 2.2-Second Drop Tower, shown frame by frame, with the measured results from the local 14-foot rig.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="main.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><img src="../assets/logo-gold.png" alt="" width="24" height="24">HexaFlow <small>lab notebook</small></a>
+    <details class="pages">
+      <summary>Pages</summary>
+      <ol>
+        <li><span>01</span><a href="index.html">Home</a></li>
+        <li><span>02</span><a href="#">Mission</a></li>
+        <li><span>03</span><a href="#">Design Journey</a></li>
+        <li><span>04</span><a href="#">Biomimicry &amp; Geometry</a></li>
+        <li><span>05</span><a href="#">Substrates</a></li>
+        <li><span>06</span><a href="#">Aeroponics</a></li>
+        <li><span>07</span><a href="#">AI Vision &amp; Control</a></li>
+        <li><span>08</span><a href="#">The Nanolab</a></li>
+        <li><span>09</span><a href="drop-testing.html" aria-current="page">Drop Testing</a></li>
+        <li><span>10</span><a href="#">CAD &amp; Drawings</a></li>
+        <li><span>11</span><a href="#">Gallery</a></li>
+        <li><span>12</span><a href="#">Sources &amp; Credits</a></li>
+      </ol>
+    </details>
+  </div>
+</header>
+
+<div class="page">
+  <details class="toc" id="toc"><summary>Contents</summary><ol></ol></details>
+
+  <main>
+    <div class="doc">
+
+      <header class="titleblock">
+        <p class="label">Report 09 &middot; NASA Glenn Research Center, Ohio</p>
+        <h1>2.2 seconds at <em>NASA Glenn</em></h1>
+        <p class="lede">Three drops at the NASA Glenn 2.2-Second Drop Tower turn the bench-top capillary data into a microgravity result. This page shows them frame by frame.</p>
+        <table class="meta">
+          <tr><th scope="row">Facility</th><td>NASA Glenn 2.2-Second Drop Tower</td></tr>
+          <tr><th scope="row">Drops</th><td>3 (plus a dry-run baseline)</td></tr>
+          <tr><th scope="row">Window</th><td>2.2 s per drop</td></tr>
+          <tr><th scope="row">Local rig</th><td>14 ft, ~0.9 s free-fall</td></tr>
+        </table>
+      </header>
+
+      <section class="sec prose" aria-labelledby="s1">
+        <h2 id="s1"><span class="num">1</span>The facility</h2>
+        <p>The NASA Glenn 2.2-Second Drop Tower is a NASA Glenn Research Center test facility in Ohio that produces about 2.2 seconds of microgravity per drop. A sealed experiment package is released down a vertical chamber and falls freely for the full window while cameras and sensors record what happens inside.</p>
+        <span class="sidenote"><b>Not the ZGRF</b>NASA Glenn also operates the 5.18-second Zero Gravity Research Facility, a separate and larger drop tower. HexaFlow did not test there.</span>
+        <p>For HexaFlow, that window is long enough to watch dyed water move through the hex lattice the way it would in orbit, not the way it moves on a lab bench. HexaFlow ran 3 drops. The results here come from those runs, plus the local 14-foot classroom rig that prepared the team to go to Ohio.</p>
+        <div class="tablewrap">
+          <table class="data">
+            <caption><b>Table 1</b>Facility at a glance</caption>
+            <tbody>
+              <tr><th scope="row">Facility</th><td class="v">NASA Glenn 2.2-Second Drop Tower</td></tr>
+              <tr><th scope="row">Location</th><td class="v">NASA Glenn Research Center, Ohio</td></tr>
+              <tr><th scope="row">Microgravity window</th><td class="v">2.2 s</td></tr>
+              <tr><th scope="row">Drops run</th><td class="v">3</td></tr>
+              <tr><th scope="row">Local rig height</th><td class="v">14 ft (4.267 m)</td></tr>
+              <tr><th scope="row">Local rig free-fall</th><td class="v">~0.9 s</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s2">
+        <h2 id="s2"><span class="num">2</span>Method</h2>
+        <p>We drop the TDC module from 14 feet, about 0.9 seconds of free-fall per drop, a stand-in for NASA Glenn&rsquo;s 2.2-second drop tower, which we tested in Ohio. Even in that short window we can watch how water actually moves through the channels.</p>
+        <p>Before each drop we add about 5 mL of dyed water to the TDC center and seal the injector hole. Calipers measure the dispersal pattern before and after, so every run is compared against its own baseline.</p>
+        <span class="sidenote"><b>Note</b>Between runs, compressed air clears the channels so each test starts clean.</span>
+        <p>In weightlessness, water should climb upward into the channels by capillary action, reaching and hydrating the roots.</p>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s3">
+        <h2 id="s3"><span class="num">3</span>The drops, frame by frame</h2>
+        <p>Scroll to step through the 18 frames of the run you select. The captions change as the drop progresses.</p>
+        <span class="sidenote"><b>Note</b>Frames are evenly sampled from the Glenn footage. The timestamp assumes even spacing across the 2.2 s window, so read it as indicative.</span>
+
+        <div class="drop-track" id="drop-track">
+          <div class="drop-sticky">
+            <div class="drop-grid">
+              <div class="drop-frame">
+                <img id="drop-img" src="../assets/drop/f-01.jpg" alt="Drop 1, frame 1 of 18" width="640" height="480">
+                <div class="hud"><span id="hud-run">Drop 1 (best)</span><span id="hud-frame">frame 01 / 18</span><span id="hud-time">t = 0.00 s</span></div>
+              </div>
+              <div>
+                <div class="runsel" role="group" aria-label="Run selector">
+                  <button type="button" data-run="d1" aria-pressed="true">Drop 1</button>
+                  <button type="button" data-run="d3" aria-pressed="false">Drop 3</button>
+                </div>
+                <div class="scrub-rule" aria-hidden="true"><u id="scrub-fill"></u><i id="scrub-tick"></i></div>
+                <p class="drop-cap" id="drop-cap" aria-live="polite"></p>
+                <p class="drop-note">Drop 1 and Drop 3 shown. Drop 2: the hexagons were cleaned out before this drop.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 id="s3-1"><span class="num">3.1</span>Drop log</h3>
+        <ul class="entries">
+          <li>
+            <div class="k"><b>Drop 1</b>best</div>
+            <div><h4>Full system, best dispersal</h4><p>The whole HexaFlow assembly ran as designed: sealed module, dyed water in the TDC center, hex lattice in place. This first drop produced the best capillary dispersal of the three.</p></div>
+          </li>
+          <li>
+            <div class="k"><b>Drop 2</b>cleaned</div>
+            <div><h4>Hexagons cleaned out</h4><p>Before this drop the hexagons were cleaned out, so the channels started dry and empty. The dispersal here is the clean-lattice baseline.</p></div>
+          </li>
+          <li>
+            <div class="k"><b>Drop 3</b>double water</div>
+            <div><h4>Double water</h4><p>Water was left in the system because the code that sequences the drops could not be changed between runs. Leaving the water in was the only way to get more water into the module for the final drop.</p></div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s4">
+        <h2 id="s4"><span class="num">4</span>Results</h2>
+        <p>The headline numbers come from the local 14-foot rig, where the team could run enough drops to build a statistical baseline. The Glenn drops validate the geometry in real microgravity. Mean capillary movement rose from roughly 9.9 mm in the first suite to 14.7 mm after the module was revised, an improvement of about 48%.</p>
+        <div class="tablewrap t-wide">
+          <table class="data">
+            <caption><b>Table 2</b>Measured and design figures</caption>
+            <thead><tr><th scope="col">Quantity</th><th scope="col">Value</th><th scope="col">Basis</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Mean capillary rise</th><td class="v">14.7 mm</td><td class="n">Suite B, 9-drop baseline, 14-ft local rig</td></tr>
+              <tr><th scope="row">Suite A mean (pre-revision)</th><td class="v">9.9 mm</td><td class="n">First 6-drop suite, before the module was revised</td></tr>
+              <tr><th scope="row">Minimum rise observed</th><td class="v">4.28 mm</td><td class="n">Low end of the Suite B spread</td></tr>
+              <tr><th scope="row">Maximum rise observed</th><td class="v">31.79 mm</td><td class="n">High end of the Suite B spread</td></tr>
+              <tr><th scope="row">Improvement between revisions</th><td class="v">~48%</td><td class="n">Suite A to Suite B, mean rise</td></tr>
+              <tr><th scope="row">Saturated channel capacity</th><td class="v">10.12 mL</td><td class="n">Fully saturated lattice</td></tr>
+              <tr><th scope="row">Channel width</th><td class="v">0.48 mm</td><td class="n">0.020 in gap</td></tr>
+              <tr><th scope="row">Local drop height</th><td class="v">14 ft</td><td class="n">4.267 m</td></tr>
+              <tr><th scope="row">Local free-fall per drop</th><td class="v">~0.9 s</td><td class="n">14-ft classroom rig</td></tr>
+              <tr><th scope="row">NASA Glenn window</th><td class="v">2.2 s</td><td class="n">NASA Glenn 2.2-Second Drop Tower</td></tr>
+              <tr><th scope="row">Dyed water per drop</th><td class="v">&asymp; 5 mL</td><td class="n">Added to the TDC center, injector sealed</td></tr>
+              <tr><th scope="row">Local baseline drops</th><td class="v">9</td><td class="n">Baseline suites, local rig</td></tr>
+              <tr><th scope="row">Expected result</th><td class="n" colspan="2">No free droplets: water climbs into the channels by capillary action. Design target in microgravity.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Per-drop before/after channel measurements were recorded for all nine local runs. The full dataset and analysis are held with the CDR test documentation.</p>
+
+        <figure class="fig narrow">
+          <img class="crop" src="../assets/drop-test-1.jpg" alt="Drop test photo, filtered dispersal" loading="lazy">
+          <figcaption><span class="fn">Fig. 2</span>Drop test, filtered dispersal.</figcaption>
+        </figure>
+        <figure class="fig narrow">
+          <img class="crop" src="../assets/drop-test-2.jpg" alt="Drop test photo, channels filling" loading="lazy">
+          <figcaption><span class="fn">Fig. 3</span>Drop test, channels filling.</figcaption>
+        </figure>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s5">
+        <h2 id="s5"><span class="num">5</span>A ladder of approximations</h2>
+        <p>At Preliminary Design Review, peer teams raised the objection that has shaped every test since: wicking may not behave in microgravity the way it behaves in a classroom. There is no way around that from a school workshop, so the team built a ladder of approximations. Each rung can falsify a different assumption. None of them can prove flight readiness.</p>
+        <ol class="ladder">
+          <li><span class="n">01</span><div><h4>Inversion, static retention</h4><p>The module was turned upside down and shaken with substrate, covers and a planted stem in place. Nothing fell out. This tests whether the channels can hold water against gravity. It says nothing about how water moves in free-fall.</p></div></li>
+          <li><span class="n">02</span><div><h4>The first flow test, where 1 g wins</h4><p>Water was run into the dome and tracked as it climbed. It travelled roughly halfway up the sides before gravity overpowered the capillary forces and it stopped. That halfway mark is a 1 g result, not a failure.</p></div></li>
+          <li><span class="n">03</span><div><h4>Free-fall, 14 feet, about 0.9 seconds</h4><p>Dropping the sealed module produces real, if brief, weightlessness. Two suites were run: six drops first, then nine more after the module was revised. Mean capillary movement rose from roughly 9.9 mm to 14.7 mm. The spread across the nine ran from 4.28 mm to 31.79 mm.</p></div></li>
+          <li><span class="n">04</span><div><h4>NASA Glenn, 2.2 seconds</h4><p>The NASA Glenn 2.2-Second Drop Tower gives a longer free-fall window than the 14-foot drop, under instrumented conditions. Three drops were run at the NASA Glenn Research Center in Ohio.</p></div></li>
+        </ol>
+        <p>What the team can say today: the geometry holds water when inverted, moves it measurably in free-fall, and improved by about 48% between revisions.</p>
+      </section>
+
+      <footer class="colophon">
+        <div class="cols">
+          <div>
+            <h2>Sources &amp; credits</h2>
+            <p>Footage and photographs: HexaFlow team, NASA Glenn 2.2-Second Drop Tower tests and the local 14-foot rig. Figures and captions are taken from the team&rsquo;s drop-test data. The 5.18-second Zero Gravity Research Facility is a separate facility.</p>
+          </div>
+          <ul>
+            <li><a href="#">Full source list</a> <span>(Sources &amp; Credits)</span></li>
+            <li><a href="index.html">Back to Home</a></li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+</body>
+</html>

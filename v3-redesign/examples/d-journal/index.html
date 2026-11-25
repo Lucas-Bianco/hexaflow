@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HexaFlow: growing plants in microgravity, the way a thorny devil drinks</title>
+<meta name="description" content="A NASA HUNCH nanolab from Tri-County RVTHS: hexagonal capillary channels, copied from the thorny devil lizard, that carry water to plant roots in free-fall.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add("js");</script>
+<script src="main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="mast">
+  <a class="wordmark" href="index.html"><img src="../assets/logo-gold.png" alt="" width="28" height="25">HexaFlow <small>build log</small></a>
+  <details class="pages">
+    <summary>Pages</summary>
+    <ol>
+      <li><a href="index.html" aria-current="page"><span class="n">01</span>Home</a></li>
+      <li><a href="#"><span class="n">02</span>Mission</a></li>
+      <li><a href="journey.html"><span class="n">03</span>Design Journey</a></li>
+      <li><a href="#"><span class="n">04</span>Biomimicry &amp; Geometry</a></li>
+      <li><a href="#"><span class="n">05</span>Substrates</a></li>
+      <li><a href="#"><span class="n">06</span>Aeroponics</a></li>
+      <li><a href="#"><span class="n">07</span>AI Vision &amp; Control</a></li>
+      <li><a href="#"><span class="n">08</span>The Nanolab</a></li>
+      <li><a href="drop-testing.html"><span class="n">09</span>Drop Testing at NASA Glenn</a></li>
+      <li><a href="#"><span class="n">10</span>CAD &amp; Drawings</a></li>
+      <li><a href="#"><span class="n">11</span>Gallery</a></li>
+      <li><a href="#"><span class="n">12</span>Sources &amp; Credits</a></li>
+    </ol>
+  </details>
+</header>
+
+<main id="main">
+
+  <section class="opening dark" aria-labelledby="title">
+    <img src="../assets/home-team.jpg" alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board" width="2047" height="1196">
+    <div class="opening-text">
+      <p class="label">Tri-County RVTHS &middot; NASA HUNCH &middot; Franklin, Massachusetts</p>
+      <h1 id="title">Growing plants in microgravity, the way a <em>thorny devil</em> drinks</h1>
+      <p class="tagline"><mark class="hl">Water that climbs in free-fall.</mark></p>
+      <p class="dek">Hexagonal capillary channels copied from the thorny devil lizard, carrying water to plant roots where gravity can&rsquo;t help. Nine free-fall drops, 14.7&nbsp;mm of measured capillary movement, inside a 2U nanolab.</p>
+      <div class="actions">
+        <a class="btn solid" href="#">Read the mission</a>
+        <a class="btn" href="drop-testing.html">See the drop tests</a>
+      </div>
+    </div>
+    <p class="credit">Aidan, Nate, Sabrina, Maddie and Lucas in the Tri-County engineering shop. Photo: HexaFlow team.</p>
+  </section>
+
+  <div class="sheet">
+    <p class="pagehead"><span>HexaFlow build log &middot; Home</span><span>page 01 of 12</span></p>
+
+    <!-- 1. About -->
+    <section class="wrap sec" id="about" aria-labelledby="about-h">
+      <div class="sec-head">
+        <span class="num">&sect; 1 &middot; About the project</span>
+        <h2 id="about-h">What is HexaFlow?</h2>
+        <p class="led">Led by <b>Aidan</b>, Project Manager &amp; Hardware Lead</p>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <p class="dateline">In the team&rsquo;s words, from the project page</p>
+          <p class="lede">HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants. A five-member team from Tri-County RVTHS built it inside a 2U enclosure, on a <span class="marked inline" data-seed="3" data-marks='[{"t":"underline","x1":0,"x2":100,"y":100,"dy":-6}]'>$100 budget</span>, to prevent root rot while enabling interchangeable experiments and rapid data collection. The system was tested in a 2.2-second free-fall window at NASA Glenn&rsquo;s 2.2-Second Drop Tower in Ohio.</p>
+          <p>The hexagonal channels take their cue from the <strong>thorny devil lizard</strong> (<em>Moloch horridus</em>), which transports water through grooved skin by <mark class="hl">capillary action, no pump required</mark>. A vision model reads root moisture from the camera and drives the pump, closing a continuous feedback loop that prevents overwatering and root rot.</p>
+          <p>Manufacturing relies on SLA 3D printing in resin. Resin&rsquo;s polar bonds grip water more tightly than water molecules grip each other, driving efficient capillary transport, strong enough that the system <mark class="hl">holds water even when inverted</mark>.</p>
+          <span class="slot"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about what you wanted this project to be]</span><small>Note slot, to be written by Aidan</small></span>
+        </div>
+        <div>
+          <div class="tablewrap">
+            <table class="data">
+              <caption><b>Table 1</b>The constraints</caption>
+              <thead><tr><th scope="col">Constraint</th><th scope="col">Value</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Form factor</th><td>2U nanolab, 20&times;10&times;10&nbsp;cm envelope</td></tr>
+                <tr><th scope="row">Power</th><td>5&nbsp;V USB-A</td></tr>
+                <tr><th scope="row">Budget</th><td>$100</td></tr>
+                <tr><th scope="row">Water supply</th><td>Mechanical, no pumps-for-everything</td></tr>
+                <tr><th scope="row">Architecture</th><td>Modular, for interchangeable experiments</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Channels figure -->
+    <section class="wrap sec" id="channels" aria-labelledby="ch-h">
+      <div class="sec-head">
+        <span class="num">&sect; 2 &middot; How the channels work</span>
+        <h2 id="ch-h">A lattice that draws water upward</h2>
+        <p class="led">Led by <b>Nate</b>, Correspondent &amp; Water Movement Lead</p>
+      </div>
+      <div class="two">
+        <div class="prose">
+          <p>Channel width is 0.48&nbsp;mm (a 0.020&nbsp;in gap). A fully saturated lattice holds 10.12&nbsp;mL. Every channel is SLA-printed resin. Scroll through Fig. 1 to watch the network drawn in, then filled from the water supply upward.</p>
+          <p class="dateline">22 Oct 2025, from the design journey</p>
+          <p>Sabrina found the lizard on asknature.org. Nate prototyped the &ldquo;Moloch Horridus Water System&rdquo; in SolidWorks in two sizes. It worked &ldquo;miraculously well,&rdquo; so the team renamed the core the TDC, Thorny-Devil Capillary.</p>
+        </div>
+        <div>
+          <span class="slot right"><span class="hand">[Nate: 1 to 2 sentences, in your words, about the first time the prototype worked]</span><small>Note slot, to be written by Nate</small></span>
+        </div>
+      </div>
+      <div class="cap-track" id="cap-track">
+        <div class="cap-sticky">
+          <div class="cap-grid">
+            <figure>
+              <div class="cap-frame"><svg id="cap" role="img" aria-label="Line drawing of a hexagonal capillary channel network that draws itself as you scroll, while water, shown in the accent colour with a curved meniscus, rises through it from a reservoir at the base" preserveAspectRatio="xMidYMid meet"></svg></div>
+              <div class="readout" aria-live="off"><span>channels drawn <b id="ro-draw">0%</b></span><span class="acc">water front <b id="ro-water">0%</b></span></div>
+              <figcaption><span class="fn">Fig. 1</span>Schematic of the hexagonal capillary lattice. Ink lines are channel walls; the ochre fill is water climbing from the supply. Drawn to illustrate the geometry, not to scale.</figcaption>
+            </figure>
+            <ol class="cap-notes" aria-hidden="true">
+              <li data-at="0.02"><span class="hand">1. the walls go down first</span><span class="mono">Ink: the channel walls</span></li>
+              <li data-at="0.3"><span class="hand">2. then water climbs from the supply</span><span class="mono">Ochre: water rising by capillary action</span></li>
+              <li data-at="0.97"><span class="hand">3. full</span><span class="mono">0.48 mm channels, 10.12 mL saturated</span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Key numbers -->
+    <section class="wrap sec" id="numbers" aria-labelledby="num-h">
+      <div class="sec-head">
+        <span class="num">&sect; 3 &middot; Key numbers</span>
+        <h2 id="num-h">What we measured and built to</h2>
+        <p class="led">Led by <b>Nate</b>, Water Movement Lead</p>
+      </div>
+      <div class="nums">
+        <div class="num-cell"><p class="num-big"><span data-count="2.2" data-dp="1">2.2</span><small>s</small></p><p class="num-l">NASA Glenn drop window</p><p class="num-n">2.2-Second Drop Tower, Ohio</p></div>
+        <div class="num-cell"><div class="marked" data-seed="11" data-marks='[{"t":"circle","x":48,"y":50,"rx":52,"ry":56}]'><p class="num-big"><span data-count="14.7" data-dp="1">14.7</span><small>mm</small></p></div><p class="num-l">Mean capillary rise</p><p class="num-n">9-drop Suite B, 14-ft rig</p></div>
+        <div class="num-cell"><p class="num-big"><span data-count="0.48" data-dp="2">0.48</span><small>mm</small></p><p class="num-l">Channel width</p><p class="num-n">0.020 in gap</p></div>
+        <div class="num-cell"><p class="num-big"><span data-count="10.12" data-dp="2">10.12</span><small>mL</small></p><p class="num-l">Channel capacity</p><p class="num-n">fully saturated</p></div>
+        <div class="num-cell"><p class="num-big"><span data-count="9" data-dp="0">9</span><small>drops</small></p><p class="num-l">Free-fall drops</p><p class="num-n">Suite B, 14-ft rig</p></div>
+      </div>
+      <p class="cap">The 2.2 s window is the NASA Glenn tower; the 14.7 mm mean comes from nine drops on the local 14-foot rig. <a href="drop-testing.html">Drop Testing at NASA Glenn</a> keeps the two apart and shows the footage frame by frame.</p>
+    </section>
+  </div>
+
+  <!-- The Assembly: dark photo chapter -->
+  <section class="band dark" id="assembly" aria-labelledby="asm-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">&sect; 4 &middot; The Assembly</span>
+        <h2 id="asm-h">Every channel is SLA-printed resin, 0.48&nbsp;mm wide, holding 10.12&nbsp;mL when saturated</h2>
+        <p class="led">Led by <b>Aidan</b>, Project Manager &amp; Hardware Lead</p>
+      </div>
+      <div class="two even">
+        <figure class="paper-card dev">
+          <div class="marked" data-seed="5" data-marks='[{"t":"circle","x":43.5,"y":54.5,"rx":8.5,"ry":8},{"t":"arrow","x1":10,"y1":63,"x2":34,"y2":58,"bend":0.2,"wait":0.1},{"t":"label","x":2,"y":72,"text":"the TDC,\nthe hex dome"}]'>
+            <img src="../assets/enclosure-1.jpg" alt="Exploded enclosure diagram with labelled USB port, tabbed door, shelf and cable channels, with the hexagon capillary dome at the base of the stack" width="2048" height="1423" loading="lazy">
+          </div>
+          <figcaption><span class="fn">Fig. 2</span>Shelf design. Modular enclosure with embedded cable channels, a tabbed front door and a USB Type B port. Diagram: HexaFlow team CAD.</figcaption>
+        </figure>
+        <div>
+          <p class="lede">The channels live in a 2U enclosure, 20&times;10&times;10&nbsp;cm, shown exploded here and as printed below.</p>
+          <p>The exploded 3D model of every part now lives on <a href="#">The Nanolab</a> page.</p>
+          <span class="slot"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about the hardest part to fit into the box]</span><small>Note slot, to be written by Aidan</small></span>
+          <span class="slot right"><span class="hand">[Maddie: 1 to 2 sentences, in your words, about making the shelf modular]</span><small>Note slot, to be written by Maddie &middot; Led by Maddie, Scheduler &amp; Modularity Lead</small></span>
+        </div>
+      </div>
+      <div class="shelf">
+        <figure class="dev"><img src="../assets/project-8.jpg" alt="Black printed enclosure on its side with a blue USB cable and a white shelf slid out" width="4096" height="2304" loading="lazy"><figcaption><span class="fn">Print</span>Enclosure on its side, shelf slid out. Undated.</figcaption></figure>
+        <figure class="dev"><img src="../assets/cad-9.jpg" alt="White printed part with a small black camera board seated in a recess" width="2048" height="1690" loading="lazy"><figcaption><span class="fn">Print</span>A white print with the camera board test-fitted. Undated.</figcaption></figure>
+        <figure class="dev"><img src="../assets/project-3.jpg" alt="Grey 3D-printed enclosure shell with the hexagon dome inside" width="1536" height="2048" loading="lazy"><figcaption><span class="fn">Shell</span>A grey printed shell. The journey records seven shells; which one this is, undated.</figcaption></figure>
+        <figure class="dev"><img src="../assets/project-4.jpg" alt="Black printed shelf frame with the hexagon dome on top and white shelves inside" width="1536" height="2048" loading="lazy"><figcaption><span class="fn">Frame</span>Black shelf frame with the dome on top. Undated.</figcaption></figure>
+        <figure class="dev"><img src="../assets/project-1.jpg" alt="The assembled HexaFlow nanolab, a tall white 3D-printed enclosure with a USB cable" width="1536" height="2048" loading="lazy"><figcaption><span class="fn">Assembled</span>The assembled nanolab, 2U, 20&times;10&times;10&nbsp;cm. Photo: HexaFlow team.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="sheet flat">
+    <!-- 5. Team -->
+    <section class="wrap sec" id="team" aria-labelledby="team-h">
+      <div class="sec-head">
+        <span class="num">&sect; 5 &middot; The people</span>
+        <h2 id="team-h">Our team</h2>
+        <p class="led">Tri-County RVTHS &middot; Franklin, Massachusetts</p>
+      </div>
+      <figure class="team-photo dev">
+        <img src="../assets/home-team.jpg" alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board" width="2047" height="1196" loading="lazy">
+        <figcaption><span class="fn">Fig. 3</span>The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board. Photo: HexaFlow team.</figcaption>
+      </figure>
+      <ul class="roster">
+        <li><span class="nm">Aidan</span><span class="rl"><b>Project Manager &amp; Hardware Lead</b></span><div class="own"><span class="slot"><span class="hand">[Aidan: 1 to 2 sentences, in your words, about the role you took on]</span><small>Note slot</small></span></div></li>
+        <li><span class="nm">Nate</span><span class="rl"><b>Correspondent &amp; Water Movement Lead</b></span><div class="own"><span class="slot right"><span class="hand">[Nate: 1 to 2 sentences, in your words, about writing to the experts and moving water]</span><small>Note slot</small></span></div></li>
+        <li><span class="nm">Sabrina</span><span class="rl"><b>Note Taker &amp; Substrate Lead</b></span><div class="own"><span class="slot"><span class="hand">[Sabrina: 1 to 2 sentences, in your words, about choosing the substrates]</span><small>Note slot</small></span></div></li>
+        <li><span class="nm">Maddie</span><span class="rl"><b>Scheduler &amp; Modularity Lead</b></span><div class="own"><span class="slot right"><span class="hand">[Maddie: 1 to 2 sentences, in your words, about keeping the build on schedule and modular]</span><small>Note slot</small></span></div></li>
+        <li><span class="nm">Lucas</span><span class="rl"><b>Web Development Lead</b></span><div class="own"><span class="slot"><span class="hand">[Lucas: 1 to 2 sentences, in your words, about building this site]</span><small>Note slot</small></span></div></li>
+      </ul>
+    </section>
+
+    <!-- 6. Build log -->
+    <section class="wrap sec" id="journey-teaser" aria-labelledby="log-h">
+      <div class="sec-head">
+        <span class="num">&sect; 6 &middot; The build</span>
+        <h2 id="log-h">From a lizard to a nanolab</h2>
+        <p class="lede">Nine months, eight substrates, fifteen drops, and one biomimetic breakthrough. Three moments that shaped the build.</p>
+        <p class="led">Led by <b>Maddie</b>, Scheduler &amp; Modularity Lead</p>
+      </div>
+      <ol class="log">
+        <li>
+          <div><p class="when">Oct 22, 2025</p><p class="tag">Ideation</p></div>
+          <div>
+            <h3>From hydroponics to a thorny devil</h3>
+            <p>Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic. Hydroponics looked promising until we realized it might make the project&rsquo;s goal obsolete.</p>
+            <p><a class="arrow-link" href="journey.html#ch-3">Read the full journey &rarr;</a></p>
+          </div>
+          <figure class="photo dev">
+            <div class="marked" data-photo data-seed="9" data-marks='[{"t":"label","x":4,"y":9,"text":"pine bark"},{"t":"arrow","x1":24,"y1":12,"x2":19,"y2":38,"bend":-0.2,"wait":0.1}]'>
+              <img src="../assets/substrate-7.jpg" alt="Two trays of substrate samples photographed on October 20th and October 31st, with yellow sticky notes and a red circle around the pine bark cells" width="1035" height="578" loading="lazy">
+            </div>
+            <figcaption><span class="fn">Planning board</span>Substrate trays, photographed 20 Oct and 31 Oct (dates on the photo). Photo: HexaFlow team.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <div><p class="when">Nov 18&ndash;19, 2025</p><p class="tag">Design</p></div>
+          <div>
+            <h3>NASA liked the hex. Then pushed us.</h3>
+            <p>At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth (the test is too short to grow anything); use food coloring to see the water; add 1&ndash;2 containment layers; and test at least two substrates.</p>
+            <p><a class="arrow-link" href="journey.html#ch-4">Read the full journey &rarr;</a></p>
+          </div>
+          <figure class="photo dev">
+            <img src="../assets/geometry-2.jpg" alt="CAD render of the hexagonal capillary dome on a square plate" width="873" height="793" loading="lazy">
+            <figcaption><span class="fn">CAD</span>The TDC as modelled. CAD: HexaFlow team.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <div><p class="when">Jan&ndash;Mar 2026</p><p class="tag">Test</p></div>
+          <div>
+            <h3>Drop, measure, repeat, nine times</h3>
+            <p>We dropped the TDC from 14 feet, with dyed water, measuring the water radius before and after each drop: about 0.9 seconds of free-fall per drop, simulating NASA Glenn&rsquo;s 2.2-second zero-gravity window we&rsquo;re traveling to Ohio to test. Two suites were run: six drops first, then nine more after the module was revised.</p>
+            <p><a class="arrow-link" href="journey.html#ch-7">Read the full journey &rarr;</a></p>
+          </div>
+          <figure class="photo dev">
+            <div class="marked" data-photo data-seed="4" data-marks='[{"t":"circle","x":65,"y":36,"rx":12,"ry":8},{"t":"label","x":4,"y":24,"text":"dyed water\nafter a drop"},{"t":"arrow","x1":28,"y1":26,"x2":52,"y2":33,"bend":-0.15,"wait":0.05}]'>
+              <img src="../assets/drop-test-1.jpg" alt="Hexagonal capillary dome with a purple dyed water bead after a drop" width="1080" height="1582" loading="lazy">
+            </div>
+            <figcaption><span class="fn">After a drop</span>Dyed water on the hex lattice. Photo: HexaFlow team.</figcaption>
+          </figure>
+        </li>
+      </ol>
+    </section>
+  </div>
+
+  <!-- Closing -->
+  <section class="closing dark" aria-labelledby="close-h">
+    <img src="../assets/drop-test-2.jpg" alt="" width="1080" height="1138" loading="lazy">
+    <div class="wrap closing-in">
+      <h2 id="close-h">Watch water climb where gravity can&rsquo;t.</h2>
+      <p>Walk through every part of the nanolab in 3D, or open the source list behind every claim on this site.</p>
+      <div class="actions">
+        <a class="btn solid" href="#">Explore the assembly</a>
+        <a class="btn" href="#sources">Read the sources</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot" id="sources">
+  <div class="wrap foot-grid">
+    <div>
+      <img class="logo" src="../assets/logo-gold.png" alt="HexaFlow hexagon lattice logo" width="52" height="47">
+      <p class="label">Sources &amp; credits</p>
+      <h2>Who made this, and from what</h2>
+      <p>HexaFlow, Tri-County RVTHS, Franklin, Massachusetts. A NASA HUNCH project. Web development led by Lucas, Web Development Lead.</p>
+    </div>
+    <ul>
+      <li><b>Skin morphology study of Moloch horridus.</b> Primary source for capillary channel geometry.</li>
+      <li><b>Capillary action in micro-scale channels.</b> Fluid transport without gravity.</li>
+      <li><b>Hexagonal geometry in biological systems.</b> Honeycomb efficiency.</li>
+      <li><b>LettUs Grow.</b> Aeroponic growing systems.</li>
+      <li><b>Atlas Scientific.</b> Contact-free pH probe.</li>
+      <li><b>NASA XROOTS Program Documentation.</b> Sierra Space eXposed Root On-Orbit Test System.</li>
+      <li><b>NASA Glenn 2.2-Second Drop Tower.</b> Where the three drops were run.</li>
+      <li><b>asknature.org.</b> Where the thorny devil was found.</li>
+    </ul>
+    <p class="fine">Photographs, CAD and drop-tower frames: HexaFlow team. Full source list on the Sources &amp; Credits page. &copy; HexaFlow / NASA HUNCH Nanolab team. Designed and built by the team.</p>
+  </div>
+</footer>
+</body>
+</html>

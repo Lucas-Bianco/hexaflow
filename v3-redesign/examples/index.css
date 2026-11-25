@@ -1,0 +1,6 @@
+body { margin: 0; background: #f4f3ee; color: #161616; font: 17px/1.55 Georgia, serif; }
+main { max-width: 640px; margin: 0 auto; padding: 48px 16px; }
+h1 { font-size: 1.6rem; font-weight: 600; margin: 0 0 12px; }
+ol { padding-left: 1.2em; }
+li { margin: 0 0 18px; }
+a { color: #85590a; margin-right: 12px; }

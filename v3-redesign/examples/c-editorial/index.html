@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HexaFlow: growing plants in microgravity, the way a thorny devil drinks</title>
+  <meta name="description" content="A NASA HUNCH nanolab from Tri-County RVTHS: hexagonal capillary channels, copied from the thorny devil lizard, that carry water to plant roots in free-fall.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="mast">
+  <a class="wordmark" href="index.html">HexaFlow</a>
+  <nav aria-label="Chapters">
+    <details class="toc">
+      <summary>Chapters</summary>
+      <ol class="toc-list">
+        <li><a href="index.html" aria-current="page"><span class="n">01</span>Home</a></li>
+        <li><a href="#"><span class="n">02</span>Mission</a></li>
+        <li><a href="#story"><span class="n">03</span>Design Journey</a></li>
+        <li><a href="#"><span class="n">04</span>Biomimicry &amp; Geometry</a></li>
+        <li><a href="#"><span class="n">05</span>Substrates</a></li>
+        <li><a href="#"><span class="n">06</span>Aeroponics</a></li>
+        <li><a href="#"><span class="n">07</span>AI Vision &amp; Control</a></li>
+        <li><a href="#"><span class="n">08</span>The Nanolab</a></li>
+        <li><a href="drop-testing.html"><span class="n">09</span>Drop Testing at NASA Glenn</a></li>
+        <li><a href="#"><span class="n">10</span>CAD &amp; Drawings</a></li>
+        <li><a href="#"><span class="n">11</span>Gallery</a></li>
+        <li><a href="#sources"><span class="n">12</span>Sources &amp; Credits</a></li>
+      </ol>
+    </details>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="opening" aria-labelledby="title">
+    <img src="../assets/home-team.jpg" alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board" width="2047" height="1196">
+    <div class="opening-text">
+      <p class="label">Tri-County RVTHS &middot; NASA HUNCH &middot; Franklin, Massachusetts</p>
+      <h1 id="title">Growing plants in microgravity, the way a <em>thorny devil</em> drinks</h1>
+      <p class="dek">Hexagonal capillary channels copied from the thorny devil lizard, carrying water to plant roots where gravity can&rsquo;t help. Inside a 2U nanolab, tested at the NASA Glenn 2.2-Second Drop Tower in Ohio.</p>
+      <p class="credit">Aidan, Nate, Sabrina, Maddie and Lucas in the Tri-County engineering shop. Photo: HexaFlow team.</p>
+    </div>
+  </section>
+
+  <section class="wrap intro" aria-labelledby="about">
+    <div>
+      <p class="label">The project</p>
+      <h2 id="about">A pump-free way to get water to a root</h2>
+    </div>
+    <div class="body">
+      <p>HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants. A five-member team from Tri-County RVTHS built it inside a 2U enclosure, on a $100 budget, to prevent root rot while enabling interchangeable experiments and rapid data collection.</p>
+      <p>The hexagonal channels take their cue from the thorny devil lizard (<em>Moloch horridus</em>), which transports water through grooved skin by capillary action, no pump required. A vision model reads root moisture from the camera and drives the pump, closing a continuous feedback loop that prevents overwatering and root rot.</p>
+      <p>Manufacturing relies on SLA 3D printing in resin. Resin&rsquo;s polar bonds grip water more tightly than water molecules grip each other, driving efficient capillary transport, strong enough that the system holds water even when inverted.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="figures">
+      <div><p class="fig-n">2.2<small>s</small></p><p class="fig-l">NASA Glenn drop window, 2.2-Second Drop Tower, Ohio</p></div>
+      <div><p class="fig-n">14.7<small>mm</small></p><p class="fig-l">Mean capillary rise, 9-drop Suite B on the 14-ft rig</p></div>
+      <div><p class="fig-n">0.48<small>mm</small></p><p class="fig-l">Channel width (0.020 in gap)</p></div>
+      <div><p class="fig-n">10.12<small>mL</small></p><p class="fig-l">Channel capacity, fully saturated</p></div>
+    </div>
+  </div>
+
+  <div class="story-head" id="story">
+    <p class="label">The design journey</p>
+    <h2>Nine chapters, from a brief to a nanolab</h2>
+  </div>
+
+  <section class="story" id="chapters" aria-label="Design journey">
+    <ol class="steps">
+      <li class="step" data-i="0">
+        <p class="step-no">01</p>
+        <p class="label">Sept 2025 &middot; Problem</p>
+        <h3>Define the box we had to build inside</h3>
+        <p>NASA HUNCH gave us the rules: a 2U nanolab (20&times;10&times;10 cm), 5 V USB-A power, a $100 budget, and a water supply that has to be entirely mechanical, no pumps-for-everything. The problem was bigger than &ldquo;grow a plant in space&rdquo;: study how fluids and plant substrates behave in microgravity, to help feed long-distance spaceflight. Condensation couldn&rsquo;t touch the sensors, everything had to be modular, and it needed a web interface.</p>
+      </li>
+      <li class="step" data-i="1">
+        <p class="step-no">02</p>
+        <p class="label">Sept&ndash;Oct 2025 &middot; Ideation</p>
+        <h3>Read everything that came before</h3>
+        <p>We reviewed NASA Veggie, the Advanced Plant Habitat, U-Michigan&rsquo;s 3D-printed PLA substrate, MIT 2020 payloads, Astrobeat, and three patents. The gap was consistent: too big, not modular, water sources that drew power, not user-friendly. We pulled literature on capillary fluidics and soil-moisture sensors, and started logging everything in individual design notebooks (our &ldquo;D.A.A.N.s&rdquo;).</p>
+        <p>We emailed Dr. Gene Giacomelli and Dr. Murat Kacira (University of Arizona), Robert Morrow (NASA capillary fluidics), John Wetzel (Sierra Space), and Ariel Ekblaw (MIT Space Exploration Initiative). Not all of them wrote back, but the ones who did shaped the design.</p>
+      </li>
+      <li class="step" data-i="2">
+        <p class="step-no">03</p>
+        <p class="label">Oct 22, 2025 &middot; Ideation</p>
+        <h3>From hydroponics to a thorny devil</h3>
+        <p>Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic. Then Sabrina found the thorny devil lizard (<em>Moloch horridus</em>) on asknature.org: its grooved skin moves water by capillary action, no pump needed.</p>
+        <p>Nate prototyped the &ldquo;Moloch Horridus Water System&rdquo; in SolidWorks in two sizes. It worked &ldquo;miraculously well,&rdquo; so we renamed the core the TDC, Thorny-Devil Capillary.</p>
+      </li>
+      <li class="step" data-i="3">
+        <p class="step-no">04</p>
+        <p class="label">Nov 18&ndash;19, 2025 &middot; Design</p>
+        <h3>NASA liked the hex. Then pushed us.</h3>
+        <p>At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth (the test is too short to grow anything); use food coloring to see the water; add 1&ndash;2 containment layers; and test at least two substrates. Peer teams warned wicking doesn&rsquo;t work in microgravity.</p>
+      </li>
+      <li class="step" data-i="4">
+        <p class="step-no">05</p>
+        <p class="label">Dec 15, 2025 &middot; Design</p>
+        <h3>Choosing the substrates on purpose</h3>
+        <p>We scored four substrates on system compatibility, microgravity feasibility, and modularity. Rockwool won: it screws into existing holes, its binding agent won&rsquo;t escape into the channels, and water moves through it better in microgravity. Clay pebbles won as the second pick (11.5 mm pebbles can&rsquo;t enter the 0.48 mm channels).</p>
+        <p>Pine bark was rejected, because fragments would clog the channels. Illite was rejected, because the fine powder would escape and force a redesign.</p>
+      </li>
+      <li class="step" data-i="5">
+        <p class="step-no">06</p>
+        <p class="label">Dec 2025&ndash;Feb 2026 &middot; Iterate</p>
+        <h3>Seven shells, a removable reservoir, and a lesson about resin</h3>
+        <p>We iterated the enclosure seven times: wire holes 5 mm to 8 mm, walls 4 mm to 2 mm, door screws M3 16 mm to 4 mm, half-slotted modules that kept falling off the rails until we added supports. The reservoir became removable to stop moisture contaminating the electronics: a heat-sealed pouch in a friction-fit pocket.</p>
+        <p>Then our new resin printer&rsquo;s VOCs shriveled the test plants overnight, a sharp lesson that emissions and biology don&rsquo;t share a room. The kale kept dying, and the cause turned out to be the team&rsquo;s own printer, running unventilated in the same room. Fix: move the plants, tent them, ventilate.</p>
+      </li>
+      <li class="step" data-i="6">
+        <p class="step-no">07</p>
+        <p class="label">Jan&ndash;Mar 2026 &middot; Test</p>
+        <h3>Drop, measure, repeat, nine times</h3>
+        <p>We dropped the TDC from 14 feet, with dyed water, measuring the water radius before and after each drop: about 0.9 seconds of free-fall per drop. Two suites were run: six drops first, averaging about 9.9 mm of capillary movement; then nine more after the module was revised, averaging 14.7 mm, a 48% improvement. The spread across the nine ran from 4.28 mm to 31.79 mm.</p>
+        <p class="pull">We stopped trusting the sim and started dropping the real thing.</p>
+      </li>
+      <li class="step" data-i="7">
+        <p class="step-no">08</p>
+        <p class="label">Feb 9, 2026 &middot; Iterate</p>
+        <h3>Roots-through-rockwool fix</h3>
+        <p>A later learning: clay pebbles and rockwool must stay continuously damp to wick water, which is impractical in microgravity, where wetting is intermittent at best. The team&rsquo;s fix was to thread the roots through the bottom of the rockwool so they reach the nutrient water directly, sidestepping the wicking problem entirely.</p>
+        <p>Takeaway: the substrate anchors the plant and is part of the water-delivery path.</p>
+      </li>
+      <li class="step" data-i="8">
+        <p class="step-no">09</p>
+        <p class="label">Spring 2026 &middot; Build</p>
+        <h3>The vision model closes the loop</h3>
+        <p>By Critical Design Review the system was whole: TDC capillary channels, dual pumps (1 mL/min for the long term, 100 mL/min for the drop test), a Raspberry Pi Zero 2W running an AI vision model, aeroponics plus rockwool and clay pebbles, and a modular shelf enclosure. The vision model reads root moisture and waters only when the roots are dry.</p>
+        <p>The honest open items: a custom PCB to replace the wiring, waterproofing, and a live-plant run. A geometry problem caught only at assembly: the Atlas Scientific pH probe is 153 mm, and we had 47 mm of clearance. The kind of thing that only shows up when you build it.</p>
+        <p><a href="#">Read the full design journey</a></p>
+      </li>
+    </ol>
+
+    <div class="stage" aria-hidden="false">
+      <div class="meter" aria-hidden="true"><i id="story-meter"></i></div>
+      <p class="count" aria-live="off"><span id="story-count">01</span> / 09</p>
+      <figure class="stage-img is-active"><img src="../assets/project-1.jpg" alt="The assembled HexaFlow nanolab, a tall white 3D-printed enclosure with a USB cable" loading="eager"><figcaption><b>The nanolab.</b> 2U enclosure, 20&times;10&times;10 cm. Photo: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img light"><img src="../assets/enclosure-1.jpg" alt="Exploded enclosure diagram with labelled USB port, tabbed door and cable channels" loading="lazy"><figcaption><b>Shelf design.</b> Modular enclosure with embedded cable channels. Diagram: HexaFlow team CAD.</figcaption></figure>
+      <figure class="stage-img light"><img src="../assets/geometry-1.jpg" alt="Electron micrographs of thorny devil skin with a hexagon geometry diagram" loading="lazy"><figcaption><b>The lizard&rsquo;s skin.</b> Micrographs and channel geometry from the skin morphology study cited in Sources.</figcaption></figure>
+      <figure class="stage-img light"><img src="../assets/geometry-2.jpg" alt="CAD render of the hexagonal capillary dome on a square plate" loading="lazy"><figcaption><b>The TDC.</b> Hexagonal capillary dome, Thorny-Devil Capillary. CAD: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img"><img src="../assets/cover-3.jpg" alt="A rockwool pad seated in the capillary plate, seen from above" loading="lazy"><figcaption><b>Rockwool, seated.</b> The winning substrate in the TDC plate. Photo: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img"><img src="../assets/project-3.jpg" alt="Grey 3D-printed enclosure shell with the hexagon dome inside" loading="lazy"><figcaption><b>One of seven shells.</b> Printed enclosure iteration. Photo: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img"><img src="../assets/drop-test-1.jpg" alt="Hexagonal capillary dome with a purple dyed water bead after a drop" loading="lazy"><figcaption><b>After a drop.</b> Dyed water on the hex lattice. Photo: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img"><img src="../assets/substrate-4.jpg" alt="Clay pebbles and roots visible through the slatted cover of the module" loading="lazy"><figcaption><b>Roots and substrate.</b> Module with slatted cover. Photo: HexaFlow team.</figcaption></figure>
+      <figure class="stage-img"><img src="../assets/ai-1.jpg" alt="Custom carrier board layout with a hexagonal pattern" loading="lazy"><figcaption><b>Carrier board.</b> Custom PCB layout for the Raspberry Pi, cameras and sensors. Design: HexaFlow team.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="quote" aria-label="From the team">
+    <blockquote>
+      <p>The substrate holds the plant and carries its water.</p>
+      <cite>Adapted from the design journey, February 9, 2026</cite>
+    </blockquote>
+  </section>
+
+  <section class="wrap team" aria-labelledby="team-h">
+    <figure>
+      <img src="../assets/home-team.jpg" alt="The five HexaFlow team members standing side by side" loading="lazy" width="2047" height="1196">
+      <figcaption class="cap"><b>Left to right as photographed.</b> The team in the Tri-County engineering shop. Photo: HexaFlow team.</figcaption>
+    </figure>
+    <div>
+      <p class="label">The people</p>
+      <h2 id="team-h">Five students, one nanolab</h2>
+      <p>Tri-County RVTHS, Franklin, Massachusetts, through NASA HUNCH.</p>
+      <ul class="roster">
+        <li><span class="nm">Aidan</span><span class="rl">Project Manager &amp; Hardware Lead</span></li>
+        <li><span class="nm">Nate</span><span class="rl">Correspondent &amp; Water Movement Lead</span></li>
+        <li><span class="nm">Sabrina</span><span class="rl">Note Taker &amp; Substrate Lead</span></li>
+        <li><span class="nm">Maddie</span><span class="rl">Scheduler &amp; Modularity Lead</span></li>
+        <li><span class="nm">Lucas</span><span class="rl">Web Development Lead</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap contents" aria-labelledby="contents-h">
+    <p class="label">Continue reading</p>
+    <h2 id="contents-h">The other chapters</h2>
+    <ol>
+      <li><a href="#"><span class="n">02</span>Mission</a></li>
+      <li><a href="#story"><span class="n">03</span>Design Journey</a></li>
+      <li><a href="#"><span class="n">04</span>Biomimicry &amp; Geometry</a></li>
+      <li><a href="#"><span class="n">05</span>Substrates</a></li>
+      <li><a href="#"><span class="n">06</span>Aeroponics</a></li>
+      <li><a href="#"><span class="n">07</span>AI Vision &amp; Control</a></li>
+      <li><a href="#"><span class="n">08</span>The Nanolab</a></li>
+      <li><a href="drop-testing.html"><span class="n">09</span>Drop Testing at NASA Glenn</a></li>
+      <li><a href="#"><span class="n">10</span>CAD &amp; Drawings</a></li>
+      <li><a href="#"><span class="n">11</span>Gallery</a></li>
+      <li><a href="#sources"><span class="n">12</span>Sources &amp; Credits</a></li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="foot" id="sources">
+  <div class="foot-in">
+    <div>
+      <img class="logo" src="../assets/logo-gold.png" alt="HexaFlow hexagon lattice logo" width="56" height="50">
+      <p class="label">Sources &amp; credits</p>
+      <h2>Who made this, and from what</h2>
+      <p>HexaFlow, Tri-County RVTHS, Franklin, Massachusetts. A NASA HUNCH project.</p>
+    </div>
+    <div>
+      <ul>
+        <li><b>Skin morphology study of Moloch horridus.</b> Primary source for capillary channel geometry.</li>
+        <li><b>Capillary action in micro-scale channels.</b> Fluid transport without gravity.</li>
+        <li><b>Hexagonal geometry in biological systems.</b> Honeycomb efficiency.</li>
+        <li><b>LettUs Grow.</b> Aeroponic growing systems.</li>
+        <li><b>Atlas Scientific.</b> Contact-free pH probe.</li>
+        <li><b>NASA XROOTS Program Documentation.</b> Sierra Space eXposed Root On-Orbit Test System.</li>
+        <li><b>NASA Glenn 2.2-Second Drop Tower.</b> Where the three drops were run.</li>
+        <li><b>asknature.org.</b> Where the thorny devil was found.</li>
+      </ul>
+    </div>
+    <p class="fine">Photographs, CAD and drop-tower frames: HexaFlow team. Full source list on the Sources &amp; Credits page.</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

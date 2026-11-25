@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HexaFlow | Sheet 09, Drop Testing at NASA Glenn</title>
+<meta name="description" content="HexaFlow drop testing at the NASA Glenn 2.2-Second Drop Tower: three drops, eighteen frames per run, scrubbed against a 2.2 s time ruler.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand-row">
+      <a class="brand" href="index.html">HexaFlow<small>V2 nanolab / NASA HUNCH</small></a>
+      <span class="top-meta">Tri-County RVTHS, Franklin, Massachusetts</span>
+    </div>
+    <nav aria-label="Sheet index">
+      <ul class="nav">
+        <li><a href="index.html"><span>01</span>Home</a></li>
+        <li><a href="#"><span>02</span>Mission</a></li>
+        <li><a href="#"><span>03</span>Design Journey</a></li>
+        <li><a href="#"><span>04</span>Biomimicry &amp; Geometry</a></li>
+        <li><a href="#"><span>05</span>Substrates</a></li>
+        <li><a href="#"><span>06</span>Aeroponics</a></li>
+        <li><a href="#"><span>07</span>AI Vision &amp; Control</a></li>
+        <li><a href="#"><span>08</span>The Nanolab</a></li>
+        <li><a href="drop-testing.html" aria-current="page"><span>09</span>Drop Testing</a></li>
+        <li><a href="#"><span>10</span>CAD &amp; Drawings</a></li>
+        <li><a href="#"><span>11</span>Gallery</a></li>
+        <li><a href="#"><span>12</span>Sources</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div id="rest" role="main">
+  <section class="sheet" aria-labelledby="h-title">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 09 / Drop testing, general</b><span class="zone">Zone A1</span></div>
+      <div class="grid">
+        <div class="c-1-8">
+          <p class="eyebrow">NASA Glenn Research Center, Ohio</p>
+          <h1 id="h-title" class="page-title">Drop Testing at NASA Glenn.</h1>
+        </div>
+        <div class="c-9-12">
+          <table>
+            <caption>Facility data</caption>
+            <tbody>
+              <tr><th scope="row">Facility</th><td class="num">2.2-Second Drop Tower</td></tr>
+              <tr><th scope="row">Location</th><td class="num">Ohio</td></tr>
+              <tr><th scope="row">Window</th><td class="num dim">2.2<span class="unit">s</span></td></tr>
+              <tr><th scope="row">Drops</th><td class="num dim">3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid mt5">
+        <div class="c-1-8">
+          <p class="lede">The facility the team tested at is the NASA Glenn 2.2-Second Drop Tower in Ohio. Three drops, 18 frames per run. Scroll the next sheet to step through them.</p>
+          <p class="note">The 5.18-second Zero Gravity Research Facility is a separate, larger facility at NASA Glenn. It is not the one HexaFlow tested at.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHEET 09-B : sticky measurement view -->
+  <section class="dropscroll" id="measure" aria-labelledby="h-meas" data-drop>
+    <div class="stage">
+      <div class="wrap stage-wrap">
+        <div class="sheet-head"><b>Sheet 09-B / Measurement view</b><span class="zone">Zone B2</span></div>
+        <h2 id="h-meas" class="eyebrow tight">Fig. 09-1 / Drop-tower frames, scroll to scrub</h2>
+        <div class="run-select" role="group" aria-label="Run selector">
+          <button type="button" data-run="drop" aria-pressed="true">Drop 1</button>
+          <button type="button" data-run="drop2" aria-pressed="false">Drop 3</button>
+        </div>
+        <div class="grid stage-body measure">
+          <div class="c-1-8 viewer">
+            <div class="frame">
+              <img data-frame src="../assets/drop/f-01.jpg" width="640" height="480" alt="Drop tower frame 1 of 18, Drop 1">
+              <span class="ch tl" data-tag-run>DROP 1</span>
+              <span class="ch br" data-tag-frame>F 01 / 18</span>
+            </div>
+            <div class="readout" aria-live="off">
+              <div>Run<b data-ro-run>Drop 1</b></div>
+              <div>Frame<b data-ro-frame>01 / 18</b></div>
+              <div>t, nominal<b class="t" data-ro-t>0.00 s</b></div>
+              <div>Window<b>2.2 s</b></div>
+            </div>
+          </div>
+          <div class="c-9-12 ruler-wrap">
+            <div class="ruler" data-ruler aria-hidden="true">
+              <div class="spine"></div>
+              <div class="stops" data-stops></div>
+              <div class="marker" data-marker><span data-marker-t>0.00 s</span></div>
+            </div>
+            <div class="caption-box" data-caption aria-live="polite">
+              <span class="lab" data-cap-lab>Drop 1 (best)</span>
+              <span data-cap-text>First drop produced the best capillary dispersal.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="h-runs">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 09-C / Runs and figures</b><span class="zone">Zone C1</span></div>
+      <div class="grid">
+        <div class="c-1-5"><h2 id="h-runs" class="sheet-title">Three drops.</h2></div>
+        <div class="c-6-12">
+          <table>
+            <caption>Table 09-1 / NASA Glenn runs</caption>
+            <thead><tr><th>Run</th><th>Condition</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Dry runs</th><td>Baseline setup with no drop.</td></tr>
+              <tr><th scope="row">Drop 1 (best)</th><td>First drop produced the best capillary dispersal.</td></tr>
+              <tr><th scope="row">Drop 2</th><td>The hexagons were cleaned out before this drop.</td></tr>
+              <tr><th scope="row">Drop 3 (double water)</th><td>Water was left in the system because the code could not be changed; leaving water in was the only way to get more water into the system for the final drop.</td></tr>
+            </tbody>
+          </table>
+          <p class="note mt3">Frames on the measurement sheet are available for Drop 1 and Drop 3.</p>
+        </div>
+      </div>
+
+      <div class="grid mt5">
+        <div class="c-1-5"><h2 class="sheet-title sub">Figures</h2></div>
+        <div class="c-6-12">
+          <table>
+            <caption>Table 09-2 / Measured and design figures</caption>
+            <thead><tr><th>Quantity</th><th class="num">Value</th><th>Basis</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Mean capillary rise</th><td class="num dim">14.7<span class="unit">mm</span></td><td>Local 14-ft rig, Suite B, 9 drops</td></tr>
+              <tr><th scope="row">Channel capacity</th><td class="num dim">10.12<span class="unit">mL</span></td><td>Fully saturated</td></tr>
+              <tr><th scope="row">Channel width</th><td class="num dim">0.48<span class="unit">mm</span></td><td>0.020 in gap</td></tr>
+              <tr><th scope="row">Drop height</th><td class="num dim">4.267<span class="unit">m</span></td><td>14 ft, local rig</td></tr>
+              <tr><th scope="row">Free-fall</th><td class="num dim">~0.9<span class="unit">s</span></td><td>Per drop, local rig</td></tr>
+              <tr><th scope="row">Dyed water</th><td class="num dim">~5<span class="unit">mL</span></td><td>Per drop, local rig</td></tr>
+              <tr><th scope="row">Glenn window</th><td class="num dim">2.2<span class="unit">s</span></td><td>NASA Glenn 2.2-Second Drop Tower</td></tr>
+            </tbody>
+          </table>
+          <p class="note mt3">Expected result: no free droplets. Water climbs into the channels by capillary action.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="h-method">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 09-D / Method</b><span class="zone">Zone C2</span></div>
+      <div class="grid">
+        <div class="c-1-5"><h2 id="h-method" class="sheet-title">Method.</h2></div>
+        <div class="c-6-12">
+          <p>We drop the TDC module from 14 feet, about 0.9 seconds of free-fall per drop, a stand-in for NASA Glenn&rsquo;s 2.2-second zero-gravity drop tower, which we tested in Ohio. (The 5.18-second Zero Gravity Research Facility is a separate, larger facility at NASA Glenn.) Even in that short window we can watch how water actually moves through the channels.</p>
+          <p>Before each drop we add about 5 mL of dyed water to the TDC center and seal the injector hole. Calipers measure the dispersal pattern before and after, so every run is compared against its own baseline.</p>
+          <p>Between runs, compressed air clears the channels so each test starts clean. In weightlessness, water should climb upward into the channels by capillary action, reaching and hydrating the roots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="h-ladder">
+    <div class="wrap">
+      <div class="sheet-head"><b>Sheet 09-E / Test sequence</b><span class="zone">Zone D1</span></div>
+      <div class="grid mb5">
+        <div class="c-1-5"><h2 id="h-ladder" class="sheet-title">You cannot test microgravity on Earth.</h2></div>
+        <div class="c-6-12"><p class="lede">So the team climbed a ladder of partial tests, each one answering a narrower question.</p></div>
+      </div>
+      <ol class="rows">
+        <li><span class="d">Step 01</span><span class="h">Inversion, static retention</span><span class="b">The module was turned upside down and shaken with substrate, covers and a planted stem in place. Nothing fell out. This tests whether the channels can hold water against gravity, and whether containment survives an arbitrary orientation. It says nothing about how water moves in free-fall.</span></li>
+        <li><span class="d">Step 02</span><span class="h">The first flow test, where 1 g wins</span><span class="b">Water was run into the dome and tracked as it climbed. It travelled roughly halfway up the sides before gravity overpowered the capillary forces and it stopped. That halfway mark is a 1 g result, not a failure: it is the point the team expects to exceed once gravity is removed.</span></li>
+        <li><span class="d">Step 03</span><span class="h">Free-fall, 14 feet, about 0.9 seconds</span><span class="b">Dropping the sealed module produces real, if brief, weightlessness. Two suites were run: six drops first, then nine more after the module was revised. Mean capillary movement rose from roughly 9.9 mm to 14.7 mm. Short, noisy, and genuinely free-fall: the spread across the nine ran from 4.28 mm to 31.79 mm.</span></li>
+        <li><span class="d">Step 04</span><span class="h">NASA Glenn, 2.2 seconds</span><span class="b">The NASA Glenn 2.2-Second Drop Tower gives a longer free-fall window than the 14-foot drop, under instrumented conditions. Three drops were run at the NASA Glenn Research Center in Ohio (documented in the runs above). The 5.18-second Zero Gravity Research Facility is a separate, larger facility at NASA Glenn.</span></li>
+      </ol>
+      <div class="grid mt5">
+        <div class="c-6-12">
+          <p>What the team can say today: the geometry holds water when inverted, moves it measurably in free-fall, and improved by about 48% between revisions. The 2.2-second NASA Glenn drops are documented in the runs above.</p>
+          <p class="note">Per-drop before/after channel measurements were recorded for all nine runs. The full dataset and analysis are held with the CDR test documentation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="sources grid">
+      <div class="c-1-4"><h2>Sources &amp; credits</h2></div>
+      <div class="c-5-12">
+        <ul>
+          <li>NASA Glenn 2.2-Second Drop Tower, NASA Glenn Research Center, Ohio. <a href="https://www1.grc.nasa.gov/facilities/drop-tower/">www1.grc.nasa.gov/facilities/drop-tower</a></li>
+          <li>Drop-tower frames: 18 evenly sampled frames per run from the NASA Glenn result footage.</li>
+          <li>Built by the HexaFlow team, Tri-County RVTHS, for NASA HUNCH. <a href="#">Full sources list</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="titleblock" role="group" aria-label="Title block">
+      <div class="tb-proj"><span class="k">Project</span><span class="big">HexaFlow V2 nanolab</span></div>
+      <div class="tb-title"><span class="k">Title</span><span class="big">Drop Testing at NASA Glenn</span></div>
+      <div class="tb-org"><span class="k">Drawn by</span><span class="v">Tri-County RVTHS / NASA HUNCH</span></div>
+      <div class="tb-sheet"><span class="k">Sheet</span><span class="v acc">09 of 12</span></div>
+      <div class="tb-rev"><span class="k">Rev</span><span class="v">A</span></div>
+      <div class="tb-date"><span class="k">Date</span><span class="v">2026-11-24</span></div>
+      <div class="tb-scale"><span class="k">Facility</span><span class="v">NASA Glenn, 2.2 s</span></div>
+    </div>
+    <p class="legal">Example design direction B. Frame times are nominal: the 18 frames are spread evenly over the 2.2 s window.</p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

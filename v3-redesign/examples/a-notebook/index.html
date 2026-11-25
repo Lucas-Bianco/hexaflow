@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HexaFlow: a capillary nanolab for plants in microgravity</title>
+<meta name="description" content="HexaFlow is a 2U capillary nanolab built by five students at Tri-County RVTHS for NASA HUNCH, tested at the NASA Glenn 2.2-Second Drop Tower.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="main.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><img src="../assets/logo-gold.png" alt="" width="24" height="24">HexaFlow <small>lab notebook</small></a>
+    <details class="pages">
+      <summary>Pages</summary>
+      <ol>
+        <li><span>01</span><a href="index.html" aria-current="page">Home</a></li>
+        <li><span>02</span><a href="#">Mission</a></li>
+        <li><span>03</span><a href="#">Design Journey</a></li>
+        <li><span>04</span><a href="#">Biomimicry &amp; Geometry</a></li>
+        <li><span>05</span><a href="#">Substrates</a></li>
+        <li><span>06</span><a href="#">Aeroponics</a></li>
+        <li><span>07</span><a href="#">AI Vision &amp; Control</a></li>
+        <li><span>08</span><a href="#">The Nanolab</a></li>
+        <li><span>09</span><a href="drop-testing.html">Drop Testing</a></li>
+        <li><span>10</span><a href="#">CAD &amp; Drawings</a></li>
+        <li><span>11</span><a href="#">Gallery</a></li>
+        <li><span>12</span><a href="#">Sources &amp; Credits</a></li>
+      </ol>
+    </details>
+  </div>
+</header>
+
+<div class="page">
+  <details class="toc" id="toc"><summary>Contents</summary><ol></ol></details>
+
+  <main>
+    <div class="doc">
+
+      <header class="titleblock">
+        <p class="label">Technical report 01 &middot; Tri-County RVTHS &middot; NASA HUNCH</p>
+        <h1>Growing plants in microgravity, the way a <em>thorny devil</em> drinks</h1>
+        <div class="hero-grid">
+          <div>
+            <p class="lede">Hexagonal capillary channels, copied from a lizard, carry water to plant roots where gravity cannot help. This is the record of how five students designed, dropped and measured them.</p>
+            <table class="meta">
+              <tr><th scope="row">Project</th><td>HexaFlow, modular capillary nanolab</td></tr>
+              <tr><th scope="row">Team</th><td>Aidan, Nate, Sabrina, Maddie, Lucas</td></tr>
+              <tr><th scope="row">School</th><td>Tri-County RVTHS, Franklin, Massachusetts</td></tr>
+              <tr><th scope="row">Program</th><td>NASA HUNCH</td></tr>
+              <tr><th scope="row">Tested at</th><td>NASA Glenn 2.2-Second Drop Tower, Ohio</td></tr>
+            </table>
+          </div>
+          <figure class="fig">
+            <img src="../assets/drop-test-3.jpg" alt="Calipers measuring dyed water spreading across the hexagonal lattice of the capillary module" width="1152" height="2048">
+            <figcaption><span class="fn">Fig. 1</span>Dyed water on the hexagonal lattice, measured with calipers after a drop.<span class="src">photo: team</span></figcaption>
+          </figure>
+        </div>
+      </header>
+
+      <section class="sec prose" aria-labelledby="s1">
+        <h2 id="s1"><span class="num">1</span>Summary</h2>
+        <p>HexaFlow is a modular capillary action nanolab that uses AI vision and biomimicry to deliver water to plants. A five-member team from Tri-County RVTHS built it inside a 2U enclosure, on a $100 budget, to prevent root rot while enabling interchangeable experiments and rapid data collection.</p>
+        <span class="sidenote"><b>Note</b>2U envelope is 20 &times; 10 &times; 10 cm. Power is 5 V USB-A.</span>
+        <p>The system was tested in a 2.2-second free-fall window at NASA Glenn&rsquo;s 2.2-Second Drop Tower in Ohio. Manufacturing relies on SLA 3D printing in resin. Resin&rsquo;s polar bonds grip water more tightly than water molecules grip each other, driving efficient capillary transport, strong enough that the system holds water even when inverted.</p>
+
+        <h3 id="s1-1"><span class="num">1.1</span>Constraints</h3>
+        <div class="tablewrap">
+          <table class="data">
+            <caption><b>Table 1</b>Design constraints</caption>
+            <thead><tr><th scope="col">Constraint</th><th scope="col">Value</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Form factor</th><td class="v">2U nanolab, 20 &times; 10 &times; 10 cm</td></tr>
+              <tr><th scope="row">Power</th><td class="v">5 V USB-A</td></tr>
+              <tr><th scope="row">Budget</th><td class="v">$100</td></tr>
+              <tr><th scope="row">Water supply</th><td class="v">Mechanical</td></tr>
+              <tr><th scope="row">Architecture</th><td class="v">Modular, interchangeable experiments</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s2">
+        <h2 id="s2"><span class="num">2</span>Capillary channels</h2>
+        <h3 id="s2-1"><span class="num">2.1</span>The thorny devil</h3>
+        <p>The hexagonal channels take their cue from the thorny devil lizard (<em>Moloch horridus</em>), which transports water through grooved skin by capillary action, no pump required. A vision model reads root moisture from the camera and drives the pump, closing a continuous feedback loop that prevents overwatering and root rot.</p>
+        <span class="sidenote"><b>Origin</b>Sabrina found the lizard on asknature.org. Nate prototyped the &ldquo;Moloch Horridus Water System&rdquo; in SolidWorks in two sizes, 22 Oct 2025.</span>
+        <p>At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; Scroll through Fig. 2 to watch the channel network drawn in, then filled from the water supply upward.</p>
+
+        <h3 id="s2-2"><span class="num">2.2</span>Channel network</h3>
+        <div class="cap-track" id="cap-track">
+          <div class="cap-sticky">
+            <figure>
+              <div class="cap-frame"><svg id="cap" role="img" aria-label="Line drawing of a hexagonal capillary channel network that draws itself as you scroll while water, shown in the accent colour, rises through it from a reservoir at the base" preserveAspectRatio="xMidYMid meet"></svg></div>
+              <div class="readout" aria-live="off"><span>channels drawn <b id="ro-draw">0%</b></span><span class="acc">water front <b id="ro-water">0%</b></span></div>
+              <figcaption><span class="fn">Fig. 2</span>Schematic of the hexagonal capillary lattice. Ink lines are channel walls; the ochre line is water climbing from the supply. Drawn to illustrate the geometry, not to scale.</figcaption>
+            </figure>
+          </div>
+        </div>
+        <p>Channel width is 0.48 mm (a 0.020 in gap). A fully saturated lattice holds 10.12 mL. Every channel is SLA-printed resin.</p>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s3">
+        <h2 id="s3"><span class="num">3</span>Measured data</h2>
+        <p>The headline numbers come from the local 14-foot rig, where the team could run enough drops to build a baseline. Mean capillary movement rose from roughly 9.9 mm in the first suite to 14.7 mm after the module was revised.</p>
+        <span class="sidenote"><b>Note</b>The spread across the nine revised-suite drops ran from 4.28 mm to 31.79 mm. Per-drop data is held with the CDR test documentation.</span>
+        <div class="tablewrap">
+          <table class="data">
+            <caption><b>Table 2</b>Headline measurements</caption>
+            <thead><tr><th scope="col">Quantity</th><th scope="col">Value</th><th scope="col">Basis</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">NASA Glenn drop window</th><td class="v">2.2 s</td><td class="n">2.2-Second Drop Tower, Ohio</td></tr>
+              <tr><th scope="row">Mean capillary rise</th><td class="v">14.7 mm</td><td class="n">Suite B, 9 drops, 14-ft rig</td></tr>
+              <tr><th scope="row">Suite A mean</th><td class="v">9.9 mm</td><td class="n">First 6 drops, before revision</td></tr>
+              <tr><th scope="row">Improvement</th><td class="v">~48%</td><td class="n">Suite A to Suite B</td></tr>
+              <tr><th scope="row">Channel width</th><td class="v">0.48 mm</td><td class="n">0.020 in gap</td></tr>
+              <tr><th scope="row">Channel capacity</th><td class="v">10.12 mL</td><td class="n">Fully saturated</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><a href="drop-testing.html">Drop Testing at NASA Glenn</a> has the footage, frame by frame.</p>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s4">
+        <h2 id="s4"><span class="num">4</span>Team</h2>
+        <figure class="fig">
+          <img class="crop" src="../assets/home-team.jpg" alt="The five-member HexaFlow team in the Tri-County engineering shop, in front of their project planning board" width="2048" height="1196" loading="lazy">
+          <figcaption><span class="fn">Fig. 3</span>The HexaFlow team in the Tri-County engineering shop, in front of the project planning board.<span class="src">photo: team</span></figcaption>
+        </figure>
+        <div class="tablewrap">
+          <table class="data">
+            <caption><b>Table 3</b>Team roles</caption>
+            <thead><tr><th scope="col">Member</th><th scope="col">Role</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Aidan</th><td class="n">Project Manager &amp; Hardware Lead</td></tr>
+              <tr><th scope="row">Nate</th><td class="n">Correspondent &amp; Water Movement Lead</td></tr>
+              <tr><th scope="row">Sabrina</th><td class="n">Note Taker &amp; Substrate Lead</td></tr>
+              <tr><th scope="row">Maddie</th><td class="n">Scheduler &amp; Modularity Lead</td></tr>
+              <tr><th scope="row">Lucas</th><td class="n">Web Development Lead</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s5">
+        <h2 id="s5"><span class="num">5</span>Design journey, selected entries</h2>
+        <ul class="entries">
+          <li>
+            <div class="k"><b>Ideation</b>22 Oct 2025</div>
+            <div><h4>From hydroponics to a thorny devil</h4><p>Eight substrates went into testing in October. Nearly all of them grew mould; only pine bark produced any growth at all. On 22 October the team abandoned growing media entirely and went aeroponic.</p></div>
+          </li>
+          <li>
+            <div class="k"><b>Design</b>18&ndash;19 Nov 2025</div>
+            <div><h4>NASA liked the hex. Then pushed us.</h4><p>At Preliminary Design Review, NASA&rsquo;s reviewer called the hexagonal shape and thorny-devil method &ldquo;terrific.&rdquo; The feedback that reshaped the build: reposition the camera to capture fluid dynamics, not plant growth, and use food coloring to see the water.</p></div>
+          </li>
+          <li>
+            <div class="k"><b>Test</b>Jan&ndash;Mar 2026</div>
+            <div><h4>Drop, measure, repeat, nine times</h4><p>We dropped the TDC from 14 feet, with dyed water, measuring the water radius before and after each drop, about 0.9 seconds of free-fall per drop. Two suites were run: six drops first, then nine more after the module was revised, averaging 14.7 mm.</p></div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="sec prose" aria-labelledby="s6">
+        <h2 id="s6"><span class="num">6</span>Index of pages</h2>
+        <ol class="pagelist">
+          <li><span class="n">01</span><a href="index.html">Home</a></li>
+          <li><span class="n">02</span><a href="#">Mission</a></li>
+          <li><span class="n">03</span><a href="#">Design Journey</a></li>
+          <li><span class="n">04</span><a href="#">Biomimicry &amp; Geometry</a></li>
+          <li><span class="n">05</span><a href="#">Substrates</a></li>
+          <li><span class="n">06</span><a href="#">Aeroponics</a></li>
+          <li><span class="n">07</span><a href="#">AI Vision &amp; Control</a></li>
+          <li><span class="n">08</span><a href="#">The Nanolab (assembly)</a></li>
+          <li><span class="n">09</span><a href="drop-testing.html">Drop Testing at NASA Glenn</a></li>
+          <li><span class="n">10</span><a href="#">CAD &amp; Drawings</a></li>
+          <li><span class="n">11</span><a href="#">Gallery</a></li>
+          <li><span class="n">12</span><a href="#">Sources &amp; Credits</a></li>
+        </ol>
+      </section>
+
+      <footer class="colophon">
+        <div class="cols">
+          <div>
+            <h2>Sources &amp; credits</h2>
+            <p>HexaFlow was built by Aidan, Nate, Sabrina, Maddie and Lucas at Tri-County RVTHS, Franklin, Massachusetts, as part of NASA HUNCH. Drop-tower footage is from the team&rsquo;s tests at the NASA Glenn 2.2-Second Drop Tower. The 5.18-second Zero Gravity Research Facility is a separate facility.</p>
+          </div>
+          <ul>
+            <li><a href="#">Full source list</a> <span>(Sources &amp; Credits)</span></li>
+            <li>Thorny devil: asknature.org <span>(via Design Journey)</span></li>
+            <li>Facility: NASA Glenn Research Center, Ohio</li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+</body>
+</html>
