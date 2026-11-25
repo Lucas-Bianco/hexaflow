@@ -53,7 +53,7 @@ hovers, scroll-jacking, em dashes and "isn't X, it's Y" copy, invented quotes or
 
 Lucas wants tabs kept. Proposal:
 - A top tab bar on every page. The current tab is marked with a hand-drawn underline that draws in.
-- 13 tabs is a lot for one row, so the tabs are grouped (Idea A, Question 1):
+- 13 tabs is a lot for one row, so the tabs are grouped. DECIDED (Lucas, 2026-11-24): grouped tabs.
   Story (Home, Mission, Design Journey) | Science (Biomimicry & Geometry, Substrates, Aeroponics, AI Vision &
   Control) | Hardware (The Nanolab, CAD & Drawings, Drop Testing) | People (Meet the Team, Gallery, Sources).
   On desktop the four group names are tabs and each opens its pages as a second row of tabs. On a phone, one
@@ -138,9 +138,16 @@ loop as a small diagram that steps through one real cycle.
 ### 6.8 The Nanolab (assembly viewer, the centrepiece)
 Keeps: the whole-assembly 3D model, per-part deep dive, how it goes together, modular enclosure and two
 missions, all 19 parts and their data.
-New, three layers (Question 2 asks what "everything dependent" means; this is Claude's reading):
-1. Whole assembly, live 3D (three.js): rotate, explode slider, click a part to isolate it. Same model as v2
-   (`Nanolab_Assembly.gltf`), improved lighting and materials.
+DECIDED (Lucas, 2026-11-24): keep the whole-assembly view, add hiding single parts, and show all three kinds of
+"dependent": what mounts to what, what each part needs (power, data, water), and every part listed including
+fasteners, inserts and connectors, each with its own render.
+New, four layers:
+1. Whole assembly, live 3D (three.js): rotate, explode slider, click a part to isolate it, and a parts panel with
+   an eye toggle per part (and per subsystem) to hide or show it. Same model as v2 (`Nanolab_Assembly.gltf`)
+   until the STEP exports arrive, improved lighting and materials.
+1b. "What each part needs": per part, the power, data, water and parts it relies on (for example the pump needs
+   the PCB, 5 V and the reservoir). Shown as small labelled links in the spec card and as a filter on the tree
+   ("show everything on the water path", "show everything powered by the PCB").
 2. "How it connects" view: an assembly tree / dependency map. Each part shows what it mounts to, what mounts to
    it, and which fasteners join them (M2, M3, M4 heat-set inserts). Click a part and everything that depends on
    it highlights in the 3D model and in the tree. Example:
@@ -175,13 +182,13 @@ New: filter by category, person and month; a lightbox with captions and dates; a
 whiteboards and failed prints.
 
 ### 6.12 Meet the Team (NEW tab)
-One section per person, a "mini resume" each person writes for themselves. Proposed template (Question 4):
+One section per person, a "mini resume" each person writes for themselves. DECIDED (Lucas, 2026-11-24):
 - Photo (individual, chosen by them), first name, role on HexaFlow.
-- "What I built": links into the parts and pages they led (from the "Led by" credits).
-- Skills and tools they used (SolidWorks, KiCad, 3D printing, Python, sensors, writing, scheduling...).
 - A few lines in their own words: why they joined, the hardest moment, what they are proudest of.
-- Optional: what is next for them (college plans, interests), and a link they choose (LinkedIn, portfolio). No
-  emails, last names or school schedules unless that person asks.
+- Optional: what is next for them (college or career plans), and one link they choose (LinkedIn, portfolio).
+  No emails, last names or school schedules unless that person asks.
+- Not included (Lucas did not pick it): a "What I built" list and a skills/tools list. The "Led by" credits on
+  the other pages still link back to each person's section.
 Example (desktop):
 ```
  +------------------------------+--------------------------------------------+
@@ -202,9 +209,17 @@ New: a plain privacy note (no tracking, no cookies) and an accessibility note, w
 
 ## 7. Blender render pipeline (for 6.3, 6.8, 6.9)
 
-- Input: one mesh file per part. Blender cannot open SolidWorks files (.SLDPRT), so each part needs exporting from
-  SolidWorks as STEP or high-resolution STL/OBJ (Question 5). Fallback: split the existing assembly glTF by node
-  in Blender (works today, lower mesh quality).
+- Input: one STEP file per part. DECIDED (Lucas, 2026-11-24): Lucas exports each part from SolidWorks as STEP.
+  Blender cannot open STEP natively either, so the pipeline converts STEP to a fine mesh first (a STEP importer
+  add-on for Blender, or FreeCAD's command line), then renders.
+- Export list (from the parts in `Nanolab_Assembly.gltf`): Nanolab Shell, Front Door, Back Door, Side Doors,
+  TDC Assembly V2, TDC Bottom V2, Resin Addin TDC, Water Injection, Substrate_Grate, Plant Clip V2, Camera+LED
+  Module, Ball + Socket Camera Mount, current camera, Capacitive_Soil_Moisture_Sensor, HexaFlow_PCB (with its
+  pin sockets, TO-92 and USB-A parts), USB-B connector parts (USB-B-S-F-B-TH and its four sub-parts), and the
+  m3_short screws; plus the whole Nanolab Assembly.SLDASM as one STEP (for positions). Also the dated files in
+  "Previous Versions" that the Journey version sliders use.
+- STEP export settings in SolidWorks: File > Save As > STEP AP214, "Export as one file" for the assembly, and
+  each part on its own; units mm; keep the original part file names.
 - One Blender scene for every part, so they match: same camera, studio light, soft floor, materials by real
   material and colour (Question 5), true scale.
 - A Python script runs Blender headless (Blender 5.0 is installed on Lucas's PC) and renders, per part: a hero
@@ -225,14 +240,13 @@ New: a plain privacy note (no tracking, no cookies) and an accessibility note, w
 
 ## 9. Open questions for Lucas
 
-1. Tabs: grouped tabs (Story, Science, Hardware, People) or one flat row of 13?
-2. "View everything dependent" on The Nanolab: is it the "how it connects" tree (what mounts to what), or
-   something else, like a list of everything each part needs (power, data, water)?
+1. (Answered: grouped tabs.)
+2. (Answered: assembly view with hide-a-part, plus mounts tree, what each part needs, and every part listed.)
 3. three.js on The Nanolab only, for the live 3D model, is that OK, or should the page use only Blender renders?
-4. Meet the Team: is the template right? Who collects everyone's text and photos, and what are the privacy rules
-   (first names only, links optional)?
-5. Renders: can you export each part from SolidWorks as STEP (or STL at fine resolution)? What are the real
-   colours and materials of each printed part (filament colours, resin)?
+4. Meet the Team: who collects everyone's photo and text? (Template answered: photo, role, own words, optional
+   what's next + one link.)
+5. Renders: STEP export answered (Lucas exports). Still open: the real colours and materials of each printed
+   part (filament colours, resin) for the Blender materials.
 6. Facts that disagree in v2: "nine months" (Home) vs "seven months" (Journey); "nine drops" means the local rig,
    three at Glenn. Which wording do you want?
 7. A tiny build script for the shared header, or hand-copied HTML?
